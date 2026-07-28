@@ -1,0 +1,17 @@
+{
+  "name": "Amigo Moda",
+  "short_name": "Amigo Moda",
+  "description": "La Mode Algérienne — Livraison dans les 58 wilayas",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0D0D1A",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    }
+  ]
+}
