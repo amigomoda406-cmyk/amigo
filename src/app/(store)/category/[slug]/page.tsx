@@ -47,12 +47,12 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
       </header>
 
       {/* Hero Banner */}
-      <div className="relative h-[120px] w-full bg-zinc-900 overflow-hidden">
+      <div className="relative h-[120px] w-full overflow-hidden">
         <div 
-          className="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-overlay"
+          className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url('${config.featuredImage}')` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/90 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
         <div className="absolute bottom-4 left-4">
           <h2 className="text-2xl font-black text-white uppercase tracking-tighter mb-1">{config.nameFr}</h2>
           <span className="text-[9px] font-bold text-white/80 uppercase tracking-widest px-2 py-0.5 bg-white/10 rounded-full backdrop-blur-sm border border-white/20">

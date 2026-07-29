@@ -1,5 +1,4 @@
 import Header from '@/components/layout/Header';
-import FloatingCart from '@/components/cart/FloatingCart';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Analytics } from '@vercel/analytics/react';
 
@@ -16,8 +15,6 @@ export default function StoreLayout({
         <main className="flex-1 flex flex-col">
           {children}
         </main>
-
-        <FloatingCart />
         
         <SpeedInsights />
         <Analytics />

@@ -1,25 +1,53 @@
 'use client';
 
 import Link from 'next/link';
+import { ShoppingBag } from 'lucide-react';
+import { useCartStore, useCartTotalItems } from '@/contexts/cart.store';
 
 export default function Header() {
+  const openCart = useCartStore((state) => state.openCart);
+  const totalItems = useCartTotalItems();
+
   return (
     <header className="flex items-center justify-between px-4 md:px-8 py-3 bg-white sticky top-0 z-50 border-b border-zinc-100">
       <Link href="/" className="flex items-center group relative">
-        <h1 className="text-sm md:text-xl font-black tracking-tighter text-zinc-900 animate-pulse group-hover:animate-none drop-shadow-[0_0_8px_rgba(37,99,235,0.4)]">
+        <style>{`
+          @keyframes colorCycle {
+            0% { color: #2563eb; text-shadow: 0 0 8px rgba(37,99,235,0.6); }
+            33% { color: #9333ea; text-shadow: 0 0 8px rgba(147,51,234,0.6); }
+            66% { color: #ec4899; text-shadow: 0 0 8px rgba(236,72,153,0.6); }
+            100% { color: #2563eb; text-shadow: 0 0 8px rgba(37,99,235,0.6); }
+          }
+          .logo-animated {
+            animation: colorCycle 3s infinite;
+          }
+        `}</style>
+        <h1 className="text-[10px] md:text-xl font-black tracking-tighter logo-animated">
           AMIGO MODA
         </h1>
-        {/* Glow effect behind the logo */}
-        <div className="absolute inset-0 bg-blue-600/20 blur-xl rounded-full opacity-50 animate-pulse -z-10"></div>
       </Link>
       
-      <nav className="flex items-center gap-2 md:gap-8 text-[8px] md:text-sm font-bold tracking-widest text-zinc-900 uppercase overflow-x-auto no-scrollbar whitespace-nowrap">
-        <Link href="/#trending" className="hover:text-blue-600 transition-colors">Trending</Link>
-        <Link href="/category/shoes" className="hover:text-blue-600 transition-colors">Shoes</Link>
-        <Link href="/category/clothes" className="hover:text-blue-600 transition-colors">Vêtements</Link>
-        <Link href="/category/accessories" className="hover:text-blue-600 transition-colors">Accessoires</Link>
-        <Link href="/#new" className="text-blue-600 hover:text-blue-800 transition-colors">New</Link>
-      </nav>
+      <div className="flex items-center gap-2 md:gap-8">
+        <nav className="flex items-center gap-1.5 md:gap-8 text-[6px] md:text-sm font-bold tracking-widest text-zinc-900 uppercase overflow-x-auto no-scrollbar whitespace-nowrap">
+          <Link href="/#trending" className="hover:text-blue-600 transition-colors">Tendance</Link>
+          <Link href="/category/shoes" className="hover:text-blue-600 transition-colors">Chaussures</Link>
+          <Link href="/category/clothes" className="hover:text-blue-600 transition-colors">Vêtements</Link>
+          <Link href="/category/accessories" className="hover:text-blue-600 transition-colors">Accessoires</Link>
+          <Link href="/#new" className="text-blue-600 hover:text-blue-800 transition-colors">Nouveau</Link>
+        </nav>
+
+        <button 
+          onClick={openCart}
+          className="relative ml-1 p-1 text-zinc-900 hover:text-blue-600 transition-colors"
+        >
+          <ShoppingBag className="w-3.5 h-3.5 md:w-5 md:h-5" />
+          {totalItems > 0 && (
+            <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-[7px] w-3 h-3 rounded-full flex items-center justify-center font-bold">
+              {totalItems}
+            </span>
+          )}
+        </button>
+      </div>
     </header>
   );
 }
