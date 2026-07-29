@@ -40,7 +40,7 @@ export default async function SubCategoryPage({ params }: { params: Promise<{ sl
 
   return (
     <ProductListingPage 
-      parentCategory={params.slug}
+      parentCategory={resolvedParams.slug}
       subCategoryName={subCat.name}
       products={products}
     />
