@@ -3,12 +3,14 @@
 import Link from 'next/link';
 import { ShoppingBag } from 'lucide-react';
 import { useCartStore, useCartTotalItems } from '@/contexts/cart.store';
+import FloatingCart from '@/components/cart/FloatingCart';
 
 export default function Header() {
   const openCart = useCartStore((state) => state.openCart);
   const totalItems = useCartTotalItems();
 
   return (
+    <>
     <header className="flex items-center justify-between px-4 md:px-8 py-3 bg-white sticky top-0 z-50 border-b border-zinc-100">
       <Link href="/" className="flex items-center group relative">
         <style>{`
@@ -56,6 +58,8 @@ export default function Header() {
         </button>
       </div>
     </header>
+    <FloatingCart />
+    </>
   );
 }
 

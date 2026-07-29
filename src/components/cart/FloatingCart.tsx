@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { motion, AnimatePresence, useAnimation } from 'framer-motion';
+import { useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingBag, X, Minus, Plus, ArrowRight, Trash2 } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -9,28 +9,10 @@ import { useCartStore, useCartTotalItems, useCartTotalPrice } from '@/contexts/c
 import { urlFor } from '@/lib/sanity/client';
 
 export default function FloatingCart() {
-  const { items, isOpen, openCart, closeCart, removeItem, updateQuantity } = useCartStore();
+  const { items, isOpen, closeCart, removeItem, updateQuantity } = useCartStore();
   const totalItems = useCartTotalItems();
   const totalPrice = useCartTotalPrice();
   const router = useRouter();
-  const controls = useAnimation();
-  const prevTotalRef = useRef(totalItems);
-  const [isAnimating, setIsAnimating] = useState(false);
-
-  // Fire animation when item is added
-  useEffect(() => {
-    if (totalItems > prevTotalRef.current) {
-      setIsAnimating(true);
-      controls.start({
-        scale: [1, 1.35, 0.9, 1.15, 1],
-        rotate: [0, -10, 10, -6, 0],
-        transition: { duration: 0.5, ease: 'easeOut' }
-      });
-      setTimeout(() => setIsAnimating(false), 1000);
-    }
-    prevTotalRef.current = totalItems;
-  }, [totalItems, controls]);
-
   // Lock scroll when open
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : '';
@@ -44,51 +26,6 @@ export default function FloatingCart() {
 
   return (
     <>
-      {/* Floating Cart Button */}
-      <motion.button
-        animate={controls}
-        onClick={openCart}
-        className="fixed bottom-6 right-6 z-[80] group"
-        style={{ display: isOpen ? 'none' : undefined }}
-        aria-label="Ouvrir le panier"
-      >
-        <div className={`
-          relative w-14 h-14 rounded-2xl flex items-center justify-center shadow-2xl transition-all duration-300
-          ${isAnimating
-            ? 'bg-blue-600 shadow-[0_0_30px_rgba(37,99,235,0.8)]'
-            : 'bg-zinc-900 shadow-[0_8px_32px_rgba(0,0,0,0.35)] hover:shadow-[0_0_24px_rgba(37,99,235,0.5)] hover:bg-zinc-800'
-          }
-        `}>
-          {/* Glow ring when animating */}
-          {isAnimating && (
-            <motion.div
-              className="absolute inset-0 rounded-2xl border-2 border-blue-400"
-              initial={{ scale: 1, opacity: 1 }}
-              animate={{ scale: 1.5, opacity: 0 }}
-              transition={{ duration: 0.6, repeat: 1 }}
-            />
-          )}
-
-          <ShoppingBag className="w-6 h-6 text-white" />
-
-          {/* Count Badge */}
-          <AnimatePresence mode="wait">
-            {totalItems > 0 && (
-              <motion.span
-                key={totalItems}
-                initial={{ scale: 0, y: -4 }}
-                animate={{ scale: 1, y: 0 }}
-                exit={{ scale: 0 }}
-                transition={{ type: 'spring', stiffness: 500, damping: 25 }}
-                className="absolute -top-2 -right-2 min-w-[22px] h-[22px] px-1 bg-blue-600 text-white text-[10px] font-black rounded-full flex items-center justify-center border-2 border-white shadow-lg"
-              >
-                {totalItems}
-              </motion.span>
-            )}
-          </AnimatePresence>
-        </div>
-      </motion.button>
-
       {/* Cart Drawer */}
       <AnimatePresence>
         {isOpen && (
