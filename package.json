@@ -60,5 +60,16 @@
     "jsdom": "^30.0.0",
     "typescript": "^5",
     "vitest": "^4.1.10"
+  },
+  "overrides": {
+    "@portabletext/editor": {
+      "react": "$react"
+    },
+    "@sanity/next-loader": {
+      "next": "$next"
+    },
+    "next-sanity": {
+      "@sanity/ui": "^3.0.0"
+    }
   }
 }
