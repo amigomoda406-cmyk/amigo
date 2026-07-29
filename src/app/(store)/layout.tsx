@@ -1,5 +1,4 @@
 import Header from '@/components/layout/Header';
-import BottomNav from '@/components/layout/BottomNav';
 import FloatingCart from '@/components/cart/FloatingCart';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Analytics } from '@vercel/analytics/react';
@@ -14,11 +13,10 @@ export default function StoreLayout({
       <div className="w-full relative flex flex-col min-h-screen mx-auto">
         <Header />
         
-        <main className="flex-1 flex flex-col pb-[65px] md:pb-0">
+        <main className="flex-1 flex flex-col">
           {children}
         </main>
 
-        <BottomNav />
         <FloatingCart />
         
         <SpeedInsights />

@@ -9,9 +9,11 @@ export default function NewArrivalsSection({ products }: { products: any[] }) {
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-sm md:text-xl font-black tracking-widest uppercase text-zinc-900">New Arrivals</h3>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-        {products.slice(0, 4).map((product, i) => (
-          <ProductCard key={product._id} product={product} index={i} />
+      <div className="flex overflow-x-auto snap-x snap-mandatory gap-2 md:gap-4 no-scrollbar pb-2">
+        {products.slice(0, 8).map((product, i) => (
+          <div key={product._id} className="w-[31%] md:w-[23%] shrink-0 snap-start">
+            <ProductCard product={product} index={i} />
+          </div>
         ))}
       </div>
     </section>

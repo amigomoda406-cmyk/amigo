@@ -3,7 +3,7 @@ import Link from 'next/link';
 export default function CategoriesSection() {
   return (
     <section id="categories" className="bg-white border-b border-zinc-200 scroll-mt-[50px]">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-0.5">
+      <div className="grid grid-cols-3 gap-0.5">
         <Link href="/category/clothes" className="relative aspect-[4/5] md:aspect-square overflow-hidden group cursor-pointer bg-zinc-100">
           <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style={{backgroundImage: "url('https://res.cloudinary.com/doxg77zqk/image/upload/v1785165210/Change_writing_to_hoodie_2K_202607271601.jpg')"}} />
           <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
