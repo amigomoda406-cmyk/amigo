@@ -13,12 +13,12 @@ export default function Header() {
       <Link href="/" className="flex items-center group relative">
         <style>{`
           @keyframes waveGlow {
-            0%, 100% { color: #18181b; text-shadow: none; }
-            50% { color: #2563eb; text-shadow: 0 0 12px rgba(37,99,235,0.8); }
+            0%, 100% { color: #18181b; text-shadow: 0 0 0px rgba(0,0,0,0); }
+            50% { color: #9333ea; text-shadow: 0 0 15px rgba(147,51,234,1), 0 0 30px rgba(147,51,234,0.6); }
           }
           .letter {
             display: inline-block;
-            animation: waveGlow 2s infinite;
+            animation: waveGlow 1.5s infinite;
           }
         `}</style>
         <h1 className="text-[12px] md:text-xl font-black tracking-tighter flex">
@@ -26,7 +26,7 @@ export default function Header() {
             <span 
               key={i} 
               className={char === " " ? "w-1" : "letter"} 
-              style={{ animationDelay: \`\${i * 0.1}s\` }}
+              style={{ animationDelay: \`-\${(9 - i) * 0.15}s\` }}
             >
               {char}
             </span>
