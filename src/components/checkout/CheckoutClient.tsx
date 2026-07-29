@@ -97,6 +97,12 @@ export default function CheckoutClient() {
       
       clearCart();
       if ('vibrate' in navigator) navigator.vibrate([20, 10, 20]);
+      
+      sessionStorage.setItem('lastOrder', JSON.stringify({
+        ...orderData,
+        orderId
+      }));
+      
       router.push(`/thank-you?orderId=${orderId}`);
     } catch (error) {
       toast.error('Une erreur est survenue');
