@@ -148,11 +148,11 @@ export default function CheckoutClient() {
           
           {/* STEP 1: CONTACT */}
           {step === 1 && (
-            <div className="max-w-lg mx-auto w-full animate-in fade-in slide-in-from-right-4 duration-300">
+            <div className="max-w-3xl mx-auto w-full animate-in fade-in slide-in-from-right-4 duration-300">
               <h2 className="text-2xl font-black uppercase tracking-tighter text-zinc-900 mb-1">Vos Informations</h2>
               <p className="text-xs text-zinc-400 font-medium mb-8">Étape 1 sur 3 — Données personnelles</p>
               
-              <div className="space-y-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                   <label className="block text-[10px] font-bold uppercase tracking-widest text-zinc-500 mb-2">Nom Complet</label>
                   <input 
@@ -183,11 +183,12 @@ export default function CheckoutClient() {
 
           {/* STEP 2: DELIVERY */}
           {step === 2 && (
-            <div className="max-w-lg mx-auto w-full animate-in fade-in slide-in-from-right-4 duration-300">
+            <div className="max-w-3xl mx-auto w-full animate-in fade-in slide-in-from-right-4 duration-300">
               <h2 className="text-2xl font-black uppercase tracking-tighter text-zinc-900 mb-1">Adresse de Livraison</h2>
               <p className="text-xs text-zinc-400 font-medium mb-8">Étape 2 sur 3 — Informations de livraison</p>
               
-              <div className="space-y-4">
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                   <label className="block text-[10px] font-bold uppercase tracking-widest text-zinc-500 mb-2">Wilaya</label>
                   <select 
@@ -215,10 +216,11 @@ export default function CheckoutClient() {
                   />
                   {errors.commune && <p className="text-[10px] text-red-500 font-bold mt-1.5">{errors.commune.message}</p>}
                 </div>
+                </div>
 
                 <div className="pt-2">
                   <label className="block text-[10px] font-bold uppercase tracking-widest text-zinc-500 mb-3">Type de Livraison</label>
-                  <div className="flex flex-col gap-3">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <label className={`relative p-4 rounded-xl border-2 cursor-pointer transition-all flex items-center justify-between ${
                       deliveryType === 'home' ? 'border-zinc-900 bg-zinc-50' : 'border-zinc-200 bg-white hover:border-zinc-300'
                     }`}>
@@ -262,7 +264,7 @@ export default function CheckoutClient() {
 
           {/* STEP 3: CONFIRMATION */}
           {step === 3 && (
-            <div className="max-w-lg mx-auto w-full animate-in fade-in slide-in-from-right-4 duration-300">
+            <div className="max-w-3xl mx-auto w-full animate-in fade-in slide-in-from-right-4 duration-300">
               <h2 className="text-2xl font-black uppercase tracking-tighter text-zinc-900 mb-1">Récapitulatif</h2>
               <p className="text-xs text-zinc-400 font-medium mb-8">Étape 3 sur 3 — Confirmez votre commande</p>
               
@@ -314,11 +316,12 @@ export default function CheckoutClient() {
                   Modifier les informations →
                 </button>
               </div>
+              </div>
             </div>
           )}
 
           {/* Sticky CTA (Mobile) / Normal CTA (Desktop) */}
-          <div className="fixed bottom-0 left-0 right-0 p-4 bg-white/90 backdrop-blur-md border-t border-zinc-200 z-50 md:static md:p-0 md:bg-transparent md:border-none md:backdrop-blur-none max-w-[1200px] md:max-w-lg mx-auto w-full">
+          <div className="fixed bottom-0 left-0 right-0 p-4 bg-white/90 backdrop-blur-md border-t border-zinc-200 z-50 md:static md:p-0 md:bg-transparent md:border-none md:backdrop-blur-none max-w-[1200px] md:max-w-3xl mx-auto w-full mt-4">
             {step < 3 ? (
               <button 
                 type="button"
