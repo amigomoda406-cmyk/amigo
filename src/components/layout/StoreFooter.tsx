@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function StoreFooter() {
   return (
-    <footer className="flex flex-col items-center justify-center py-8 bg-zinc-900 text-white">
+    <footer className="mt-auto flex flex-col items-center justify-center py-8 bg-zinc-900 text-white">
       <h2 className="text-xl font-black tracking-tighter uppercase mb-4">AMIGO MODA</h2>
       <div className="flex items-center gap-4 mb-6">
         <a href="https://www.instagram.com/amigo__moda" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center hover:bg-zinc-700 transition-colors">

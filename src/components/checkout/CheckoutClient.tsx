@@ -108,17 +108,6 @@ export default function CheckoutClient() {
 
   return (
     <main className="min-h-[100svh] bg-zinc-50 flex flex-col max-w-[1200px] mx-auto">
-      {/* Header */}
-      <header className="sticky top-0 z-50 flex items-center justify-between px-6 py-4 bg-white border-b border-zinc-200">
-        <button 
-          onClick={() => step > 1 ? setStep((prev) => (prev - 1) as 1 | 2) : router.back()} 
-          className="w-9 h-9 flex items-center justify-center rounded-xl bg-zinc-100 text-zinc-900 hover:bg-zinc-200 transition-colors"
-        >
-          <ChevronLeft className="w-4 h-4" />
-        </button>
-        <h1 className="text-[11px] font-black tracking-widest uppercase text-zinc-900">Passer Commande</h1>
-        <div className="w-9 h-9" />
-      </header>
 
       {/* Stepper Indicator */}
       <div className="px-8 pt-8 pb-6">
@@ -148,7 +137,7 @@ export default function CheckoutClient() {
         </div>
       </div>
 
-      <div className="flex-1 px-4 pb-32">
+      <div className="flex-1 px-4 pb-32 md:pb-8">
         <form onSubmit={handleSubmit(onSubmit)} className="h-full flex flex-col gap-6">
           
           {/* STEP 1: CONTACT */}
@@ -322,8 +311,8 @@ export default function CheckoutClient() {
             </div>
           )}
 
-          {/* Sticky CTA */}
-          <div className="fixed bottom-0 left-0 right-0 p-4 bg-white/90 backdrop-blur-md border-t border-zinc-200 z-50 max-w-[1200px] mx-auto">
+          {/* Sticky CTA (Mobile) / Normal CTA (Desktop) */}
+          <div className="fixed bottom-0 left-0 right-0 p-4 bg-white/90 backdrop-blur-md border-t border-zinc-200 z-50 md:static md:p-0 md:bg-transparent md:border-none md:backdrop-blur-none max-w-[1200px] md:max-w-lg mx-auto w-full">
             {step < 3 ? (
               <button 
                 type="button"
