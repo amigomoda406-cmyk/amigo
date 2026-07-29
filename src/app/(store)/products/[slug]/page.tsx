@@ -48,7 +48,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
     : [];
 
   return (
-    <main className="min-h-[100svh] bg-zinc-50 pb-[10px]">
+    <main className="min-h-[100svh] bg-zinc-50">
 
       <div className="max-w-5xl mx-auto md:grid md:grid-cols-2 md:gap-8 md:p-8">
         {/* Gallery */}
