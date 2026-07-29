@@ -6,8 +6,6 @@ import { useCartStore, useCartTotalItems } from '@/contexts/cart.store';
 import FloatingCart from '@/components/cart/FloatingCart';
 import { useEffect, useRef, useState } from 'react';
 
-const LOGO_LETTERS = Array.from('AMIGO MODA');
-
 export default function Header() {
   const openCart = useCartStore((state) => state.openCart);
   const totalItems = useCartTotalItems();
@@ -28,14 +26,6 @@ export default function Header() {
   return (
     <>
       <style>{`
-        @keyframes waveGlow {
-          0%, 100% { color: #18181b; text-shadow: 0 0 0px rgba(0,0,0,0); }
-          50% { color: #9333ea; text-shadow: 0 0 15px rgba(147,51,234,1), 0 0 30px rgba(147,51,234,0.6); }
-        }
-        .logo-letter {
-          display: inline-block;
-          animation: waveGlow 1.5s infinite;
-        }
         @keyframes cartBounce {
           0%   { transform: scale(1) rotate(0deg); }
           20%  { transform: scale(1.4) rotate(-15deg); }
@@ -57,39 +47,36 @@ export default function Header() {
         }
       `}</style>
 
-      <header className="flex items-center justify-between px-4 md:px-8 py-3 bg-white sticky top-0 z-50 border-b border-zinc-100">
-        <Link href="/" className="flex items-center group relative">
-          <h1 className="text-[12px] md:text-xl font-black tracking-tighter flex">
-            {LOGO_LETTERS.map((char, i) => (
-              <span
-                key={i}
-                className={char === ' ' ? 'w-1' : 'logo-letter'}
-                style={{ animationDelay: `-${(9 - i) * 0.15}s` }}
-              >
-                {char}
-              </span>
-            ))}
+      <header className="flex items-center justify-between px-4 md:px-8 py-4 bg-white sticky top-0 z-50 shadow-sm">
+        {/* Left: Logo */}
+        <Link href="/" className="flex-shrink-0 group">
+          <h1 className="text-xl md:text-2xl font-black tracking-tighter text-zinc-900 transition-transform group-hover:scale-105">
+            AMIGO MODA
           </h1>
         </Link>
 
-        <div className="flex items-center gap-2 md:gap-8">
-          <nav className="flex items-center gap-1.5 md:gap-8 text-[6px] md:text-sm font-bold tracking-widest text-zinc-900 uppercase overflow-x-auto no-scrollbar whitespace-nowrap">
-            <Link href="/#trending" className="hover:text-blue-600 transition-colors">Tendance</Link>
-            <Link href="/category/shoes" className="hover:text-blue-600 transition-colors">Chaussures</Link>
-            <Link href="/category/clothes" className="hover:text-blue-600 transition-colors">Vêtements</Link>
-            <Link href="/category/accessories" className="hover:text-blue-600 transition-colors">Accessoires</Link>
-            <Link href="/#new" className="text-blue-600 hover:text-blue-800 transition-colors">Nouveau</Link>
-          </nav>
+        {/* Center: Pill Navigation */}
+        <nav className="hidden md:flex items-center justify-center flex-1 mx-8">
+          <div className="flex items-center gap-8 bg-zinc-100/80 px-8 py-3.5 rounded-full backdrop-blur-md border border-zinc-200/50 shadow-sm">
+            <Link href="/#trending" className="text-[11px] font-black tracking-widest text-zinc-600 uppercase hover:text-zinc-900 transition-colors">Tendance</Link>
+            <Link href="/category/shoes" className="text-[11px] font-black tracking-widest text-zinc-600 uppercase hover:text-zinc-900 transition-colors">Chaussures</Link>
+            <Link href="/category/clothes" className="text-[11px] font-black tracking-widest text-zinc-600 uppercase hover:text-zinc-900 transition-colors">Vêtements</Link>
+            <Link href="/category/accessories" className="text-[11px] font-black tracking-widest text-zinc-600 uppercase hover:text-zinc-900 transition-colors">Accessoires</Link>
+            <Link href="/#new" className="text-[11px] font-black tracking-widest text-blue-600 uppercase hover:text-blue-800 transition-colors">Nouveau</Link>
+          </div>
+        </nav>
 
+        {/* Right: Actions */}
+        <div className="flex items-center justify-end flex-shrink-0">
           <button
             onClick={openCart}
-            className={`relative ml-1 p-1 text-zinc-900 hover:text-blue-600 transition-colors ${bounce ? 'cart-bounce' : ''}`}
+            className={`relative p-2 text-zinc-900 hover:text-blue-600 transition-colors bg-zinc-100 rounded-full hover:bg-zinc-200 ${bounce ? 'cart-bounce' : ''}`}
           >
-            <ShoppingBag className="w-3.5 h-3.5 md:w-5 md:h-5" />
+            <ShoppingBag className="w-5 h-5" />
             {totalItems > 0 && (
               <span
                 key={totalItems}
-                className="badge-pop absolute -top-1 -right-1 bg-blue-600 text-white text-[7px] w-3.5 h-3.5 rounded-full flex items-center justify-center font-bold"
+                className="badge-pop absolute -top-1 -right-1 bg-blue-600 text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold shadow-sm border border-white"
               >
                 {totalItems}
               </span>
