@@ -2,7 +2,6 @@ import { notFound } from 'next/navigation';
 import { client } from '@/lib/sanity/client';
 import ProductImageGallery from '@/components/products/ProductImageGallery';
 import ProductInfo from '@/components/products/ProductInfo';
-import ProductHeader from '@/components/products/ProductHeader';
 import StoreFooter from '@/components/layout/StoreFooter';
 
 // Revalidate every 60 seconds
@@ -36,7 +35,6 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
   return (
     <main className="min-h-[100svh] bg-zinc-50 pb-[10px]">
-      <ProductHeader />
 
       <div className="max-w-5xl mx-auto md:grid md:grid-cols-2 md:gap-8 md:p-8">
         {/* Gallery */}

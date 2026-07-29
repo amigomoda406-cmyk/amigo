@@ -12,18 +12,25 @@ export default function Header() {
     <header className="flex items-center justify-between px-4 md:px-8 py-3 bg-white sticky top-0 z-50 border-b border-zinc-100">
       <Link href="/" className="flex items-center group relative">
         <style>{`
-          @keyframes colorCycle {
-            0% { color: #2563eb; text-shadow: 0 0 8px rgba(37,99,235,0.6); }
-            33% { color: #9333ea; text-shadow: 0 0 8px rgba(147,51,234,0.6); }
-            66% { color: #ec4899; text-shadow: 0 0 8px rgba(236,72,153,0.6); }
-            100% { color: #2563eb; text-shadow: 0 0 8px rgba(37,99,235,0.6); }
+          @keyframes waveGlow {
+            0%, 100% { color: #18181b; text-shadow: none; }
+            50% { color: #2563eb; text-shadow: 0 0 12px rgba(37,99,235,0.8); }
           }
-          .logo-animated {
-            animation: colorCycle 3s infinite;
+          .letter {
+            display: inline-block;
+            animation: waveGlow 2s infinite;
           }
         `}</style>
-        <h1 className="text-[10px] md:text-xl font-black tracking-tighter logo-animated">
-          AMIGO MODA
+        <h1 className="text-[12px] md:text-xl font-black tracking-tighter flex">
+          {Array.from("AMIGO MODA").map((char, i) => (
+            <span 
+              key={i} 
+              className={char === " " ? "w-1" : "letter"} 
+              style={{ animationDelay: \`\${i * 0.1}s\` }}
+            >
+              {char}
+            </span>
+          ))}
         </h1>
       </Link>
       

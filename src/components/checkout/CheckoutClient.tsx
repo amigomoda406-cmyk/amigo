@@ -67,6 +67,11 @@ export default function CheckoutClient() {
   };
 
   const onSubmit = async (data: CheckoutFormData) => {
+    if (step < 3) {
+      handleNextStep();
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       const orderData = {
