@@ -17,6 +17,17 @@ export const metadata = {
 async function getHomeData() {
   const query = `
     {
+      "home": *[_type == "homePage"][0] {
+        title,
+        heroBanners[] {
+          title, subtitle, buttonText, buttonLink,
+          "imageUrl": image.asset->url,
+          "mobileImageUrl": mobileImage.asset->url
+        },
+        featuredCategories[]->{
+          _id, title, slug, "imageUrl": image.asset->url
+        }
+      },
       "trending": *[_type == "product" && isTrending == true][0...4] {
         _id, title, slug, price, comparePrice, inStock, isNew, isTrending, images,
         parentCategory->, subCategory->
@@ -31,11 +42,11 @@ async function getHomeData() {
 }
 
 export default async function HomePage() {
-  const { trending, newArrivals } = await getHomeData();
+  const { home, trending, newArrivals } = await getHomeData();
 
   return (
     <>
-      <HeroSection />
+      <HeroSection homeData={home} />
       
       <Suspense fallback={<div className="h-[200px] bg-zinc-100 animate-pulse" />}>
         <TrendingSection products={trending} />

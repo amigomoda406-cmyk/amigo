@@ -48,32 +48,28 @@ export default function Header() {
       `}</style>
 
       {/* 
-        Exact reproduction of the second image's header bar:
-        - Dusty pink background
-        - White text and icons
-        - Pill shaped center menu with bg-white/20
+        Transparent background, smaller for mobile
       */}
-      <header className="flex items-center justify-between px-6 py-4 sticky top-0 z-50 bg-[#d7a7af] text-white shadow-md">
+      <header className="flex items-center justify-between px-3 md:px-6 py-2 md:py-4 sticky top-0 z-50 bg-transparent text-zinc-900 w-full backdrop-blur-sm">
         
         {/* Left Side: Logo */}
         <Link href="/" className="flex-shrink-0 group">
-          {/* We keep AMIGO MODA but make it cursive/elegant to match the vibe of "Cookiza" in the picture if possible, or just a very clean font */}
-          <h1 className="text-3xl font-medium tracking-wide text-white drop-shadow-sm" style={{ fontFamily: 'cursive' }}>
+          <h1 className="text-xl md:text-3xl font-medium tracking-wide text-zinc-900 drop-shadow-sm" style={{ fontFamily: 'cursive' }}>
             AMIGO MODA
           </h1>
         </Link>
 
-        {/* Middle-Left: Cart Icon (as positioned in the image) */}
+        {/* Middle-Left: Cart Icon (Desktop) */}
         <div className="hidden lg:flex flex-1 justify-end pr-8">
           <button
             onClick={openCart}
-            className={`relative p-2 text-white hover:text-white/80 transition-colors ${bounce ? 'cart-bounce' : ''}`}
+            className={`relative p-2 text-zinc-900 hover:text-zinc-600 transition-colors ${bounce ? 'cart-bounce' : ''}`}
           >
-            <ShoppingCart className="w-6 h-6 stroke-[1.5]" />
+            <ShoppingCart className="w-5 h-5 md:w-6 md:h-6 stroke-[1.5]" />
             {totalItems > 0 && (
               <span
                 key={totalItems}
-                className="badge-pop absolute 0 -right-1 bg-white text-[#d7a7af] text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-black shadow-sm"
+                className="badge-pop absolute 0 -right-1 bg-zinc-900 text-white text-[9px] md:text-[10px] w-3.5 h-3.5 md:w-4 md:h-4 rounded-full flex items-center justify-center font-black shadow-sm"
               >
                 {totalItems}
               </span>
@@ -83,31 +79,31 @@ export default function Header() {
 
         {/* Center: Pill Navigation */}
         <nav className="hidden md:flex items-center justify-center flex-shrink-0">
-          <div className="flex items-center gap-10 bg-white/20 px-10 py-3 rounded-full backdrop-blur-sm">
-            <Link href="/#trending" className="text-xs font-bold tracking-widest text-white uppercase hover:text-white/80 transition-colors">Tendance</Link>
-            <Link href="/category/shoes" className="text-xs font-bold tracking-widest text-white uppercase hover:text-white/80 transition-colors">Chaussures</Link>
-            <Link href="/category/clothes" className="text-xs font-bold tracking-widest text-white uppercase hover:text-white/80 transition-colors">Vêtements</Link>
+          <div className="flex items-center gap-6 md:gap-10 bg-zinc-900/5 px-6 md:px-10 py-2 md:py-3 rounded-full backdrop-blur-md border border-zinc-200/50">
+            <Link href="/#trending" className="text-[10px] md:text-xs font-bold tracking-widest text-zinc-900 uppercase hover:text-zinc-600 transition-colors">Tendance</Link>
+            <Link href="/category/shoes" className="text-[10px] md:text-xs font-bold tracking-widest text-zinc-900 uppercase hover:text-zinc-600 transition-colors">Chaussures</Link>
+            <Link href="/category/clothes" className="text-[10px] md:text-xs font-bold tracking-widest text-zinc-900 uppercase hover:text-zinc-600 transition-colors">Vêtements</Link>
           </div>
         </nav>
 
         {/* Right: Globe Icon */}
         <div className="hidden lg:flex flex-1 justify-end pl-8">
-          <button className="p-2 text-white hover:text-white/80 transition-colors">
-            <Globe className="w-6 h-6 stroke-[1.5]" />
+          <button className="p-2 text-zinc-900 hover:text-zinc-600 transition-colors">
+            <Globe className="w-5 h-5 md:w-6 md:h-6 stroke-[1.5]" />
           </button>
         </div>
 
-        {/* Mobile View: Keep it simple */}
-        <div className="flex lg:hidden items-center gap-4 flex-shrink-0">
+        {/* Mobile View: Keep it simple, just Logo (left) and Cart (right) */}
+        <div className="flex lg:hidden items-center gap-2 flex-shrink-0">
           <button
             onClick={openCart}
-            className={`relative p-2 text-white hover:text-white/80 transition-colors ${bounce ? 'cart-bounce' : ''}`}
+            className={`relative p-1.5 md:p-2 text-zinc-900 hover:text-zinc-600 transition-colors ${bounce ? 'cart-bounce' : ''}`}
           >
-            <ShoppingCart className="w-6 h-6 stroke-[1.5]" />
+            <ShoppingCart className="w-5 h-5 stroke-[1.5]" />
             {totalItems > 0 && (
               <span
                 key={totalItems}
-                className="badge-pop absolute 0 -right-1 bg-white text-[#d7a7af] text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-black shadow-sm"
+                className="badge-pop absolute -top-0.5 -right-0.5 md:0 md:-right-1 bg-zinc-900 text-white text-[9px] w-3.5 h-3.5 md:w-4 md:h-4 rounded-full flex items-center justify-center font-black shadow-sm"
               >
                 {totalItems}
               </span>
