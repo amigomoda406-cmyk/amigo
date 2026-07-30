@@ -33,8 +33,8 @@ export default function MobileDynamicIsland() {
           animation: islandBounce 0.4s ease-out;
         }
       `}</style>
-      {/* Mobile only floating dynamic island at the bottom */}
-      <div className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-[60]">
+      {/* Mobile only floating dynamic island at the top */}
+      <div className="md:hidden fixed top-14 left-1/2 -translate-x-1/2 z-[60]">
         <div className="flex items-center gap-6 bg-black/90 backdrop-blur-xl px-6 py-3.5 rounded-full shadow-2xl border border-white/10 text-white">
           
           {/* Home */}
