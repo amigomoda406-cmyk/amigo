@@ -11,6 +11,8 @@ import toast from 'react-hot-toast';
 import { ALGERIA_WILAYAS } from '@/lib/config/wilayas';
 import Image from 'next/image';
 
+type WilayaData = { code: string; name: string; homeDelivery: number; deskDelivery: number; };
+
 const checkoutSchema = z.object({
   fullName: z.string().min(3, 'Le nom est trop court').max(60, 'Le nom est trop long'),
   phone: z.string().regex(/^(0)(5|6|7)[0-9]{8}$/, 'Numéro invalide (ex: 0671234567)'),
@@ -26,6 +28,15 @@ export default function CheckoutClient() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [deliveryFee, setDeliveryFee] = useState(0);
+  // Fetch live delivery prices from Sanity (fallback to hardcoded)
+  const [wilayasData, setWilayasData] = useState<WilayaData[]>(ALGERIA_WILAYAS);
+
+  useEffect(() => {
+    fetch('/api/admin/shipping')
+      .then(r => r.json())
+      .then(d => { if (d.wilayas && d.wilayas.length > 0) setWilayasData(d.wilayas); })
+      .catch(() => {}); // silently fallback to hardcoded
+  }, []);
 
   useEffect(() => {
     if (items.length === 0 && !isSubmitting) {
@@ -44,14 +55,14 @@ export default function CheckoutClient() {
 
   useEffect(() => {
     if (selectedWilaya) {
-      const wilayaData = ALGERIA_WILAYAS.find(w => w.name === selectedWilaya);
+      const wilayaData = wilayasData.find(w => w.name === selectedWilaya);
       if (wilayaData) {
         setDeliveryFee(deliveryType === 'home' ? wilayaData.homeDelivery : wilayaData.deskDelivery);
       }
     } else {
       setDeliveryFee(0);
     }
-  }, [selectedWilaya, deliveryType]);
+  }, [selectedWilaya, deliveryType, wilayasData]);
 
   const finalTotal = totalPrice + deliveryFee;
 
@@ -171,7 +182,7 @@ export default function CheckoutClient() {
                       }`}
                     >
                       <option value="">Sélectionner une wilaya</option>
-                      {ALGERIA_WILAYAS.map(w => (
+                      {wilayasData.map(w => (
                         <option key={w.code} value={w.name}>{w.code} - {w.name}</option>
                       ))}
                     </select>
@@ -209,7 +220,7 @@ export default function CheckoutClient() {
                       </div>
                     </div>
                     <span className="text-sm font-black text-zinc-900">
-                      {selectedWilaya ? `${ALGERIA_WILAYAS.find(w => w.name === selectedWilaya)?.homeDelivery} DA` : '-'}
+                      {selectedWilaya ? `${wilayasData.find(w => w.name === selectedWilaya)?.homeDelivery} DA` : '-'}
                     </span>
                   </label>
 
@@ -227,7 +238,7 @@ export default function CheckoutClient() {
                       </div>
                     </div>
                     <span className="text-sm font-black text-zinc-900">
-                      {selectedWilaya ? `${ALGERIA_WILAYAS.find(w => w.name === selectedWilaya)?.deskDelivery} DA` : '-'}
+                      {selectedWilaya ? `${wilayasData.find(w => w.name === selectedWilaya)?.deskDelivery} DA` : '-'}
                     </span>
                   </label>
                 </div>
