@@ -8,7 +8,9 @@ export default function HeroSection({ homeData }: { homeData?: any }) {
 
   return (
     <section 
-      className="relative flex h-[190px] md:h-[500px] border-b border-zinc-200 bg-cover bg-center bg-no-repeat"
+      dir="ltr"
+      translate="no"
+      className="notranslate relative flex h-[190px] md:h-[500px] border-b border-zinc-200 bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: `url('${bgImage}')` }}
     >
       {/* Discount Badge */}

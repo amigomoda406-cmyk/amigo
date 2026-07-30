@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { ShoppingCart, Globe, Home, LayoutGrid } from 'lucide-react';
 import { useCartStore, useCartTotalItems } from '@/contexts/cart.store';
+import { useLangStore } from '@/contexts/lang.store';
 import FloatingCart from '@/components/cart/FloatingCart';
 import { useEffect, useRef, useState } from 'react';
 
@@ -11,6 +12,13 @@ export default function Header() {
   const totalItems = useCartTotalItems();
   const prevTotal = useRef(totalItems);
   const [bounce, setBounce] = useState(false);
+  const { lang, toggleLang } = useLangStore();
+
+  // Sync lang to document
+  useEffect(() => {
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  }, [lang]);
 
   // Trigger bounce animation when item is added
   useEffect(() => {
@@ -50,7 +58,7 @@ export default function Header() {
       {/* 
         Transparent background, smaller for mobile
       */}
-      <header className="flex items-center justify-between px-3 md:px-6 py-2 md:py-4 sticky top-0 z-50 bg-transparent text-zinc-900 w-full backdrop-blur-sm">
+      <header dir="ltr" translate="no" className="notranslate flex items-center justify-between px-3 md:px-6 py-2 md:py-4 sticky top-0 z-50 bg-transparent text-zinc-900 w-full backdrop-blur-sm">
         
         {/* Left Side: Logo */}
         <Link href="/" className="flex-shrink-0 group">
@@ -88,8 +96,9 @@ export default function Header() {
 
         {/* Right: Globe Icon */}
         <div className="hidden lg:flex flex-1 justify-end pl-8">
-          <button className="p-2 text-zinc-900 hover:text-zinc-600 transition-colors">
+          <button onClick={toggleLang} className="p-2 text-zinc-900 hover:text-zinc-600 transition-colors flex items-center gap-1 font-bold text-xs uppercase tracking-widest">
             <Globe className="w-5 h-5 md:w-6 md:h-6 stroke-[1.5]" />
+            {lang.toUpperCase()}
           </button>
         </div>
 
@@ -101,8 +110,9 @@ export default function Header() {
           <Link href="/#categories" className="p-1.5 text-zinc-900 hover:text-zinc-600 transition-colors">
             <LayoutGrid className="w-5 h-5 stroke-[1.5]" />
           </Link>
-          <button className="p-1.5 text-zinc-900 hover:text-zinc-600 transition-colors">
+          <button onClick={toggleLang} className="p-1.5 text-zinc-900 hover:text-zinc-600 transition-colors flex items-center gap-0.5 font-bold text-[9px] uppercase tracking-widest">
             <Globe className="w-5 h-5 stroke-[1.5]" />
+            {lang.toUpperCase()}
           </button>
           <button
             onClick={openCart}
