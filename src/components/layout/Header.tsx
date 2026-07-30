@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { ShoppingCart, Globe } from 'lucide-react';
+import { ShoppingCart, Globe, Home, LayoutGrid } from 'lucide-react';
 import { useCartStore, useCartTotalItems } from '@/contexts/cart.store';
 import FloatingCart from '@/components/cart/FloatingCart';
 import { useEffect, useRef, useState } from 'react';
@@ -93,11 +93,20 @@ export default function Header() {
           </button>
         </div>
 
-        {/* Mobile View: Keep it simple, just Logo (left) and Cart (right) */}
-        <div className="flex lg:hidden items-center gap-2 flex-shrink-0">
+        {/* Mobile View: Icons next to Cart */}
+        <div className="flex lg:hidden items-center gap-1 sm:gap-2 flex-shrink-0">
+          <Link href="/" className="p-1.5 text-zinc-900 hover:text-zinc-600 transition-colors">
+            <Home className="w-5 h-5 stroke-[1.5]" />
+          </Link>
+          <Link href="/#categories" className="p-1.5 text-zinc-900 hover:text-zinc-600 transition-colors">
+            <LayoutGrid className="w-5 h-5 stroke-[1.5]" />
+          </Link>
+          <button className="p-1.5 text-zinc-900 hover:text-zinc-600 transition-colors">
+            <Globe className="w-5 h-5 stroke-[1.5]" />
+          </button>
           <button
             onClick={openCart}
-            className={`relative p-1.5 md:p-2 text-zinc-900 hover:text-zinc-600 transition-colors ${bounce ? 'cart-bounce' : ''}`}
+            className={`relative p-1.5 text-zinc-900 hover:text-zinc-600 transition-colors ${bounce ? 'cart-bounce' : ''}`}
           >
             <ShoppingCart className="w-5 h-5 stroke-[1.5]" />
             {totalItems > 0 && (
