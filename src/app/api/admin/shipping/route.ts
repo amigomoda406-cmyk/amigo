@@ -1,15 +1,15 @@
 import { NextResponse, NextRequest } from 'next/server';
-import { client } from '@/lib/sanity/client';
+import { supabaseAdmin } from '@/lib/supabase/client';
 import { ALGERIA_WILAYAS } from '@/lib/config/wilayas';
 
-// GET: fetch shipping settings from Sanity (or fallback to hardcoded)
+// GET: fetch shipping settings from Supabase (fallback to hardcoded)
 export async function GET() {
   try {
-    const settings = await client.fetch(
-      `*[_type == "shippingSettings"] { wilaya, homeDeliveryPrice, deskDeliveryPrice, "id": _id }`
-    );
+    const { data: settings, error } = await supabaseAdmin
+      .from('delivery_settings')
+      .select('*');
 
-    if (!settings || settings.length === 0) {
+    if (error || !settings || settings.length === 0) {
       // Return hardcoded defaults
       return NextResponse.json({ wilayas: ALGERIA_WILAYAS.map(w => ({
         code: w.code,
@@ -19,15 +19,15 @@ export async function GET() {
       }))});
     }
 
-    // Map Sanity docs to our format
+    // Map Supabase docs to our format
     const wilayaMap = new Map(settings.map((s: any) => [s.wilaya, s]));
     const wilayas = ALGERIA_WILAYAS.map(w => {
-      const sanityData = wilayaMap.get(w.name) as any;
+      const dbData = wilayaMap.get(w.name) as any;
       return {
         code: w.code,
         name: w.name,
-        homeDelivery: sanityData?.homeDeliveryPrice ?? w.homeDelivery,
-        deskDelivery: sanityData?.deskDeliveryPrice ?? w.deskDelivery,
+        homeDelivery: dbData?.home_delivery_price ?? w.homeDelivery,
+        deskDelivery: dbData?.desk_delivery_price ?? w.deskDelivery,
       };
     });
 
@@ -37,7 +37,7 @@ export async function GET() {
   }
 }
 
-// POST: save/update all shipping settings to Sanity
+// POST: save/update all shipping settings to Supabase
 export async function POST(req: NextRequest) {
   try {
     const { wilayas } = await req.json();
@@ -45,38 +45,21 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid data' }, { status: 400 });
     }
 
-    const sanityClient = client.withConfig({ token: process.env.SANITY_API_TOKEN });
+    // Format for Supabase bulk upsert
+    const upsertData = wilayas.map(w => ({
+      wilaya: w.name,
+      home_delivery_price: w.homeDelivery,
+      desk_delivery_price: w.deskDelivery,
+    }));
 
-    // Get existing docs
-    const existing = await sanityClient.fetch(
-      `*[_type == "shippingSettings"] { "id": _id, wilaya }`
-    );
-    const existingMap = new Map(existing.map((e: any) => [e.wilaya, e.id]));
+    const { error } = await supabaseAdmin
+      .from('delivery_settings')
+      .upsert(upsertData, { onConflict: 'wilaya' });
 
-    const transaction = sanityClient.transaction();
-
-    for (const w of wilayas) {
-      const docId = existingMap.get(w.name);
-      if (docId) {
-        // Update existing
-        transaction.patch(docId, {
-          set: {
-            homeDeliveryPrice: w.homeDelivery,
-            deskDeliveryPrice: w.deskDelivery,
-          }
-        });
-      } else {
-        // Create new
-        transaction.create({
-          _type: 'shippingSettings',
-          wilaya: w.name,
-          homeDeliveryPrice: w.homeDelivery,
-          deskDeliveryPrice: w.deskDelivery,
-        });
-      }
+    if (error) {
+      throw error;
     }
 
-    await transaction.commit();
     return NextResponse.json({ success: true });
   } catch (error: any) {
     console.error('Save shipping error:', error);
