@@ -2,7 +2,7 @@ import { defineType, defineField } from 'sanity';
 
 export const product = defineType({
   name: 'product',
-  title: 'Produits',
+  title: 'المنتجات (Products)',
   type: 'document',
   fields: [
     defineField({
@@ -62,16 +62,16 @@ export const product = defineType({
     }),
     defineField({
       name: 'parentCategory',
-      title: 'Catégorie Principale',
+      title: 'القسم الأساسي (Main Category)',
       type: 'reference',
       to: [{ type: 'category' }],
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'subCategory',
-      title: 'Sous Catégorie',
+      title: 'القسم الفرعي (Subcategory)',
       type: 'reference',
-      to: [{ type: 'category' }],
+      to: [{ type: 'subcategory' }],
     }),
     defineField({
       name: 'sizes',

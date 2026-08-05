@@ -1,12 +1,12 @@
 import { defineType, defineField } from 'sanity';
 import { orderRankField } from '@sanity/orderable-document-list';
 
-export const category = defineType({
-  name: 'category',
-  title: 'الأقسام الأساسية (Main Categories)',
+export const subcategory = defineType({
+  name: 'subcategory',
+  title: 'الأقسام الفرعية (Subcategories)',
   type: 'document',
   fields: [
-    orderRankField({ type: 'category' }),
+    orderRankField({ type: 'subcategory' }),
     defineField({
       name: 'title',
       title: 'Titre / العنوان',
@@ -21,8 +21,16 @@ export const category = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'parentCategory',
+      title: 'القسم الأساسي (Parent Category)',
+      type: 'reference',
+      to: [{ type: 'category' }],
+      validation: (Rule) => Rule.required(),
+      description: 'اختر القسم الأساسي الذي يتبعه هذا القسم الفرعي (مثال: ملابس رجالية)',
+    }),
+    defineField({
       name: 'image',
-      title: 'Image de la catégorie / صورة القسم',
+      title: 'Image / صورة القسم الفرعي',
       type: 'image',
       options: { hotspot: true },
     }),
