@@ -21,17 +21,25 @@ export default defineConfig({
         S.list()
           .title('Contenu')
           .items([
-            // Custom ordering for categories
+            // Custom ordering for main categories
             orderableDocumentListDeskItem({
               type: 'category',
-              title: 'Catégories',
+              title: 'الأقسام الأساسية',
+              icon: () => '📁',
+              S,
+              context,
+            }),
+            // Custom ordering for subcategories
+            orderableDocumentListDeskItem({
+              type: 'subcategory',
+              title: 'الأقسام الفرعية',
               icon: () => '📂',
               S,
               context,
             }),
             S.divider(),
             ...S.documentTypeListItems().filter(
-              (listItem) => !['category'].includes(listItem.getId() as string)
+              (listItem) => !['category', 'subcategory'].includes(listItem.getId() as string)
             ),
           ]),
     }),
