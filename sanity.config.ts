@@ -19,9 +19,9 @@ export default defineConfig({
     structureTool({
       structure: (S, context) =>
         S.list()
-          .title('Contenu')
+          .title('المحتوى')
           .items([
-            // Custom ordering for main categories
+            // الأقسام الأساسية مع ترتيب مخصص
             orderableDocumentListDeskItem({
               type: 'category',
               title: 'الأقسام الأساسية',
@@ -29,7 +29,7 @@ export default defineConfig({
               S,
               context,
             }),
-            // Custom ordering for subcategories
+            // الأقسام الفرعية مع ترتيب مخصص
             orderableDocumentListDeskItem({
               type: 'subcategory',
               title: 'الأقسام الفرعية',
@@ -38,9 +38,14 @@ export default defineConfig({
               context,
             }),
             S.divider(),
-            ...S.documentTypeListItems().filter(
-              (listItem) => !['category', 'subcategory'].includes(listItem.getId() as string)
-            ),
+            // المنتجات
+            S.listItem()
+              .title('المنتجات')
+              .icon(() => '🛍️')
+              .child(
+                S.documentTypeList('product')
+                  .title('جميع المنتجات')
+              ),
           ]),
     }),
     visionTool(),
