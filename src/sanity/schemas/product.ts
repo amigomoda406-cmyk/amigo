@@ -146,122 +146,37 @@ export const product = defineType({
     }),
     defineField({
       name: 'shoeSizes',
-      title: 'مقاسات الأحذية (20–50)',
+      title: 'مقاسات الأحذية المتوفرة',
       type: 'array',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            {
-              name: 'size',
-              title: 'الرقم',
-              type: 'string',
-              options: { list: SHOE_SIZES },
-            },
-            {
-              name: 'inStock',
-              title: 'متوفر',
-              type: 'boolean',
-              initialValue: true,
-            },
-          ],
-          preview: {
-            select: { title: 'size', subtitle: 'inStock' },
-            prepare({ title, subtitle }: any) {
-              return {
-                title: `مقاس ${title}`,
-                subtitle: subtitle ? '✅ متوفر' : '❌ نفذ',
-              };
-            },
-          },
-        },
-      ],
+      of: [{ type: 'string' }],
+      options: {
+        list: SHOE_SIZES,
+      },
       hidden: ({ document }) => document?.sizeType !== 'shoes',
-      description: 'أضف المقاسات المتوفرة من 20 إلى 50',
+      description: 'اختر المقاسات المتوفرة',
     }),
     defineField({
       name: 'clothingSizes',
-      title: 'مقاسات الملابس',
+      title: 'مقاسات الملابس المتوفرة',
       type: 'array',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            {
-              name: 'size',
-              title: 'المقاس',
-              type: 'string',
-              options: { list: CLOTHING_SIZES },
-            },
-            {
-              name: 'inStock',
-              title: 'متوفر',
-              type: 'boolean',
-              initialValue: true,
-            },
-          ],
-          preview: {
-            select: { title: 'size', subtitle: 'inStock' },
-            prepare({ title, subtitle }: any) {
-              return {
-                title: `مقاس ${title}`,
-                subtitle: subtitle ? '✅ متوفر' : '❌ نفذ',
-              };
-            },
-          },
-        },
-      ],
+      of: [{ type: 'string' }],
+      options: {
+        list: CLOTHING_SIZES,
+      },
       hidden: ({ document }) => document?.sizeType !== 'clothing',
-      description: 'أضف المقاسات المتوفرة XS / S / M / L / XL ...',
+      description: 'اختر المقاسات المتوفرة',
     }),
 
     // ===== الألوان الـ 32 =====
     defineField({
       name: 'colors',
-      title: 'الألوان المتوفرة (32 لون)',
+      title: 'الألوان المتوفرة',
       type: 'array',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            {
-              name: 'colorName',
-              title: 'اسم اللون',
-              type: 'string',
-              options: {
-                list: PRESET_COLORS,
-              },
-              description: 'اختر اللون من القائمة',
-            },
-            {
-              name: 'inStock',
-              title: 'هذا اللون متوفر ؟',
-              type: 'boolean',
-              initialValue: true,
-            },
-            {
-              name: 'images',
-              title: 'صور خاصة بهذا اللون (اختياري)',
-              type: 'array',
-              of: [{ type: 'image', options: { hotspot: true } }],
-            },
-          ],
-          preview: {
-            select: { title: 'colorName', subtitle: 'inStock' },
-            prepare({ title, subtitle }: any) {
-              const hex = PRESET_COLORS.find((c) => c.value === title)?.value || '';
-              return {
-                title: PRESET_COLORS.find((c) => c.value === title)?.title || title,
-                subtitle: subtitle ? '✅ متوفر' : '❌ نفذ',
-                media: hex
-                  ? () => null
-                  : undefined,
-              };
-            },
-          },
-        },
-      ],
-      description: 'اختر الألوان المتوفرة لهذا المنتج من قائمة 32 لون جاهزة',
+      of: [{ type: 'string' }],
+      options: {
+        list: PRESET_COLORS,
+      },
+      description: 'اختر الألوان المتوفرة لهذا المنتج',
     }),
   ],
 });
