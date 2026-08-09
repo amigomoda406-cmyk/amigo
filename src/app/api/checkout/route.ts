@@ -3,8 +3,42 @@ import { supabaseAdmin } from '@/lib/supabase/client';
 import { sendTelegramNotification } from '@/lib/telegram';
 import { client } from '@/lib/sanity/client';
 
+// Simple in-memory rate limiting (works per serverless instance)
+const rateLimitMap = new Map<string, { count: number, resetTime: number }>();
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const windowMs = 60 * 1000; // 1 minute
+  const maxRequests = 3; // Max 3 orders per minute per IP
+
+  const record = rateLimitMap.get(ip);
+  if (!record) {
+    rateLimitMap.set(ip, { count: 1, resetTime: now + windowMs });
+    return false;
+  }
+
+  if (now > record.resetTime) {
+    rateLimitMap.set(ip, { count: 1, resetTime: now + windowMs });
+    return false;
+  }
+
+  if (record.count >= maxRequests) {
+    return true;
+  }
+
+  record.count += 1;
+  return false;
+}
+
 export async function POST(req: Request) {
   try {
+    const forwardedFor = req.headers.get('x-forwarded-for');
+    const ip = forwardedFor ? forwardedFor.split(',')[0] : 'unknown';
+    
+    if (ip !== 'unknown' && isRateLimited(ip)) {
+      return NextResponse.json({ error: 'Too many requests. Please try again later.' }, { status: 429 });
+    }
+
     const body = await req.json();
     const { customer_name, customer_phone, wilaya, commune, total_amount, items } = body;
 

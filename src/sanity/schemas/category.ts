@@ -21,6 +21,12 @@ export const category = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'description',
+      title: 'Description / الوصف',
+      type: 'text',
+      rows: 3,
+    }),
+    defineField({
       name: 'image',
       title: 'Image de la catégorie / صورة القسم',
       type: 'image',

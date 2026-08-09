@@ -1,15 +1,24 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { jwtVerify } from 'jose';
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Protect /admin routes (except /admin/login)
-  if (pathname.startsWith('/admin') && pathname !== '/admin/login') {
+  // Protect /admin routes (except /admin/login and /admin/logout)
+  if (pathname.startsWith('/admin') && pathname !== '/admin/login' && pathname !== '/admin/logout') {
     const adminToken = request.cookies.get('admin_token')?.value;
     
-    // Check if token matches the secret
-    if (adminToken !== process.env.ADMIN_SECRET) {
+    if (!adminToken) {
+      const loginUrl = new URL('/admin/login', request.url);
+      return NextResponse.redirect(loginUrl);
+    }
+
+    try {
+      const secret = new TextEncoder().encode(process.env.ADMIN_SECRET);
+      await jwtVerify(adminToken, secret);
+    } catch (err) {
+      // Invalid token
       const loginUrl = new URL('/admin/login', request.url);
       return NextResponse.redirect(loginUrl);
     }

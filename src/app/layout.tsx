@@ -1,7 +1,11 @@
 import type { Metadata, Viewport } from 'next';
 import { Toaster } from 'react-hot-toast';
+import { Outfit, Cairo } from 'next/font/google';
 import '@/styles/globals.css';
 import '@/styles/animations.css';
+
+const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit', display: 'swap' });
+const cairo = Cairo({ subsets: ['arabic'], variable: '--font-cairo', display: 'swap' });
 
 export const metadata: Metadata = {
   title: {
@@ -32,7 +36,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" dir="ltr" className="scroll-smooth" suppressHydrationWarning>
+    <html lang="fr" dir="ltr" className={`scroll-smooth ${outfit.variable} ${cairo.variable}`} suppressHydrationWarning>
       <head>
         <meta name="apple-mobile-web-app-capable" content="yes" />
       </head>
