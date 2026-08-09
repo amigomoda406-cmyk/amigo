@@ -16,11 +16,28 @@ export default function Header() {
   const [bounce, setBounce] = useState(false);
   const { lang } = useLangStore();
   const [searchOpen, setSearchOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     document.documentElement.lang = lang;
     document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
   }, [lang]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > 100) {
+        setIsVisible(currentScrollY < lastScrollY.current);
+      } else {
+        setIsVisible(true);
+      }
+      lastScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     if (totalItems > prevTotal.current) {
@@ -53,7 +70,9 @@ export default function Header() {
       `}</style>
 
       {/* Dynamic LTR/RTL applied globally. Removed translate="no" */}
-      <header className="sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-zinc-100/50 w-full transition-all duration-300">
+      <header 
+        className={`sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-zinc-100/50 w-full transition-all duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}
+      >
         <div className="max-w-7xl mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
           
           {/* Left/Right: Hamburger Menu (SidebarNav handles its own direction) */}

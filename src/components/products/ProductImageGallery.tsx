@@ -25,29 +25,62 @@ export default function ProductImageGallery({ images = [], title }: { images: an
   };
 
   return (
-    <div className="relative bg-zinc-100">
+    <div className="relative bg-zinc-100 group/gallery">
       {/* Main Gallery */}
       <div 
         ref={scrollRef}
         onScroll={handleScroll}
-        className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar w-full aspect-[4/5]"
+        className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar w-full aspect-[4/5] cursor-crosshair"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
-        {displayImages.map((img, idx) => (
-          <div key={idx} className="shrink-0 w-full h-full snap-center relative">
-            {img.asset ? (
-              <img 
-                src={urlFor(img).width(800).height(1000).url()} 
-                alt={`${title} - Image ${idx + 1}`}
-                className="w-full h-full object-cover object-top"
-              />
-            ) : (
-              <div className="w-full h-full bg-zinc-200 flex items-center justify-center text-zinc-400">
-                No Image
-              </div>
-            )}
-          </div>
-        ))}
+        {displayImages.map((img, idx) => {
+          const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
+          const [isHovering, setIsHovering] = useState(false);
+
+          const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+            const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+            const x = ((e.clientX - left) / width) * 100;
+            const y = ((e.clientY - top) / height) * 100;
+            setMousePos({ x, y });
+          };
+
+          const imageUrl = img.asset ? urlFor(img).width(1000).height(1250).url() : '';
+
+          return (
+            <div 
+              key={idx} 
+              className="shrink-0 w-full h-full snap-center relative overflow-hidden group"
+              onMouseEnter={() => setIsHovering(true)}
+              onMouseLeave={() => setIsHovering(false)}
+              onMouseMove={handleMouseMove}
+            >
+              {img.asset ? (
+                <>
+                  {/* الصورة الأساسية */}
+                  <img 
+                    src={imageUrl} 
+                    alt={`${title} - Image ${idx + 1}`}
+                    className={`w-full h-full object-cover object-top transition-opacity duration-300 ${isHovering ? 'md:opacity-0' : 'opacity-100'}`}
+                  />
+                  {/* صورة التكبير تظهر فقط في الديسكتوب وعند الـ Hover */}
+                  <div 
+                    className="absolute inset-0 w-full h-full hidden md:block opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                    style={{
+                      backgroundImage: `url(${imageUrl})`,
+                      backgroundPosition: `${mousePos.x}% ${mousePos.y}%`,
+                      backgroundSize: '200%',
+                      backgroundRepeat: 'no-repeat',
+                    }}
+                  />
+                </>
+              ) : (
+                <div className="w-full h-full bg-zinc-200 flex items-center justify-center text-zinc-400">
+                  No Image
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
 
       {/* Counter Badge */}

@@ -24,6 +24,11 @@ export default function FloatingCart() {
     router.push('/checkout');
   };
 
+  const freeShippingThreshold = 3000;
+  const isFreeShipping = totalPrice >= freeShippingThreshold;
+  const shippingProgress = Math.min((totalPrice / freeShippingThreshold) * 100, 100);
+  const remainingForFreeShipping = freeShippingThreshold - totalPrice;
+
   return (
     <>
       {/* Cart Drawer */}
@@ -170,13 +175,34 @@ export default function FloatingCart() {
 
               {/* Footer */}
               {items.length > 0 && (
-                <div className="shrink-0 border-t border-zinc-100 bg-white p-4 space-y-3">
-                  {/* Subtotal */}
-                  <div className="flex justify-between items-center">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Sous-total</span>
-                    <span className="text-lg font-black text-zinc-900">{totalPrice.toLocaleString('fr-DZ')} DA</span>
+                <div className="shrink-0 border-t border-zinc-100 bg-white p-4 space-y-4">
+                  {/* Free Shipping Progress */}
+                  <div>
+                    <div className="flex justify-between items-center mb-1.5">
+                      <span className="text-[10px] font-bold text-zinc-900">
+                        {isFreeShipping 
+                          ? '🎉 مبروك! لقد حصلت على شحن مجاني' 
+                          : `أضف بـ ${remainingForFreeShipping.toLocaleString('fr-DZ')} DA للحصول على شحن مجاني`
+                        }
+                      </span>
+                    </div>
+                    <div className="h-1.5 w-full bg-zinc-100 rounded-full overflow-hidden">
+                      <motion.div 
+                        initial={{ width: 0 }}
+                        animate={{ width: `${shippingProgress}%` }}
+                        className={`h-full rounded-full transition-colors duration-500 ${isFreeShipping ? 'bg-emerald-500' : 'bg-zinc-900'}`}
+                      />
+                    </div>
                   </div>
-                  <p className="text-[9px] text-zinc-400 font-medium">Frais de livraison calculés à l'étape suivante</p>
+
+                  {/* Subtotal */}
+                  <div className="flex justify-between items-end">
+                    <div>
+                      <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400 block mb-0.5">المجموع</span>
+                      <p className="text-[9px] text-zinc-400 font-medium leading-none">الشحن يُحسب في الدفع</p>
+                    </div>
+                    <span className="text-xl font-black text-zinc-900">{totalPrice.toLocaleString('fr-DZ')} DA</span>
+                  </div>
 
                   {/* Checkout Button */}
                   <motion.button
