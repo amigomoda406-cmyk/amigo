@@ -1,9 +1,11 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { ShoppingBag, Minus, Plus, Loader2, Check, Truck, Package, RotateCcw } from 'lucide-react';
 import { useCartStore } from '@/contexts/cart.store';
+import { useRecentlyViewedStore } from '@/contexts/recently-viewed.store';
 import { urlFor } from '@/lib/sanity/client';
 import SizeGuideModal from '@/components/ui/SizeGuideModal';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function ProductInfo({ product }: { product: any }) {
   const { addItem } = useCartStore();
@@ -18,6 +20,32 @@ export default function ProductInfo({ product }: { product: any }) {
   const [isAdding, setIsAdding] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
+  const [showSticky, setShowSticky] = useState(false);
+  const addToCartRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    // Add to recently viewed
+    useRecentlyViewedStore.getState().add({
+      _id: product._id,
+      title: product.title,
+      slug: product.slug,
+      price: product.price,
+      comparePrice: product.comparePrice,
+      images: product.images
+    });
+
+    // Intersection observer for sticky CTA
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // Show sticky when the main button is scrolled past
+        setShowSticky(!entry.isIntersecting && entry.boundingClientRect.top < 0);
+      },
+      { threshold: 0 }
+    );
+
+    if (addToCartRef.current) observer.observe(addToCartRef.current);
+    return () => observer.disconnect();
+  }, [product]);
 
   const discountPercent = product.comparePrice 
     ? Math.round((1 - product.price / product.comparePrice) * 100)
@@ -194,6 +222,7 @@ export default function ProductInfo({ product }: { product: any }) {
 
       {/* Add to Cart Button */}
       <button
+        ref={addToCartRef}
         disabled={!product.inStock || isAdding}
         onClick={handleAddToCart}
         className={`
@@ -239,6 +268,32 @@ export default function ProductInfo({ product }: { product: any }) {
         onClose={() => setSizeGuideOpen(false)}
         type={product.sizeType === 'shoes' ? 'shoes' : 'clothing'}
       />
+
+      {/* Sticky Add to Cart (Mobile) */}
+      <AnimatePresence>
+        {showSticky && (
+          <motion.div
+            initial={{ y: 100 }}
+            animate={{ y: 0 }}
+            exit={{ y: 100 }}
+            className="fixed bottom-0 left-0 right-0 p-4 bg-white/80 backdrop-blur-xl border-t border-zinc-100 z-40 md:hidden shadow-[0_-10px_40px_rgba(0,0,0,0.05)]"
+          >
+            <div className="flex items-center gap-3">
+              <div className="flex-1">
+                <p className="text-[10px] font-black uppercase text-zinc-900 truncate">{product.title}</p>
+                <p className="text-[10px] font-bold text-blue-600">{product.price.toLocaleString('fr-DZ')} DA</p>
+              </div>
+              <button
+                disabled={!product.inStock || isAdding}
+                onClick={handleAddToCart}
+                className="bg-zinc-900 text-white px-6 py-3 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2 flex-shrink-0"
+              >
+                {isAdding ? <Loader2 className="w-4 h-4 animate-spin" /> : justAdded ? <Check className="w-4 h-4" /> : 'إضافة'}
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

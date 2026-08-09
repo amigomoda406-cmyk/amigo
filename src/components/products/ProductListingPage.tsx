@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { ChevronLeft, SlidersHorizontal } from 'lucide-react';
+import { motion } from 'framer-motion';
 import ProductCard from '@/components/products/ProductCard';
 
 interface ProductListingPageProps {
@@ -62,11 +63,30 @@ export default function ProductListingPage({ parentCategory, subCategoryName, pr
 
       {/* Grid */}
       {products.length > 0 ? (
-        <div className="px-4 grid grid-cols-2 gap-2">
+        <motion.div
+          initial="hidden"
+          animate="show"
+          variants={{
+            hidden: { opacity: 0 },
+            show: {
+              opacity: 1,
+              transition: { staggerChildren: 0.1 }
+            }
+          }}
+          className="px-4 grid grid-cols-2 gap-2"
+        >
           {sortedProducts.map((product, i) => (
-            <ProductCard key={product._id} product={product} index={i} />
+            <motion.div
+              key={product._id}
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
+              }}
+            >
+              <ProductCard product={product} index={i} />
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       ) : (
         <div className="flex flex-col items-center justify-center py-20 px-4 text-center">
           <div className="w-16 h-16 bg-zinc-200 rounded-full flex items-center justify-center mb-4">

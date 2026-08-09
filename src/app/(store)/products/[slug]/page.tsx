@@ -3,6 +3,7 @@ import { client, urlFor } from '@/lib/sanity/client';
 import ProductImageGallery from '@/components/products/ProductImageGallery';
 import ProductInfo from '@/components/products/ProductInfo';
 import RelatedProducts from '@/components/products/RelatedProducts';
+import RecentlyViewed from '@/components/products/RecentlyViewed';
 import StoreFooter from '@/components/layout/StoreFooter';
 import Breadcrumb from '@/components/ui/Breadcrumb';
 import TrustBadges from '@/components/ui/TrustBadges';
@@ -162,6 +163,9 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
           <RelatedProducts products={relatedProducts} />
         </div>
       )}
+
+      {/* Recently Viewed */}
+      <RecentlyViewed currentProductId={product._id} />
 
       <StoreFooter />
     </main>
