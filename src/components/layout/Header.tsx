@@ -1,11 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import { ShoppingCart } from 'lucide-react';
+import { ShoppingCart, Search } from 'lucide-react';
 import { useCartStore, useCartTotalItems } from '@/contexts/cart.store';
 import { useLangStore } from '@/contexts/lang.store';
 import FloatingCart from '@/components/cart/FloatingCart';
 import SidebarNav from './SidebarNav';
+import SearchModal from '@/components/ui/SearchModal';
 import { useEffect, useRef, useState } from 'react';
 
 export default function Header() {
@@ -14,6 +15,7 @@ export default function Header() {
   const prevTotal = useRef(totalItems);
   const [bounce, setBounce] = useState(false);
   const { lang } = useLangStore();
+  const [searchOpen, setSearchOpen] = useState(false);
 
   useEffect(() => {
     document.documentElement.lang = lang;
@@ -67,8 +69,15 @@ export default function Header() {
             <div className="w-0 h-[2px] bg-zinc-900 mt-1 group-hover:w-full transition-all duration-500 ease-out" />
           </Link>
 
-          {/* Right/Left: Cart */}
-          <div className="flex-1 flex items-center justify-end">
+          {/* Right/Left: Search + Cart */}
+          <div className="flex-1 flex items-center justify-end gap-1">
+            <button
+              onClick={() => setSearchOpen(true)}
+              className="p-2 text-zinc-900 hover:text-zinc-600 transition-colors"
+              aria-label="بحث"
+            >
+              <Search className="w-5 h-5" strokeWidth={1.5} />
+            </button>
             <button
               onClick={openCart}
               className={`relative p-2 -mx-2 text-zinc-900 hover:text-zinc-600 transition-colors ${bounce ? 'cart-bounce' : ''}`}
@@ -85,6 +94,7 @@ export default function Header() {
       </header>
       
       <FloatingCart />
+      <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
     </>
   );
 }

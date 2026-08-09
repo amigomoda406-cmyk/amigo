@@ -1,8 +1,9 @@
 'use client';
 import { useState } from 'react';
-import { ShoppingBag, Minus, Plus, Loader2, Check } from 'lucide-react';
+import { ShoppingBag, Minus, Plus, Loader2, Check, Truck, Package, RotateCcw } from 'lucide-react';
 import { useCartStore } from '@/contexts/cart.store';
 import { urlFor } from '@/lib/sanity/client';
+import SizeGuideModal from '@/components/ui/SizeGuideModal';
 
 export default function ProductInfo({ product }: { product: any }) {
   const { addItem } = useCartStore();
@@ -16,6 +17,7 @@ export default function ProductInfo({ product }: { product: any }) {
   const [showSizeError, setShowSizeError] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
+  const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
 
   const discountPercent = product.comparePrice 
     ? Math.round((1 - product.price / product.comparePrice) * 100)
@@ -135,8 +137,11 @@ export default function ProductInfo({ product }: { product: any }) {
             <span className={`text-[10px] font-black tracking-widest uppercase transition-colors ${showSizeError ? 'text-red-500' : 'text-zinc-900'}`}>
               Taille
             </span>
-            <button className="text-[10px] font-bold text-zinc-500 underline underline-offset-2">
-              Guide des tailles
+            <button
+              className="text-[10px] font-bold text-zinc-500 underline underline-offset-2 hover:text-zinc-900 transition-colors"
+              onClick={() => setSizeGuideOpen(true)}
+            >
+              دليل المقاسات ↗
             </button>
           </div>
           
@@ -218,6 +223,22 @@ export default function ProductInfo({ product }: { product: any }) {
           </div>
         </div>
       )}
+      {/* Delivery info mini */}
+      <div className="mt-4 pt-4 border-t border-zinc-50 flex flex-col gap-1.5">
+        {[{icon: Truck, text: 'توصيل لجميع الولايات الـ 58'}, {icon: Package, text: 'تغليف محكم ومضمون'}, {icon: RotateCcw, text: 'إرجاع مجاني خلال 7 أيام'}].map(({icon: Icon, text}) => (
+          <div key={text} className="flex items-center gap-2">
+            <Icon className="w-3.5 h-3.5 text-zinc-400 flex-shrink-0" strokeWidth={1} />
+            <p className="text-[10px] font-medium text-zinc-500">{text}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Size Guide Modal */}
+      <SizeGuideModal
+        isOpen={sizeGuideOpen}
+        onClose={() => setSizeGuideOpen(false)}
+        type={product.sizeType === 'shoes' ? 'shoes' : 'clothing'}
+      />
     </div>
   );
 }
