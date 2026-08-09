@@ -54,7 +54,8 @@ export default function SidebarNav() {
               animate={{ x: 0 }}
               exit={{ x: isRtl ? '100%' : '-100%' }}
               transition={{ type: 'spring', damping: 28, stiffness: 280 }}
-              className={`fixed inset-y-0 ${isRtl ? 'right-0' : 'left-0'} w-[85%] max-w-[340px] bg-white z-[9999] flex flex-col shadow-2xl`}
+              style={{ backgroundColor: '#ffffff', isolation: 'isolate' }}
+              className={`fixed inset-y-0 ${isRtl ? 'right-0' : 'left-0'} w-[85%] max-w-[340px] z-[9999] flex flex-col shadow-2xl`}
             >
               {/* Header */}
               <div className="flex items-center justify-between p-6 border-b border-zinc-100 shrink-0">
