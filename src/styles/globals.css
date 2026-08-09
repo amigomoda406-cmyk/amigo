@@ -2,10 +2,16 @@
 
 @theme {
   --font-sans: var(--font-primary, var(--font-outfit)), ui-sans-serif, system-ui, sans-serif;
+  /* Brand Colors */
+  --color-brand: #C9A96E;
+  --color-brand-dark: #A8895A;
+  --color-urgency: #DC2626;
+  --color-success: #16A34A;
 }
 
 :root {
   --font-primary: var(--font-outfit);
+  --color-brand: #C9A96E;
 }
 
 html[lang="ar"], html[dir="rtl"] {
@@ -17,6 +23,40 @@ body {
   background-color: #fafafa;
 }
 
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d4d4d8; border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-brand); }
+
+/* Shimmer for badges */
+@keyframes badge-shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+.badge-new-shimmer {
+  background: linear-gradient(90deg, #18181b 0%, #3f3f46 40%, #71717a 50%, #3f3f46 60%, #18181b 100%);
+  background-size: 200% auto;
+  animation: badge-shimmer 3s linear infinite;
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fadeIn {
+  animation: fadeIn 0.4s ease forwards;
+}
+
+/* Spin slow for brand seal */
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+
 @layer utilities {
   .animate-marquee {
     animation: marquee 25s linear infinite;
@@ -25,4 +65,8 @@ body {
     0% { transform: translateX(0%); }
     100% { transform: translateX(-50%); }
   }
+  /* Hide scrollbar utility */
+  .scrollbar-none::-webkit-scrollbar { display: none; }
+  .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
 }
+
