@@ -1,9 +1,10 @@
 'use client';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { CheckCircle2, ShoppingBag, ArrowRight, Home } from 'lucide-react';
+import { CheckCircle2, ShoppingBag, ArrowRight, Home, Package, Truck, UserPlus } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import confetti from 'canvas-confetti';
 
 export default function ThankYouClient() {
   const searchParams = useSearchParams();
@@ -11,6 +12,7 @@ export default function ThankYouClient() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const [orderInfo, setOrderInfo] = useState<any>(null);
+  const [accountCreated, setAccountCreated] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -22,6 +24,32 @@ export default function ThankYouClient() {
     }
     if (!orderId) {
       router.replace('/');
+    } else {
+      // Confetti Animation (Idea 161)
+      const duration = 3 * 1000;
+      const end = Date.now() + duration;
+
+      const frame = () => {
+        confetti({
+          particleCount: 5,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 },
+          colors: ['#000000', '#C9A96E', '#ffffff']
+        });
+        confetti({
+          particleCount: 5,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 },
+          colors: ['#000000', '#C9A96E', '#ffffff']
+        });
+
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      };
+      frame();
     }
   }, [orderId, router]);
 
@@ -38,7 +66,7 @@ export default function ThankYouClient() {
           </div>
           <h1 className="text-[40px] md:text-[60px] font-black uppercase tracking-tighter text-zinc-900 leading-none mb-4">
             Merci <br />
-            <span className="text-zinc-400">Pour Votre Achat</span>
+            <span className="text-[#C9A96E]">Pour Votre Achat</span>
           </h1>
           <p className="text-sm font-bold text-zinc-500 uppercase tracking-widest max-w-md">
             Votre commande a été confirmée et est en cours de préparation.
@@ -46,45 +74,77 @@ export default function ThankYouClient() {
         </div>
 
         {orderInfo ? (
-          <div className="w-full bg-white rounded-[2rem] shadow-xl shadow-zinc-200/50 overflow-hidden animate-fade-in-up delay-100 border border-zinc-100/50">
+          <div className="w-full bg-white rounded-[2rem] shadow-xl shadow-zinc-200/50 overflow-hidden animate-fade-in-up delay-100 border border-zinc-100">
             
             {/* Receipt Header */}
-            <div className="bg-zinc-900 text-white p-6 md:p-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+            <div className="bg-zinc-900 text-white p-6 md:p-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
               <div>
-                <span className="block text-[10px] font-bold uppercase tracking-widest text-zinc-400 mb-1">Numéro de commande</span>
+                <span className="block text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1.5">Numéro de commande</span>
                 <span className="block text-2xl md:text-3xl font-mono font-black break-all">{orderId.replace('AMIGO-', '')}</span>
               </div>
               <div className="text-left md:text-right">
-                <span className="block text-[10px] font-bold uppercase tracking-widest text-zinc-400 mb-1">Date</span>
+                <span className="block text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1.5">Date de commande</span>
                 <span className="block text-lg font-bold">{new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' })}</span>
               </div>
             </div>
 
-            <div className="p-6 md:p-10 grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {/* Order Tracking Timeline Mockup (Idea 163) */}
+            <div className="bg-zinc-50 px-6 py-8 border-b border-zinc-100">
+              <h3 className="text-xs font-black uppercase tracking-widest text-zinc-900 mb-6 text-center">Suivi de commande</h3>
+              <div className="max-w-xl mx-auto relative">
+                <div className="absolute top-1/2 left-0 right-0 h-1 bg-zinc-200 -translate-y-1/2 z-0" />
+                <div className="absolute top-1/2 left-0 w-1/4 h-1 bg-emerald-500 -translate-y-1/2 z-0" />
+                
+                <div className="flex justify-between relative z-10">
+                  <div className="flex flex-col items-center gap-2">
+                    <div className="w-10 h-10 rounded-full bg-emerald-500 text-white flex items-center justify-center border-4 border-zinc-50 shadow-md">
+                      <CheckCircle2 className="w-5 h-5" />
+                    </div>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-zinc-900">Confirmée</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-2">
+                    <div className="w-10 h-10 rounded-full bg-white text-zinc-400 flex items-center justify-center border-4 border-zinc-50 shadow-sm">
+                      <Package className="w-5 h-5" />
+                    </div>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Préparation</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-2">
+                    <div className="w-10 h-10 rounded-full bg-white text-zinc-400 flex items-center justify-center border-4 border-zinc-50 shadow-sm">
+                      <Truck className="w-5 h-5" />
+                    </div>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Expédiée</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-6 md:p-8 grid grid-cols-1 lg:grid-cols-2 gap-12">
               
               {/* Order Items */}
               <div>
                 <h3 className="text-xs font-black uppercase tracking-widest text-zinc-400 mb-6 border-b border-zinc-100 pb-4">Articles commandés</h3>
-                <div className="space-y-6">
+                <div className="space-y-4">
                   {orderInfo.items.map((item: any, idx: number) => (
-                    <div key={idx} className="flex gap-4 items-center">
-                      <div className="w-20 h-20 bg-zinc-50 rounded-2xl overflow-hidden shrink-0 relative border border-zinc-100">
+                    <div key={idx} className="flex gap-4 items-center bg-zinc-50 p-3 rounded-2xl">
+                      <div className="w-16 h-20 bg-white rounded-xl overflow-hidden shrink-0 relative border border-zinc-100">
                         {item.imageUrl ? (
-                          <Image src={item.imageUrl} alt={item.title} fill className="object-cover" />
+                          <Image src={item.imageUrl} alt={item.title} fill className="object-cover" sizes="64px" />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center text-zinc-300">
                             <ShoppingBag className="w-6 h-6" />
                           </div>
                         )}
+                        <div className="absolute top-0 right-0 w-5 h-5 bg-black text-white text-[10px] font-bold flex items-center justify-center rounded-bl-xl">
+                          {item.quantity}
+                        </div>
                       </div>
                       <div className="flex-1">
-                        <h4 className="text-sm font-black text-zinc-900 line-clamp-1">{item.title}</h4>
-                        <div className="text-[10px] font-bold text-zinc-500 mt-1 uppercase tracking-widest">
-                          Qté: {item.quantity} 
-                          {item.selectedSize && ` • Taille: ${item.selectedSize}`}
+                        <h4 className="text-xs font-black uppercase tracking-tight text-zinc-900 line-clamp-1">{item.title}</h4>
+                        <div className="text-[9px] font-bold text-zinc-500 mt-1 uppercase tracking-widest">
+                          {item.selectedSize && `Taille: ${item.selectedSize}`}
                           {item.selectedColor && ` • Couleur: ${item.selectedColor}`}
                         </div>
-                        <div className="text-sm font-black text-zinc-900 mt-1">{(item.price || 0).toLocaleString('fr-DZ')} DA</div>
+                        <div className="text-xs font-black text-[#C9A96E] mt-1">{(item.price || 0).toLocaleString('fr-DZ')} DA</div>
                       </div>
                     </div>
                   ))}
@@ -107,27 +167,50 @@ export default function ThankYouClient() {
                 </div>
 
                 {/* Total */}
-                <div className="bg-black text-white rounded-2xl p-6 shadow-2xl">
+                <div className="bg-black text-white rounded-3xl p-6 shadow-2xl">
                   <div className="flex justify-between items-center mb-2">
-                    <span className="text-xs font-bold text-zinc-400">Sous-total</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Sous-total</span>
                     <span className="text-sm font-black">{(orderInfo.total_amount - orderInfo.delivery_fee).toLocaleString('fr-DZ')} DA</span>
                   </div>
                   <div className="flex justify-between items-center mb-4 pb-4 border-b border-white/10">
-                    <span className="text-xs font-bold text-zinc-400">Livraison</span>
-                    <span className="text-sm font-black">+{orderInfo.delivery_fee.toLocaleString('fr-DZ')} DA</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Livraison</span>
+                    <span className="text-sm font-black text-emerald-400">+{orderInfo.delivery_fee.toLocaleString('fr-DZ')} DA</span>
                   </div>
                   <div className="flex justify-between items-end">
                     <span className="text-xs font-black uppercase tracking-widest text-zinc-400">Total payé</span>
-                    <span className="text-3xl font-black">{orderInfo.total_amount?.toLocaleString('fr-DZ')} DA</span>
+                    <span className="text-3xl font-black text-[#C9A96E] leading-none">{orderInfo.total_amount?.toLocaleString('fr-DZ')} DA</span>
                   </div>
                 </div>
-
               </div>
 
             </div>
+
+            {/* Post-Purchase Account Creation (Idea 164) */}
+            {!accountCreated && (
+              <div className="bg-zinc-50 border-t border-zinc-100 p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div>
+                  <h3 className="text-sm font-black uppercase tracking-widest text-zinc-900 mb-1 flex items-center gap-2">
+                    <UserPlus className="w-5 h-5" /> Créez un compte rapidement
+                  </h3>
+                  <p className="text-[11px] font-bold text-zinc-500">Suivez l'état de votre commande et profitez de réductions exclusives.</p>
+                </div>
+                <button 
+                  onClick={() => setAccountCreated(true)}
+                  className="w-full md:w-auto bg-black text-white px-8 py-3 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-[#C9A96E] transition-colors"
+                >
+                  Créer mon compte
+                </button>
+              </div>
+            )}
+            {accountCreated && (
+              <div className="bg-emerald-50 border-t border-emerald-100 p-6 flex items-center justify-center gap-3">
+                <CheckCircle2 className="w-5 h-5 text-emerald-500" />
+                <span className="text-xs font-black uppercase tracking-widest text-emerald-900">Compte créé avec succès ! Un email vous a été envoyé.</span>
+              </div>
+            )}
           </div>
         ) : (
-          <div className="w-full max-w-sm bg-white border border-zinc-100 rounded-2xl p-8 mb-8 text-center shadow-xl animate-fade-in-up delay-300">
+          <div className="w-full max-w-sm bg-white border border-zinc-100 rounded-3xl p-8 mb-8 text-center shadow-xl animate-fade-in-up delay-300">
             <span className="block text-[10px] font-bold uppercase tracking-widest text-zinc-400 mb-2">Numéro de commande</span>
             <span className="block text-2xl font-mono font-black text-zinc-900 break-all">{orderId}</span>
           </div>
@@ -136,13 +219,13 @@ export default function ThankYouClient() {
         <div className="mt-12 flex flex-col md:flex-row gap-4 animate-fade-in-up delay-500 w-full md:w-auto">
           <Link 
             href="/"
-            className="flex-1 md:flex-none bg-black text-white px-8 py-4 rounded-full text-xs font-black tracking-widest uppercase flex items-center justify-center gap-2 hover:bg-zinc-800 transition-colors shadow-xl"
+            className="flex-1 md:flex-none bg-black text-white px-8 py-4 rounded-full text-[11px] font-black tracking-widest uppercase flex items-center justify-center gap-2 hover:bg-zinc-800 transition-colors shadow-xl"
           >
             <Home className="w-4 h-4" /> Retour à l'accueil
           </Link>
           <Link 
             href="/#categories"
-            className="flex-1 md:flex-none bg-white text-black border-2 border-black px-8 py-4 rounded-full text-xs font-black tracking-widest uppercase flex items-center justify-center gap-2 hover:bg-zinc-50 transition-colors"
+            className="flex-1 md:flex-none bg-white text-black border-2 border-black px-8 py-4 rounded-full text-[11px] font-black tracking-widest uppercase flex items-center justify-center gap-2 hover:bg-zinc-50 transition-colors"
           >
             Continuer vos achats <ArrowRight className="w-4 h-4" />
           </Link>

@@ -111,10 +111,20 @@ export default function CheckoutClient() {
     <main className="min-h-[100svh] bg-[#f9fafb] py-8 lg:py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Header simple */}
-        <div className="mb-8 text-center lg:text-left">
-          <h1 className="text-3xl font-black uppercase tracking-tighter text-zinc-900">Finaliser la Commande</h1>
-          <p className="text-sm text-zinc-500 font-medium mt-2">Veuillez remplir vos informations pour confirmer l'achat.</p>
+        {/* Header simple + Progress (Idea 151) */}
+        <div className="mb-10 flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="text-center md:text-left">
+            <h1 className="text-3xl font-black uppercase tracking-tighter text-zinc-900">Paiement</h1>
+            <p className="text-[11px] text-zinc-500 font-bold mt-1 tracking-widest uppercase">Processus sécurisé à 100%</p>
+          </div>
+          {/* Progress Bar */}
+          <div className="flex items-center gap-3 sm:gap-5 text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-zinc-400">
+            <span className="flex items-center gap-1.5 text-emerald-500"><div className="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center"><Check className="w-3 h-3 text-emerald-600"/></div> Panier</span>
+            <span className="w-6 sm:w-10 h-[2px] bg-emerald-500 rounded-full"></span>
+            <span className="flex items-center gap-1.5 text-zinc-900"><div className="w-5 h-5 rounded-full bg-black text-white flex items-center justify-center text-[10px]">2</div> Livraison</span>
+            <span className="w-6 sm:w-10 h-[2px] bg-zinc-200 rounded-full"></span>
+            <span className="flex items-center gap-1.5"><div className="w-5 h-5 rounded-full bg-zinc-200 text-zinc-500 flex items-center justify-center text-[10px]">3</div> Paiement</span>
+          </div>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="lg:grid lg:grid-cols-12 lg:gap-12 lg:items-start">
@@ -123,62 +133,67 @@ export default function CheckoutClient() {
           <div className="lg:col-span-7 xl:col-span-8 space-y-8">
             
             {/* Section 1: Contact */}
-            <section className="bg-white p-6 rounded-3xl shadow-sm border border-zinc-100">
-              <div className="flex items-center gap-3 mb-6 border-b border-zinc-100 pb-4">
-                <div className="w-8 h-8 rounded-full bg-zinc-900 text-white flex items-center justify-center font-bold text-sm">1</div>
-                <h2 className="text-lg font-black uppercase tracking-widest text-zinc-900">Contact</h2>
+            <section className="bg-white p-6 sm:p-8 rounded-[2rem] shadow-sm border border-zinc-100">
+              <div className="flex items-center justify-between mb-8 border-b border-zinc-100 pb-4">
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center font-black text-sm shadow-md">1</div>
+                  <h2 className="text-lg font-black uppercase tracking-widest text-zinc-900">Contact</h2>
+                </div>
+                <div className="text-[10px] font-bold text-zinc-400 flex items-center gap-1">
+                  <ShieldCheck className="w-4 h-4 text-emerald-500" /> Données protégées
+                </div>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-widest text-zinc-500 mb-2">Nom Complet</label>
+                  <label className="block text-[10px] font-black uppercase tracking-widest text-zinc-900 mb-2.5">Nom Complet</label>
                   <div className="relative">
                     <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
                     <input 
                       {...register('fullName')}
                       placeholder="Ex: Amine Benali"
-                      className={`w-full pl-11 pr-4 py-3.5 bg-zinc-50 border-2 rounded-xl text-sm font-bold outline-none transition-all text-zinc-900 ${
-                        errors.fullName ? 'border-red-500 bg-red-50/50' : 'border-zinc-200 focus:border-zinc-900 focus:bg-white'
+                      className={`w-full pl-11 pr-4 py-4 bg-zinc-50 border-2 rounded-2xl text-sm font-bold outline-none transition-all text-zinc-900 ${
+                        errors.fullName ? 'border-red-500 bg-red-50/50' : 'border-transparent focus:border-black focus:bg-white'
                       }`}
                     />
                   </div>
-                  {errors.fullName && <p className="text-[10px] text-red-500 font-bold mt-1.5">{errors.fullName.message}</p>}
+                  {errors.fullName && <p className="text-[10px] text-red-500 font-bold mt-2 flex items-center gap-1"><span className="w-1 h-1 rounded-full bg-red-500"/>{errors.fullName.message}</p>}
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-widest text-zinc-500 mb-2">Numéro de Téléphone</label>
+                  <label className="block text-[10px] font-black uppercase tracking-widest text-zinc-900 mb-2.5">Téléphone</label>
                   <div className="relative">
                     <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
                     <input 
                       {...register('phone')}
                       type="tel"
                       placeholder="0671234567"
-                      className={`w-full pl-11 pr-4 py-3.5 bg-zinc-50 border-2 rounded-xl text-sm font-bold outline-none transition-all text-zinc-900 ${
-                        errors.phone ? 'border-red-500 bg-red-50/50' : 'border-zinc-200 focus:border-zinc-900 focus:bg-white'
+                      className={`w-full pl-11 pr-4 py-4 bg-zinc-50 border-2 rounded-2xl text-sm font-bold outline-none transition-all text-zinc-900 ${
+                        errors.phone ? 'border-red-500 bg-red-50/50' : 'border-transparent focus:border-black focus:bg-white'
                       }`}
                     />
                   </div>
-                  {errors.phone && <p className="text-[10px] text-red-500 font-bold mt-1.5">{errors.phone.message}</p>}
+                  {errors.phone && <p className="text-[10px] text-red-500 font-bold mt-2 flex items-center gap-1"><span className="w-1 h-1 rounded-full bg-red-500"/>{errors.phone.message}</p>}
                 </div>
               </div>
             </section>
 
             {/* Section 2: Delivery */}
-            <section className="bg-white p-6 rounded-3xl shadow-sm border border-zinc-100">
-              <div className="flex items-center gap-3 mb-6 border-b border-zinc-100 pb-4">
-                <div className="w-8 h-8 rounded-full bg-zinc-900 text-white flex items-center justify-center font-bold text-sm">2</div>
+            <section className="bg-white p-6 sm:p-8 rounded-[2rem] shadow-sm border border-zinc-100">
+              <div className="flex items-center gap-4 mb-8 border-b border-zinc-100 pb-4">
+                <div className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center font-black text-sm shadow-md">2</div>
                 <h2 className="text-lg font-black uppercase tracking-widest text-zinc-900">Livraison</h2>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-widest text-zinc-500 mb-2">Wilaya</label>
+                  <label className="block text-[10px] font-black uppercase tracking-widest text-zinc-900 mb-2.5">Wilaya</label>
                   <div className="relative">
                     <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
                     <select 
                       {...register('wilaya')}
-                      className={`w-full pl-11 pr-4 py-3.5 bg-zinc-50 border-2 rounded-xl text-sm font-bold outline-none transition-all appearance-none text-zinc-900 ${
-                        errors.wilaya ? 'border-red-500 bg-red-50/50' : 'border-zinc-200 focus:border-zinc-900 focus:bg-white'
+                      className={`w-full pl-11 pr-4 py-4 bg-zinc-50 border-2 rounded-2xl text-sm font-bold outline-none transition-all appearance-none text-zinc-900 cursor-pointer ${
+                        errors.wilaya ? 'border-red-500 bg-red-50/50' : 'border-transparent focus:border-black focus:bg-white'
                       }`}
                     >
                       <option value="">Sélectionner une wilaya</option>
@@ -187,78 +202,110 @@ export default function CheckoutClient() {
                       ))}
                     </select>
                   </div>
-                  {errors.wilaya && <p className="text-[10px] text-red-500 font-bold mt-1.5">{errors.wilaya.message}</p>}
+                  {errors.wilaya && <p className="text-[10px] text-red-500 font-bold mt-2 flex items-center gap-1"><span className="w-1 h-1 rounded-full bg-red-500"/>{errors.wilaya.message}</p>}
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-widest text-zinc-500 mb-2">Commune / Adresse exacte</label>
-                  <input 
-                    {...register('commune')}
-                    placeholder="Ex: Rouiba, Cité 200..."
-                    className={`w-full px-4 py-3.5 bg-zinc-50 border-2 rounded-xl text-sm font-bold outline-none transition-all text-zinc-900 ${
-                      errors.commune ? 'border-red-500 bg-red-50/50' : 'border-zinc-200 focus:border-zinc-900 focus:bg-white'
-                    }`}
-                  />
-                  {errors.commune && <p className="text-[10px] text-red-500 font-bold mt-1.5">{errors.commune.message}</p>}
+                  <label className="block text-[10px] font-black uppercase tracking-widest text-zinc-900 mb-2.5">Commune / Adresse exacte</label>
+                  {/* Address Autocomplete Mock (Idea 152) */}
+                  <div className="relative">
+                    <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
+                    <input 
+                      {...register('commune')}
+                      placeholder="Ex: Rouiba, Cité 200..."
+                      className={`w-full pl-11 pr-24 py-4 bg-zinc-50 border-2 rounded-2xl text-sm font-bold outline-none transition-all text-zinc-900 ${
+                        errors.commune ? 'border-red-500 bg-red-50/50' : 'border-transparent focus:border-black focus:bg-white'
+                      }`}
+                    />
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2 hidden sm:block">
+                      <span className="text-[8px] font-black uppercase tracking-widest text-emerald-600 bg-emerald-100 px-2 py-1 rounded-md">📍 Auto</span>
+                    </div>
+                  </div>
+                  {errors.commune && <p className="text-[10px] text-red-500 font-bold mt-2 flex items-center gap-1"><span className="w-1 h-1 rounded-full bg-red-500"/>{errors.commune.message}</p>}
                 </div>
               </div>
 
               <div>
-                <label className="block text-[10px] font-bold uppercase tracking-widest text-zinc-500 mb-3">Type de Livraison</label>
+                <label className="block text-[10px] font-black uppercase tracking-widest text-zinc-900 mb-3">Mode de Livraison</label>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <label className={`relative p-4 rounded-xl border-2 cursor-pointer transition-all flex items-center justify-between ${
-                    deliveryType === 'home' ? 'border-zinc-900 bg-zinc-50' : 'border-zinc-200 bg-white hover:border-zinc-300'
+                  <label className={`relative p-5 rounded-2xl border-2 cursor-pointer transition-all flex items-start gap-4 ${
+                    deliveryType === 'home' ? 'border-black bg-zinc-50 shadow-md' : 'border-zinc-100 bg-white hover:border-zinc-300'
                   }`}>
                     <input type="radio" value="home" {...register('deliveryType')} className="sr-only" />
-                    <div className="flex items-center gap-3">
-                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${deliveryType === 'home' ? 'bg-zinc-900 text-white' : 'bg-zinc-100 text-zinc-500'}`}>
-                        <Truck className="w-4 h-4" />
-                      </div>
-                      <div className="flex flex-col">
-                        <span className="text-xs font-black uppercase tracking-widest text-zinc-900">À Domicile</span>
-                        <span className="text-[9px] font-bold text-zinc-500">Jusqu'à votre porte</span>
-                      </div>
+                    <div className={`w-5 h-5 rounded-full border-2 mt-0.5 flex-shrink-0 flex items-center justify-center transition-colors ${deliveryType === 'home' ? 'border-black' : 'border-zinc-300'}`}>
+                      {deliveryType === 'home' && <div className="w-2.5 h-2.5 rounded-full bg-black" />}
                     </div>
-                    <span className="text-sm font-black text-zinc-900">
-                      {selectedWilaya ? `${wilayasData.find(w => w.name === selectedWilaya)?.homeDelivery} DA` : '-'}
-                    </span>
+                    <div className="flex flex-col flex-1">
+                      <div className="flex justify-between items-start w-full">
+                        <span className="text-xs font-black uppercase tracking-widest text-zinc-900">À Domicile</span>
+                        <span className="text-sm font-black text-[#C9A96E]">
+                          {selectedWilaya ? `${wilayasData.find(w => w.name === selectedWilaya)?.homeDelivery} DA` : '-'}
+                        </span>
+                      </div>
+                      <span className="text-[10px] font-medium text-zinc-500 mt-1">Livraison jusqu'à votre porte.</span>
+                      {/* Expected Delivery Date (Idea 155) */}
+                      {selectedWilaya && <span className="text-[9px] font-bold text-emerald-600 mt-2 bg-emerald-50 w-fit px-2 py-0.5 rounded-md">Livraison estimée : 24-48h</span>}
+                    </div>
                   </label>
 
-                  <label className={`relative p-4 rounded-xl border-2 cursor-pointer transition-all flex items-center justify-between ${
-                    deliveryType === 'desk' ? 'border-zinc-900 bg-zinc-50' : 'border-zinc-200 bg-white hover:border-zinc-300'
+                  <label className={`relative p-5 rounded-2xl border-2 cursor-pointer transition-all flex items-start gap-4 ${
+                    deliveryType === 'desk' ? 'border-black bg-zinc-50 shadow-md' : 'border-zinc-100 bg-white hover:border-zinc-300'
                   }`}>
                     <input type="radio" value="desk" {...register('deliveryType')} className="sr-only" />
-                    <div className="flex items-center gap-3">
-                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${deliveryType === 'desk' ? 'bg-zinc-900 text-white' : 'bg-zinc-100 text-zinc-500'}`}>
-                        <MapPin className="w-4 h-4" />
-                      </div>
-                      <div className="flex flex-col">
-                        <span className="text-xs font-black uppercase tracking-widest text-zinc-900">Bureau</span>
-                        <span className="text-[9px] font-bold text-zinc-500">Point de retrait</span>
-                      </div>
+                    <div className={`w-5 h-5 rounded-full border-2 mt-0.5 flex-shrink-0 flex items-center justify-center transition-colors ${deliveryType === 'desk' ? 'border-black' : 'border-zinc-300'}`}>
+                      {deliveryType === 'desk' && <div className="w-2.5 h-2.5 rounded-full bg-black" />}
                     </div>
-                    <span className="text-sm font-black text-zinc-900">
-                      {selectedWilaya ? `${wilayasData.find(w => w.name === selectedWilaya)?.deskDelivery} DA` : '-'}
-                    </span>
+                    <div className="flex flex-col flex-1">
+                      <div className="flex justify-between items-start w-full">
+                        <span className="text-xs font-black uppercase tracking-widest text-zinc-900">Bureau</span>
+                        <span className="text-sm font-black text-[#C9A96E]">
+                          {selectedWilaya ? `${wilayasData.find(w => w.name === selectedWilaya)?.deskDelivery} DA` : '-'}
+                        </span>
+                      </div>
+                      <span className="text-[10px] font-medium text-zinc-500 mt-1">Point de retrait relais.</span>
+                      {selectedWilaya && <span className="text-[9px] font-bold text-emerald-600 mt-2 bg-emerald-50 w-fit px-2 py-0.5 rounded-md">Livraison estimée : 24-48h</span>}
+                    </div>
                   </label>
                 </div>
               </div>
             </section>
 
             {/* Section 3: Paiement */}
-            <section className="bg-white p-6 rounded-3xl shadow-sm border border-zinc-100 mb-8 lg:mb-0">
-              <div className="flex items-center gap-3 mb-6 border-b border-zinc-100 pb-4">
-                <div className="w-8 h-8 rounded-full bg-zinc-900 text-white flex items-center justify-center font-bold text-sm">3</div>
+            <section className="bg-white p-6 sm:p-8 rounded-[2rem] shadow-sm border border-zinc-100 mb-8 lg:mb-0">
+              <div className="flex items-center gap-4 mb-8 border-b border-zinc-100 pb-4">
+                <div className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center font-black text-sm shadow-md">3</div>
                 <h2 className="text-lg font-black uppercase tracking-widest text-zinc-900">Paiement</h2>
               </div>
-              <div className="p-4 bg-emerald-50 border-2 border-emerald-100 rounded-xl flex items-center gap-4">
-                <div className="w-10 h-10 bg-emerald-100 text-emerald-600 flex items-center justify-center rounded-full shrink-0">
-                  <ShieldCheck className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="text-xs font-black uppercase tracking-widest text-emerald-900">Paiement à la livraison</h3>
-                  <p className="text-[10px] font-bold text-emerald-700">Vous ne payez qu'après avoir reçu votre commande.</p>
-                </div>
+              
+              {/* Payment Methods Visuals (Idea 158) */}
+              <div className="space-y-4">
+                <label className="relative p-5 rounded-2xl border-2 border-black bg-zinc-50 cursor-pointer flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="w-5 h-5 rounded-full border-2 border-black flex items-center justify-center">
+                      <div className="w-2.5 h-2.5 rounded-full bg-black" />
+                    </div>
+                    <div>
+                      <h3 className="text-xs font-black uppercase tracking-widest text-zinc-900">Paiement à la livraison</h3>
+                      <p className="text-[10px] font-bold text-zinc-500 mt-0.5">Payez en espèces à la réception de votre colis.</p>
+                    </div>
+                  </div>
+                  <ShieldCheck className="w-6 h-6 text-emerald-500 shrink-0" />
+                </label>
+
+                <label className="relative p-5 rounded-2xl border-2 border-zinc-100 bg-white cursor-not-allowed flex items-center justify-between opacity-60">
+                  <div className="flex items-center gap-4">
+                    <div className="w-5 h-5 rounded-full border-2 border-zinc-300 flex items-center justify-center">
+                    </div>
+                    <div>
+                      <h3 className="text-xs font-black uppercase tracking-widest text-zinc-900">Carte Bancaire / CIB</h3>
+                      <p className="text-[10px] font-bold text-zinc-500 mt-0.5">Bientôt disponible.</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-1 shrink-0 grayscale">
+                    <div className="w-8 h-5 bg-zinc-200 rounded text-[6px] font-bold flex items-center justify-center">CIB</div>
+                    <div className="w-8 h-5 bg-zinc-200 rounded text-[6px] font-bold flex items-center justify-center">EDAHABIA</div>
+                  </div>
+                </label>
               </div>
             </section>
 
@@ -266,69 +313,91 @@ export default function CheckoutClient() {
 
           {/* RIGHT COLUMN: Order Summary (Sticky) */}
           <div className="lg:col-span-5 xl:col-span-4 lg:sticky lg:top-24 mt-8 lg:mt-0">
-            <div className="bg-white rounded-3xl p-6 shadow-xl shadow-zinc-200/20 border border-zinc-100">
+            <div className="bg-white rounded-[2rem] p-6 sm:p-8 shadow-2xl shadow-black/5 border border-zinc-100">
               <h2 className="text-sm font-black uppercase tracking-widest text-zinc-900 mb-6 border-b border-zinc-100 pb-4">Récapitulatif</h2>
               
               {/* Items List */}
               <div className="space-y-4 mb-6 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
                 {items.map((item) => (
                   <div key={item.id} className="flex gap-4">
-                    <div className="w-16 h-16 bg-zinc-100 rounded-xl overflow-hidden shrink-0 relative">
+                    <div className="w-16 h-20 bg-zinc-100 rounded-xl overflow-hidden shrink-0 relative border border-zinc-200">
                       {item.imageUrl ? (
-                        <Image src={item.imageUrl} alt={item.title} fill className="object-cover" />
+                        <Image src={item.imageUrl} alt={item.title} fill className="object-cover" sizes="64px" />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center text-zinc-300">
                           <ShoppingBag className="w-6 h-6" />
                         </div>
                       )}
+                      <div className="absolute top-0 right-0 w-5 h-5 bg-black text-white text-[10px] font-bold flex items-center justify-center rounded-bl-xl">
+                        {item.quantity}
+                      </div>
                     </div>
-                    <div className="flex-1 flex flex-col justify-center">
-                      <h4 className="text-xs font-black text-zinc-900 line-clamp-1">{item.title}</h4>
-                      <div className="text-[10px] font-bold text-zinc-500 mt-1 flex gap-2">
-                        <span>Qté: {item.quantity}</span>
+                    <div className="flex-1 flex flex-col justify-center py-1">
+                      <h4 className="text-[11px] font-black uppercase tracking-tight text-zinc-900 line-clamp-2 leading-tight">{item.title}</h4>
+                      <div className="text-[9px] font-bold text-zinc-500 mt-1 flex gap-2 uppercase tracking-widest">
                         {(item.selectedColor || item.selectedSize) && (
-                          <span>| {item.selectedColor} {item.selectedSize}</span>
+                          <span>{item.selectedColor} {item.selectedSize ? `| ${item.selectedSize}` : ''}</span>
                         )}
                       </div>
-                      <span className="text-xs font-black text-zinc-900 mt-1">{(item.price || 0).toLocaleString('fr-DZ')} DA</span>
+                      <span className="text-xs font-black text-[#C9A96E] mt-auto">{(item.price || 0).toLocaleString('fr-DZ')} DA</span>
                     </div>
                   </div>
                 ))}
               </div>
 
+              {/* Promo Code Section (Idea 154) */}
+              <div className="mb-6">
+                <div className="flex gap-2">
+                  <input type="text" placeholder="Code Promo" className="flex-1 bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-3 text-xs font-bold outline-none focus:border-black transition-colors" />
+                  <button type="button" className="bg-black text-white px-5 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[#C9A96E] transition-colors">Appliquer</button>
+                </div>
+              </div>
+
               {/* Totals */}
-              <div className="border-t border-zinc-100 pt-4 space-y-3 mb-6">
+              <div className="border-t border-zinc-100 pt-6 space-y-4 mb-6">
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-zinc-500 font-bold">Sous-total</span>
+                  <span className="text-zinc-500 font-bold text-xs uppercase tracking-widest">Sous-total</span>
                   <span className="font-black text-zinc-900">{totalPrice.toLocaleString('fr-DZ')} DA</span>
                 </div>
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-zinc-500 font-bold">Livraison</span>
-                  <span className="font-black text-blue-600">
-                    {selectedWilaya ? `+${deliveryFee.toLocaleString('fr-DZ')} DA` : '---'}
+                  <span className="text-zinc-500 font-bold text-xs uppercase tracking-widest">Livraison</span>
+                  <span className="font-black text-emerald-600">
+                    {selectedWilaya ? `+${deliveryFee.toLocaleString('fr-DZ')} DA` : 'À calculer'}
                   </span>
                 </div>
               </div>
 
-              <div className="border-t-2 border-dashed border-zinc-200 pt-4 mb-8 flex justify-between items-end">
-                <span className="text-xs font-black uppercase tracking-widest text-zinc-900">Total</span>
-                <span className="text-3xl font-black text-zinc-900">{finalTotal.toLocaleString('fr-DZ')} DA</span>
+              <div className="border-t-2 border-dashed border-zinc-200 pt-6 mb-8 flex justify-between items-end">
+                <span className="text-sm font-black uppercase tracking-widest text-zinc-900">Total à payer</span>
+                <span className="text-3xl font-black text-black leading-none">{finalTotal.toLocaleString('fr-DZ')} DA</span>
               </div>
 
               <button 
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-zinc-900 text-white py-4 rounded-xl text-xs font-black tracking-widest uppercase flex items-center justify-center gap-2 hover:bg-zinc-800 transition-all shadow-xl shadow-zinc-900/20 disabled:opacity-70 disabled:cursor-not-allowed group relative overflow-hidden"
+                className="w-full bg-black text-white py-5 rounded-2xl text-[11px] font-black tracking-widest uppercase flex items-center justify-center gap-2 hover:bg-[#C9A96E] transition-all shadow-xl shadow-black/20 disabled:opacity-70 disabled:cursor-not-allowed group relative overflow-hidden"
               >
                 <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
                 <span className="relative z-10 flex items-center gap-2">
                   {isSubmitting ? (
-                    <><Loader2 className="w-4 h-4 animate-spin" /> Traitement en cours...</>
+                    <><Loader2 className="w-5 h-5 animate-spin" /> Traitement en cours...</>
                   ) : (
-                    <><Check className="w-4 h-4" /> Confirmer la commande</>
+                    <><Check className="w-5 h-5" /> Confirmer la commande</>
                   )}
                 </span>
               </button>
+              
+              {/* Ultimate Trust Badges (Idea 156) */}
+              <div className="mt-6 flex items-center justify-center gap-4 text-zinc-400">
+                <div className="flex items-center gap-1.5" title="Chiffrement SSL 256-bit">
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                  <span className="text-[8px] font-bold uppercase tracking-widest">Paiement Sécurisé SSL</span>
+                </div>
+                <div className="flex items-center gap-1.5" title="Paiement à la livraison">
+                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                  <span className="text-[8px] font-bold uppercase tracking-widest">Paiement à la livraison</span>
+                </div>
+              </div>
 
             </div>
           </div>
