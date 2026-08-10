@@ -12,7 +12,7 @@ export default function HeroSection({ homeData }: { homeData?: any }) {
   const seasonColor = banner?.seasonColor || '#C9A96E';
 
   return (
-    <section className="relative w-full aspect-[4/5] min-h-[500px] md:aspect-auto md:min-h-[600px] md:h-[70vh] bg-zinc-900 overflow-hidden flex flex-col md:flex-row">
+    <section className="relative w-full flex flex-col md:flex-row bg-zinc-900 overflow-hidden md:h-[70vh] md:min-h-[600px]">
       
       {/* Seasonal Background Glow */}
       <div 
@@ -20,23 +20,24 @@ export default function HeroSection({ homeData }: { homeData?: any }) {
         style={{ backgroundColor: seasonColor }}
       />
 
-      {/* Image */}
-      <div className="absolute inset-0 md:relative md:w-1/2 h-full z-0">
+      {/* Image Block */}
+      <div className="relative w-full aspect-[4/5] md:aspect-auto md:w-1/2 md:h-full z-0 overflow-hidden">
         <Image
           src={mobileImage}
           alt={banner?.title || 'Hero Banner'}
           fill
-          className="object-cover object-top md:hidden opacity-50 md:opacity-100"
+          quality={100}
+          className="object-cover object-top md:hidden"
           priority
         />
         <Image
           src={bgImage}
           alt={banner?.title || 'Hero Banner'}
           fill
+          quality={100}
           className="object-cover hidden md:block object-[center_30%]"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/95 via-zinc-900/30 to-transparent md:hidden" />
         
         {/* Brand Seal Desktop */}
         <div className="hidden md:flex absolute top-12 left-12 w-28 h-28 text-white opacity-70 mix-blend-overlay">
@@ -44,8 +45,8 @@ export default function HeroSection({ homeData }: { homeData?: any }) {
         </div>
       </div>
 
-      {/* Text Content */}
-      <div className="relative z-10 w-full h-full md:w-1/2 flex flex-col items-start justify-end md:justify-center px-6 pb-16 md:px-16 md:pb-0 md:bg-white text-white md:text-zinc-900">
+      {/* Text Content Block */}
+      <div className="relative z-10 w-full md:w-1/2 flex flex-col items-start justify-center px-6 py-12 md:px-16 md:py-0 bg-white text-zinc-900 md:h-full">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -81,7 +82,7 @@ export default function HeroSection({ homeData }: { homeData?: any }) {
         >
           <Link 
             href={banner?.buttonLink || "/#categories"} 
-            className="group relative inline-flex items-center justify-center overflow-hidden bg-white md:bg-zinc-900 text-zinc-900 md:text-white px-8 py-4 text-xs font-black tracking-[0.15em] uppercase transition-all hover:scale-[1.02] active:scale-[0.98] shadow-[0_8px_30px_rgba(0,0,0,0.15)]"
+            className="group relative inline-flex items-center justify-center overflow-hidden bg-zinc-900 text-white px-8 py-4 text-xs font-black tracking-[0.15em] uppercase transition-all hover:scale-[1.02] active:scale-[0.98] shadow-[0_8px_30px_rgba(0,0,0,0.15)]"
           >
             <span className="relative z-10 flex items-center gap-3">
               {banner?.buttonText || 'DISCOVER'} 
@@ -91,7 +92,7 @@ export default function HeroSection({ homeData }: { homeData?: any }) {
           </Link>
           <Link 
             href="/#new-arrivals"
-            className="inline-flex items-center justify-center gap-2 text-white/70 md:text-zinc-400 text-[10px] font-black tracking-widest uppercase hover:text-white md:hover:text-zinc-900 transition-colors py-4"
+            className="inline-flex items-center justify-center gap-2 text-zinc-400 text-[10px] font-black tracking-widest uppercase hover:text-zinc-900 transition-colors py-4"
           >
             <Sparkles className="w-3 h-3" />
             NEW ARRIVALS

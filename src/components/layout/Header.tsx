@@ -102,7 +102,7 @@ export default function Header() {
               transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.1 }}
               className="flex flex-col items-center lg:items-start"
             >
-              <h1 className="text-xl md:text-2xl font-black tracking-[0.2em] text-zinc-900 group-hover:text-[#C9A96E] transition-colors duration-500 uppercase leading-none" style={{ fontFamily: 'var(--font-outfit)' }}>
+              <h1 className="text-xl md:text-2xl font-black tracking-[0.2em] text-zinc-900 group-hover:text-[#C9A96E] transition-colors duration-500 uppercase leading-none whitespace-nowrap" style={{ fontFamily: 'var(--font-outfit)' }}>
                 Amigo Moda
               </h1>
               <div className="w-0 h-[2px] bg-[#C9A96E] mt-1 group-hover:w-full transition-all duration-500 ease-out hidden lg:block" />
@@ -173,24 +173,8 @@ export default function Header() {
             <Link href="/promotions" className="text-[11px] font-black uppercase tracking-widest text-red-600 hover:text-red-700 transition-colors py-4">Promotions</Link>
           </nav>
 
-          {/* Right: User Account & Cart & Search */}
+          {/* Right: Cart */}
           <div className="flex-1 flex items-center justify-end gap-1 sm:gap-2">
-            <button 
-              onClick={() => setSearchOpen(true)}
-              className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-zinc-100 transition-all active:scale-95"
-              aria-label="Recherche"
-            >
-              <Search className="w-5 h-5 text-zinc-900" />
-            </button>
-
-            <Link 
-              href={user ? "/account" : "/login"}
-              className="w-10 h-10 hidden sm:flex items-center justify-center rounded-full hover:bg-zinc-100 transition-all active:scale-95 relative"
-              aria-label="Mon compte"
-            >
-              <UserCircle2 className={`w-5 h-5 ${user ? 'text-emerald-600' : 'text-zinc-900'}`} />
-              {user && <span className="absolute top-2 right-2 w-2 h-2 bg-emerald-500 rounded-full border border-white"></span>}
-            </Link>
 
             <button 
               onClick={openCart}

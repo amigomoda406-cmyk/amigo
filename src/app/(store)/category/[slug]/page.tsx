@@ -9,33 +9,44 @@ import ProductCard from '@/components/products/ProductCard';
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params;
-  const config = CATEGORY_CONFIG[resolvedParams.slug as keyof typeof CATEGORY_CONFIG];
-  if (!config) return { title: 'Not Found' };
-  return { title: `${config.nameFr} | Amigo Moda` };
+  const query = `*[_type == "category" && slug.current == $slug][0]{title}`;
+  const category = await client.fetch(query, { slug: resolvedParams.slug });
+  if (!category) return { title: 'Not Found' };
+  return { title: `${category.title} | Amigo Moda` };
 }
 
-async function getProductsByCategory(parentSlug: string) {
+async function getCategoryData(slug: string) {
   const query = `
-    *[_type == "product" && parentCategory->slug.current == $parentSlug] {
-      _id, title, slug, price, comparePrice, inStock, isNew, isTrending, images,
-      parentCategory->, subCategory->
+    {
+      "category": *[_type == "category" && slug.current == $slug][0] {
+        title, "imageUrl": image.asset->url
+      },
+      "subcategories": *[_type == "subcategory" && parentCategory->slug.current == $slug] {
+        _id, title, "slug": slug.current, "imageUrl": image.asset->url
+      },
+      "products": *[_type == "product" && parentCategory->slug.current == $slug] {
+        _id, title, slug, price, comparePrice, inStock, isNew, isTrending, images,
+        parentCategory->, subCategory->
+      }
     }
   `;
-  return await client.fetch(query, { parentSlug });
+  return await client.fetch(query, { slug });
 }
 
 export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params;
-  const config = CATEGORY_CONFIG[resolvedParams.slug as keyof typeof CATEGORY_CONFIG];
   
-  if (!config) {
+  const data = await getCategoryData(resolvedParams.slug);
+  
+  if (!data.category) {
     notFound();
   }
 
-  const products = await getProductsByCategory(resolvedParams.slug);
+  const { category, subcategories, products } = data;
+  const accentColor = '#C9A96E'; // Using the global brand accent color
 
   return (
-    <main className="min-h-[100svh] bg-zinc-50 pb-[80px]">
+    <main className="min-h-[100svh] bg-zinc-50 pb-0">
       {/* Header */}
       <header className="sticky top-0 z-50 flex items-center gap-3 px-4 py-3 bg-white/80 backdrop-blur-md border-b border-zinc-100">
         <Link 
@@ -44,20 +55,22 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
         >
           <ChevronLeft className="w-4 h-4" />
         </Link>
-        <h1 className="text-sm font-black tracking-widest uppercase text-zinc-900">{config.nameFr}</h1>
+        <h1 className="text-sm font-black tracking-widest uppercase text-zinc-900">{category.title}</h1>
       </header>
 
       {/* Hero Banner */}
-      <div className="relative h-[120px] w-full overflow-hidden">
-        <div 
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url('${config.featuredImage}')` }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-        <div className="absolute bottom-4 left-4">
-          <h2 className="text-2xl font-black text-white uppercase tracking-tighter mb-1">{config.nameFr}</h2>
-          <span className="text-[9px] font-bold text-white/80 uppercase tracking-widest px-2 py-0.5 bg-white/10 rounded-full backdrop-blur-sm border border-white/20">
-            {config.subCategories.length} Collections
+      <div className="relative h-[30vh] min-h-[250px] w-full overflow-hidden">
+        {category.imageUrl && (
+          <div 
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: `url('${category.imageUrl}')` }}
+          />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/90 via-zinc-900/40 to-transparent" />
+        <div className="absolute bottom-6 left-6">
+          <h2 className="text-4xl md:text-5xl font-black text-white uppercase tracking-tighter mb-2">{category.title}</h2>
+          <span className="text-[10px] font-bold text-white/90 uppercase tracking-widest px-3 py-1 bg-white/10 rounded-full backdrop-blur-md border border-white/20">
+            {subcategories.length} Collections
           </span>
         </div>
       </div>
@@ -70,8 +83,8 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
         </div>
         
         <div className="flex flex-col gap-2.5 mb-8">
-          {config.subCategories.map((sub) => (
-            <SubCategoryCard key={sub.id} sub={sub} accentColor={config.accentColor} />
+          {subcategories.map((sub: any) => (
+            <SubCategoryCard key={sub._id} sub={sub} accentColor={accentColor} />
           ))}
         </div>
 
@@ -99,9 +112,9 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
             })}
           </div>
         ) : (
-          <div className="py-12 flex flex-col items-center justify-center bg-white rounded-xl border border-zinc-100 text-center px-4" style={{ borderColor: config.accentColor + '33' }}>
+          <div className="py-12 flex flex-col items-center justify-center bg-white rounded-xl border border-zinc-100 text-center px-4" style={{ borderColor: accentColor + '33' }}>
             <span className="text-3xl mb-3">🛒</span>
-            <h3 className="text-xs font-black uppercase tracking-widest text-zinc-900 mb-1" style={{ color: config.accentColor }}>Aucun produit</h3>
+            <h3 className="text-xs font-black uppercase tracking-widest text-zinc-900 mb-1" style={{ color: accentColor }}>Aucun produit</h3>
             <p className="text-[10px] text-zinc-500 font-bold max-w-[200px]">Nous ajoutons de nouveaux produits bientôt.</p>
           </div>
         )}

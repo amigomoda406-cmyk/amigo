@@ -13,11 +13,11 @@ import { client } from '@/lib/sanity/client';
 export const revalidate = 60;
 
 export const metadata = {
-  title: 'Amigo Moda | أزياء جزائرية عصرية',
-  description: 'اكتشف أحدث صيحات الموضة الجزائرية في Amigo Moda. ملابس، أحذية وإكسسوارات عالية الجودة مع توصيل لجميع الولايات الـ 58.',
+  title: 'Amigo Moda | Modern Algerian Fashion',
+  description: 'Discover the latest Algerian fashion trends at Amigo Moda. High-quality clothes, shoes and accessories with delivery to all 58 wilayas.',
   openGraph: {
-    title: 'Amigo Moda | أزياء جزائرية عصرية',
-    description: 'ملابس، أحذية وإكسسوارات عالية الجودة مع توصيل لجميع الولايات الـ 58.',
+    title: 'Amigo Moda | Modern Algerian Fashion',
+    description: 'High-quality clothes, shoes and accessories with delivery to all 58 wilayas.',
     url: 'https://amigo-moda-app.vercel.app',
     siteName: 'Amigo Moda',
     images: [{ url: 'https://amigo-moda-app.vercel.app/og-image.jpg', width: 1200, height: 630 }],

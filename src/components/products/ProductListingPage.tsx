@@ -89,7 +89,7 @@ export default function ProductListingPage({ parentCategory, subCategoryName, pr
   const activeFiltersCount = (inStockOnly ? 1 : 0) + selectedSizes.length + selectedColors.length + (priceRange < maxAvailablePrice ? 1 : 0);
 
   return (
-    <main className="min-h-[100svh] bg-zinc-50 pb-[80px]">
+    <main className="min-h-[100svh] bg-zinc-50 pb-0">
       {/* Header */}
       <header className="sticky top-0 z-50 flex items-center justify-between px-4 py-3 bg-white/80 backdrop-blur-md border-b border-zinc-100">
         <div className="flex items-center gap-3">

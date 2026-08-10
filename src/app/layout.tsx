@@ -4,7 +4,6 @@ import { Outfit, Cairo } from 'next/font/google';
 import { AuthProvider } from '@/lib/supabase/auth-context';
 import ThemeProvider from '@/components/providers/ThemeProvider';
 import PageLoader from '@/components/ui/PageLoader';
-import MobileBottomNav from '@/components/layout/MobileBottomNav';
 import BackToTop from '@/components/ui/BackToTop';
 import '@/styles/globals.css';
 import '@/styles/animations.css';
@@ -44,6 +43,7 @@ export default function RootLayout({
     <html lang="en" dir="ltr" className={`scroll-smooth ${outfit.variable} ${cairo.variable}`} suppressHydrationWarning>
       <head>
         <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="google" content="notranslate" />
       </head>
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
@@ -69,7 +69,6 @@ export default function RootLayout({
               },
             }}
           />
-          <MobileBottomNav />
           <BackToTop />
         </AuthProvider>
         </ThemeProvider>
