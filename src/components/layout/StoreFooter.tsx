@@ -41,7 +41,7 @@ export default function StoreFooter() {
               </div>
             </Link>
             <p className="text-zinc-500 text-[11px] leading-relaxed font-medium">
-              La destination ultime pour la mode en Algérie. Élégance, qualité et authenticité depuis 2024.
+              The ultimate fashion destination in Algeria. Elegance, quality and authenticity since 2024.
             </p>
             {/* Social Links */}
             <div className="flex items-center gap-3">
@@ -83,11 +83,11 @@ export default function StoreFooter() {
             <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#C9A96E]">Navigation</h3>
             <ul className="flex flex-col gap-3">
               {[
-                { href: '/', label: 'Accueil' },
-                { href: '/shop', label: 'Boutique' },
+                { href: '/', label: 'Home' },
+                { href: '/shop', label: 'Shop' },
                 { href: '/lookbook', label: 'Lookbook' },
-                { href: '/about', label: 'À Propos' },
-                { href: '/promotions', label: 'Promotions 🔥' },
+                { href: '/about', label: 'About Us' },
+                { href: '/promotions', label: 'Sale 🔥' },
               ].map(({ href, label }) => (
                 <li key={href}>
                   <Link href={href} className="text-[11px] text-zinc-500 hover:text-white transition-colors font-medium flex items-center gap-2 group">
@@ -101,13 +101,13 @@ export default function StoreFooter() {
 
           {/* Column 3: Customer Service */}
           <div className="flex flex-col gap-5">
-            <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#C9A96E]">Service Client</h3>
+            <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#C9A96E]">Customer Service</h3>
             <ul className="flex flex-col gap-3">
               {[
-                { href: '/contact', label: 'Nous Contacter' },
-                { href: '/shipping', label: 'Livraison (58 Wilayas)' },
-                { href: '/returns', label: 'Retours & Échanges' },
-                { href: '/size-guide', label: 'Guide des Tailles' },
+                { href: '/contact', label: 'Contact Us' },
+                { href: '/shipping', label: 'Shipping (58 Wilayas)' },
+                { href: '/returns', label: 'Returns & Exchanges' },
+                { href: '/size-guide', label: 'Size Guide' },
                 { href: '/faq', label: 'FAQ' },
               ].map(({ href, label }) => (
                 <li key={href}>
@@ -124,12 +124,12 @@ export default function StoreFooter() {
           <div className="flex flex-col gap-5">
             <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#C9A96E]">Newsletter</h3>
             <p className="text-[11px] text-zinc-500 leading-relaxed">
-              Offres exclusives, nouveautés et inspirations directement dans votre boîte mail.
+              Exclusive offers, new arrivals and inspiration straight to your inbox.
             </p>
             {subscribed ? (
               <div className="flex items-center gap-3 bg-emerald-950 border border-emerald-900 rounded-xl px-4 py-3">
                 <Check className="w-4 h-4 text-emerald-400 shrink-0" />
-                <p className="text-[11px] font-bold text-emerald-400">Merci pour votre inscription !</p>
+                <p className="text-[11px] font-bold text-emerald-400">Thank you for subscribing!</p>
               </div>
             ) : (
               <form className="flex flex-col gap-2.5" onSubmit={handleSubscribe}>
@@ -137,7 +137,7 @@ export default function StoreFooter() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="votre@email.com" 
+                  placeholder="your@email.com" 
                   className="bg-zinc-900 border border-zinc-800 text-white text-[11px] rounded-xl px-4 py-3 focus:outline-none focus:border-[#C9A96E] transition-colors placeholder:text-zinc-600"
                   required
                 />
@@ -145,7 +145,7 @@ export default function StoreFooter() {
                   type="submit"
                   className="bg-[#C9A96E] text-black font-black text-[10px] uppercase tracking-widest rounded-xl px-4 py-3 hover:bg-white transition-colors"
                 >
-                  S'inscrire
+                  Subscribe
                 </button>
               </form>
             )}
@@ -165,12 +165,12 @@ export default function StoreFooter() {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-zinc-900 flex flex-col md:flex-row items-center justify-between gap-4 pb-[env(safe-area-inset-bottom)]">
           <p className="text-[10px] text-zinc-600 uppercase tracking-[0.2em] font-medium">
-            © {new Date().getFullYear()} AMIGO MODA. Tous droits réservés.
+            © {new Date().getFullYear()} AMIGO MODA. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
             {[
-              { href: '/privacy', label: 'Confidentialité' },
-              { href: '/terms', label: 'Conditions' },
+              { href: '/privacy', label: 'Privacy Policy' },
+              { href: '/terms', label: 'Terms of Service' },
             ].map(({ href, label }) => (
               <Link key={href} href={href} className="text-[10px] text-zinc-600 hover:text-white transition-colors uppercase tracking-widest font-medium">
                 {label}

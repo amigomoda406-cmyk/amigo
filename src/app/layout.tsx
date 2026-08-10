@@ -41,7 +41,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" dir="ltr" className={`scroll-smooth ${outfit.variable} ${cairo.variable}`} suppressHydrationWarning>
+    <html lang="en" dir="ltr" className={`scroll-smooth ${outfit.variable} ${cairo.variable}`} suppressHydrationWarning>
       <head>
         <meta name="apple-mobile-web-app-capable" content="yes" />
       </head>

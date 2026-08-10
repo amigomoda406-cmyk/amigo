@@ -7,12 +7,12 @@ import RotatingText from '@/components/ui/RotatingText';
 
 export default function HeroSection({ homeData }: { homeData?: any }) {
   const banner = homeData?.heroBanners?.[0];
-  const bgImage = banner?.imageUrl || 'https://res.cloudinary.com/doxg77zqk/image/upload/v1785160624/Remove_basket_increase_quality_2K_202607271454.jpg';
-  const mobileImage = banner?.mobileImageUrl || bgImage;
+  const bgImage = '/hero-custom.jpeg';
+  const mobileImage = '/hero-custom.jpeg';
   const seasonColor = banner?.seasonColor || '#C9A96E';
 
   return (
-    <section className="relative w-full h-[80vh] min-h-[560px] md:h-[88vh] bg-zinc-900 overflow-hidden flex flex-col md:flex-row">
+    <section className="relative w-full aspect-[4/5] min-h-[500px] md:aspect-auto md:min-h-[600px] md:h-[70vh] bg-zinc-900 overflow-hidden flex flex-col md:flex-row">
       
       {/* Seasonal Background Glow */}
       <div 
@@ -20,7 +20,7 @@ export default function HeroSection({ homeData }: { homeData?: any }) {
         style={{ backgroundColor: seasonColor }}
       />
 
-      {/* الصورة */}
+      {/* Image */}
       <div className="absolute inset-0 md:relative md:w-1/2 h-full z-0">
         <Image
           src={mobileImage}
@@ -33,7 +33,7 @@ export default function HeroSection({ homeData }: { homeData?: any }) {
           src={bgImage}
           alt={banner?.title || 'Hero Banner'}
           fill
-          className="object-cover hidden md:block"
+          className="object-cover hidden md:block object-[center_30%]"
           priority
         />
         <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/95 via-zinc-900/30 to-transparent md:hidden" />
@@ -44,7 +44,7 @@ export default function HeroSection({ homeData }: { homeData?: any }) {
         </div>
       </div>
 
-      {/* المحتوى النصي */}
+      {/* Text Content */}
       <div className="relative z-10 w-full h-full md:w-1/2 flex flex-col items-start justify-end md:justify-center px-6 pb-16 md:px-16 md:pb-0 md:bg-white text-white md:text-zinc-900">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -84,7 +84,7 @@ export default function HeroSection({ homeData }: { homeData?: any }) {
             className="group relative inline-flex items-center justify-center overflow-hidden bg-white md:bg-zinc-900 text-zinc-900 md:text-white px-8 py-4 text-xs font-black tracking-[0.15em] uppercase transition-all hover:scale-[1.02] active:scale-[0.98] shadow-[0_8px_30px_rgba(0,0,0,0.15)]"
           >
             <span className="relative z-10 flex items-center gap-3">
-              {banner?.buttonText || 'Découvrir'} 
+              {banner?.buttonText || 'DISCOVER'} 
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300" />
             </span>
             <div className="absolute inset-0 bg-[#C9A96E] translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out z-0" />
@@ -94,12 +94,12 @@ export default function HeroSection({ homeData }: { homeData?: any }) {
             className="inline-flex items-center justify-center gap-2 text-white/70 md:text-zinc-400 text-[10px] font-black tracking-widest uppercase hover:text-white md:hover:text-zinc-900 transition-colors py-4"
           >
             <Sparkles className="w-3 h-3" />
-            Nouveautés
+            NEW ARRIVALS
           </Link>
         </motion.div>
       </div>
 
-      {/* شارة التخفيض — ذهبية بدل الأزرق */}
+      {/* Sale Badge */}
       <motion.div 
         initial={{ scale: 0, rotate: -180 }}
         animate={{ scale: 1, rotate: 0 }}
@@ -107,7 +107,7 @@ export default function HeroSection({ homeData }: { homeData?: any }) {
         className="absolute top-5 right-5 md:top-10 md:right-1/2 md:translate-x-1/2 w-[72px] h-[72px] md:w-28 md:h-28 rounded-full flex flex-col items-center justify-center shadow-2xl z-20 border-[3px] md:border-4 border-black/10"
         style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #a07840 100%)' }}
       >
-        <span className="text-[8px] md:text-[10px] font-black tracking-[0.12em] uppercase leading-none text-black/60">Soldes</span>
+        <span className="text-[8px] md:text-[10px] font-black tracking-[0.12em] uppercase leading-none text-black/60">SALE</span>
         <span className="text-[1.6rem] md:text-5xl font-black leading-none text-black">50<span className="text-sm md:text-2xl">%</span></span>
       </motion.div>
     </section>

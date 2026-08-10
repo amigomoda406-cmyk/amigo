@@ -47,8 +47,8 @@ export default function LookbookSection({ lookbooks }: LookbookProps) {
   return (
     <section className="py-12 bg-white overflow-hidden">
       <div className="px-4 mb-8 text-center">
-        <h2 className="text-3xl font-black uppercase tracking-tighter text-zinc-900 mb-2">تسوّق الإطلالة</h2>
-        <p className="text-sm font-medium text-zinc-500">استلهم من أحدث تشكيلاتنا وتسوقها بضغطة زر</p>
+        <h2 className="text-3xl font-black uppercase tracking-tighter text-zinc-900 mb-2">Shop The Look</h2>
+        <p className="text-sm font-medium text-zinc-500">Get inspired by our latest styles and shop them instantly.</p>
       </div>
 
       <div className="relative w-full max-w-4xl mx-auto px-4">

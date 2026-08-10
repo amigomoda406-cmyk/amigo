@@ -9,11 +9,11 @@ interface QuickLink {
 }
 
 const quickLinks: QuickLink[] = [
-  { label: '✨ وصل حديثاً', href: '/#new-arrivals', highlight: true },
-  { label: '🔥 الأكثر رواجاً', href: '/#trending' },
-  { label: 'ملابس', href: '/clothes' },
-  { label: 'أحذية', href: '/shoes' },
-  { label: 'إكسسوارات', href: '/accessories' },
+  { label: '✨ New Arrivals', href: '/#new-arrivals', highlight: true },
+  { label: '🔥 Trending', href: '/#trending' },
+  { label: 'Clothes', href: '/category/clothes' },
+  { label: 'Shoes', href: '/category/shoes' },
+  { label: 'Accessories', href: '/category/accessories' },
 ];
 
 interface CategoryPillsProps {

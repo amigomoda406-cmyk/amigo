@@ -4,10 +4,10 @@ import { useState, useEffect } from 'react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const messages = [
-  { text: '🚚 Livraison gratuite dès 3 000 DA — 58 wilayas', highlight: '3 000 DA' },
-  { text: '⚡ Traitement des commandes en 24h', highlight: '24h' },
-  { text: '✅ Retours gratuits sous 7 jours — sans conditions', highlight: '7 jours' },
-  { text: '🔥 Nouveautés : découvrez la collection Été 2025', highlight: 'Été 2025' },
+  { text: '🚚 Free delivery over 3,000 DA — 58 wilayas', highlight: '3,000 DA' },
+  { text: '⚡ Order processing within 24h', highlight: '24h' },
+  { text: '✅ Free returns within 7 days — no questions asked', highlight: '7 days' },
+  { text: '🔥 New Arrivals: Discover the Summer 2025 collection', highlight: 'Summer 2025' },
 ];
 
 export default function AnnouncementBar() {
