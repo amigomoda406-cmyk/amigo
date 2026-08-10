@@ -1,23 +1,33 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingBag, X, Minus, Plus, ArrowRight, Trash2 } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useCartStore, useCartTotalItems, useCartTotalPrice } from '@/contexts/cart.store';
-import { urlFor } from '@/lib/sanity/client';
+import { urlFor, client } from '@/lib/sanity/client';
 
 export default function FloatingCart() {
-  const { items, isOpen, closeCart, removeItem, updateQuantity } = useCartStore();
+  const { items, isOpen, closeCart, removeItem, updateQuantity, addItem } = useCartStore();
   const totalItems = useCartTotalItems();
   const totalPrice = useCartTotalPrice();
   const router = useRouter();
+  const [upsellProducts, setUpsellProducts] = useState<any[]>([]);
   // Lock scroll when open
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [isOpen]);
+
+  // Fetch upsell products when cart opens
+  useEffect(() => {
+    if (isOpen && upsellProducts.length === 0) {
+      client.fetch(`*[_type == "product" && isTrending == true][0...4]{ _id, title, price, comparePrice, images, slug }`)
+        .then(data => setUpsellProducts(data))
+        .catch(console.error);
+    }
+  }, [isOpen, upsellProducts.length]);
 
   const handleCheckout = () => {
     closeCart();
