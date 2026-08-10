@@ -12,7 +12,7 @@ export default function HeroSection({ homeData }: { homeData?: any }) {
   const seasonColor = banner?.seasonColor || '#C9A96E';
 
   return (
-    <section className="relative w-full flex flex-col md:flex-row bg-zinc-900 overflow-hidden md:h-[70vh] md:min-h-[600px]">
+    <section className="relative w-full flex flex-col md:block bg-zinc-900 md:bg-white overflow-hidden md:h-[70vh] md:min-h-[600px]">
       
       {/* Seasonal Background Glow */}
       <div 
@@ -21,7 +21,7 @@ export default function HeroSection({ homeData }: { homeData?: any }) {
       />
 
       {/* Image Block */}
-      <div className="relative w-full aspect-[4/5] md:aspect-auto md:w-1/2 md:h-full z-0 overflow-hidden">
+      <div className="relative w-full aspect-[4/5] md:absolute md:inset-0 md:w-full md:h-full z-0 overflow-hidden">
         <Image
           src={mobileImage}
           alt={banner?.title || 'Hero Banner'}
@@ -46,7 +46,8 @@ export default function HeroSection({ homeData }: { homeData?: any }) {
       </div>
 
       {/* Text Content Block */}
-      <div className="relative z-10 w-full md:w-1/2 flex flex-col items-start justify-center px-6 py-12 md:px-16 md:py-0 bg-white text-zinc-900 md:h-full">
+      <div className="relative z-10 w-full md:w-1/2 flex flex-col items-start justify-center px-6 py-12 md:px-16 md:py-0 bg-white md:bg-transparent text-zinc-900 md:h-full pointer-events-none">
+        <div className="pointer-events-auto w-full">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -98,6 +99,7 @@ export default function HeroSection({ homeData }: { homeData?: any }) {
             NEW ARRIVALS
           </Link>
         </motion.div>
+        </div>
       </div>
 
       {/* Sale Badge */}
@@ -105,7 +107,7 @@ export default function HeroSection({ homeData }: { homeData?: any }) {
         initial={{ scale: 0, rotate: -180 }}
         animate={{ scale: 1, rotate: 0 }}
         transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.5 }}
-        className="absolute top-5 right-5 md:top-10 md:right-1/2 md:translate-x-1/2 w-[72px] h-[72px] md:w-28 md:h-28 rounded-full flex flex-col items-center justify-center shadow-2xl z-20 border-[3px] md:border-4 border-black/10"
+        className="absolute top-5 right-5 md:top-10 md:right-10 w-[72px] h-[72px] md:w-28 md:h-28 rounded-full flex flex-col items-center justify-center shadow-2xl z-20 border-[3px] md:border-4 border-black/10"
         style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #a07840 100%)' }}
       >
         <span className="text-[8px] md:text-[10px] font-black tracking-[0.12em] uppercase leading-none text-black/60">SALE</span>
