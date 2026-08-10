@@ -9,6 +9,7 @@ import FloatingCart from '@/components/cart/FloatingCart';
 import SidebarNav from './SidebarNav';
 import SearchModal from '@/components/ui/SearchModal';
 import { useEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
 
 export default function Header() {
   const openCart = useCartStore((state) => state.openCart);
@@ -19,6 +20,7 @@ export default function Header() {
   const { user, isLoading } = useAuth();
   const [searchOpen, setSearchOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
+  const [scrolled, setScrolled] = useState(false);
   const lastScrollY = useRef(0);
 
   useEffect(() => {
@@ -29,6 +31,8 @@ export default function Header() {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
+      setScrolled(currentScrollY > 50);
+      
       if (currentScrollY > 100) {
         setIsVisible(currentScrollY < lastScrollY.current);
       } else {
@@ -73,7 +77,7 @@ export default function Header() {
 
       {/* Dynamic LTR/RTL applied globally. Removed translate="no" */}
       <header 
-        className={`sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-zinc-100/50 w-full transition-all duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}
+        className={`sticky top-0 z-50 bg-white/70 backdrop-blur-xl w-full transition-all duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}
       >
         <div className="max-w-7xl mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
           
@@ -82,12 +86,27 @@ export default function Header() {
             <SidebarNav />
           </div>
 
-          {/* Center: Logo */}
-          <Link href="/" className="flex-shrink-0 flex flex-col items-center justify-center group">
-            <h1 className="text-xl md:text-2xl font-black tracking-[0.2em] text-zinc-900 group-hover:scale-105 transition-transform duration-500 uppercase" style={{ fontFamily: 'var(--font-outfit)' }}>
-              Amigo Moda
-            </h1>
-            <div className="w-0 h-[2px] bg-zinc-900 mt-1 group-hover:w-full transition-all duration-500 ease-out" />
+          {/* Center: Logo with Motion Signature */}
+          <Link href="/" className="flex-shrink-0 flex items-center justify-center group gap-2">
+            <motion.img 
+              initial={{ opacity: 0, rotate: -90, scale: 0 }}
+              animate={{ opacity: 1, rotate: 0, scale: 1 }}
+              transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+              src="/am-monogram.svg" 
+              alt="AM" 
+              className="w-6 h-6 text-[#C9A96E] hidden md:block" 
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.1 }}
+              className="flex flex-col items-center"
+            >
+              <h1 className="text-xl md:text-2xl font-black tracking-[0.2em] text-zinc-900 group-hover:text-[#C9A96E] transition-colors duration-500 uppercase" style={{ fontFamily: 'var(--font-outfit)' }}>
+                Amigo Moda
+              </h1>
+              <div className="w-0 h-[2px] bg-[#C9A96E] mt-1 group-hover:w-full transition-all duration-500 ease-out" />
+            </motion.div>
           </Link>
 
             {/* Right: User Account & Cart & Language */}

@@ -29,6 +29,11 @@ export default function HeroSection({ homeData }: { homeData?: any }) {
           priority
         />
         <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent md:hidden" />
+        
+        {/* Brand Seal (Desktop Only) */}
+        <div className="hidden md:flex absolute top-12 left-12 w-32 h-32 text-white opacity-80 mix-blend-overlay">
+          <img src="/brand-seal.svg" alt="Authentic" className="w-full h-full animate-spin-slow text-white" />
+        </div>
       </div>
 
       {/* المحتوى النصي */}
@@ -37,8 +42,13 @@ export default function HeroSection({ homeData }: { homeData?: any }) {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="flex items-center gap-3 mb-4"
+          className="flex items-center gap-3 mb-4 relative"
         >
+          {/* Brand Seal (Mobile Only) */}
+          <div className="md:hidden absolute -top-24 right-0 w-20 h-20 text-white opacity-90">
+            <img src="/brand-seal.svg" alt="Authentic" className="w-full h-full animate-spin-slow" />
+          </div>
+
           <div className="h-px w-8 md:w-12 bg-white md:bg-[#C9A96E]" />
           <span className="text-xs md:text-sm font-black tracking-[0.2em] uppercase text-white md:text-[#C9A96E]">
             {banner?.subtitle || 'NEW COLLECTION'}

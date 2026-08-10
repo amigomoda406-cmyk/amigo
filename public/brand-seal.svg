@@ -1,0 +1,17 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <path id="textPath" d="M 100, 100 m -70, 0 a 70,70 0 1,1 140,0 a 70,70 0 1,1 -140,0" />
+  </defs>
+  <!-- Background Circle (Optional, kept transparent) -->
+  <circle cx="100" cy="100" r="95" fill="none" stroke="currentColor" stroke-width="1" opacity="0.3" />
+  <!-- Inner Circle -->
+  <circle cx="100" cy="100" r="45" fill="none" stroke="currentColor" stroke-width="1" />
+  <!-- Monogram in center -->
+  <text x="100" y="108" font-family="sans-serif" font-weight="900" font-size="28" text-anchor="middle" fill="currentColor">AM</text>
+  <!-- Rotating Text -->
+  <text font-family="sans-serif" font-weight="bold" font-size="12.5" fill="currentColor" letter-spacing="4">
+    <textPath href="#textPath" startOffset="0%">
+      AMIGO MODA · ALGÉRIE · DEPUIS 2024 · 
+    </textPath>
+  </text>
+</svg>

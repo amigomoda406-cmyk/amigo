@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Toaster } from 'react-hot-toast';
 import { Outfit, Cairo } from 'next/font/google';
 import { AuthProvider } from '@/lib/supabase/auth-context';
+import PageLoader from '@/components/ui/PageLoader';
 import '@/styles/globals.css';
 import '@/styles/animations.css';
 
@@ -42,6 +43,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
       </head>
       <body>
+        <PageLoader />
         <AuthProvider>
           {children}
           <Toaster 
