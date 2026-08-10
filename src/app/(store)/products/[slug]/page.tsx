@@ -4,6 +4,7 @@ import ProductImageGallery from '@/components/products/ProductImageGallery';
 import ProductInfo from '@/components/products/ProductInfo';
 import RelatedProducts from '@/components/products/RelatedProducts';
 import RecentlyViewed from '@/components/products/RecentlyViewed';
+import ProductReviews from '@/components/products/ProductReviews';
 import StoreFooter from '@/components/layout/StoreFooter';
 import Breadcrumb from '@/components/ui/Breadcrumb';
 import TrustBadges from '@/components/ui/TrustBadges';
@@ -157,9 +158,17 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         </div>
       </div>
 
+      {/* Trust Badges */}
+      <div className="mt-8 border-t border-zinc-100 pt-8">
+        <TrustBadges />
+      </div>
+
+      {/* Reviews */}
+      <ProductReviews productId={product._id} />
+
       {/* Related Products */}
       {relatedProducts.length > 0 && (
-        <div className="border-t border-zinc-100 mt-4">
+        <div className="border-t border-zinc-100 mt-8 pt-8">
           <RelatedProducts products={relatedProducts} />
         </div>
       )}
