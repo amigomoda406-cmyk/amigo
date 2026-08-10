@@ -40,7 +40,7 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
-    const { customer_name, customer_phone, wilaya, commune, total_amount, items } = body;
+    const { customer_name, customer_phone, wilaya, commune, delivery_type, delivery_fee, total_amount, items } = body;
 
     if (!customer_name || !customer_phone || !wilaya || !commune || !items || items.length === 0) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
@@ -78,15 +78,22 @@ export async function POST(req: Request) {
     // 2. Insert Order into Supabase (Backup)
     let supabaseOrderId = null;
     try {
+      const subtotal = total_amount - (delivery_fee || 0);
+      
       const { data: order, error: orderError } = await supabaseAdmin
         .from('orders')
         .insert([
           {
             customer_name,
             customer_phone,
-            wilaya,
-            commune,
-            total_amount,
+            customer_wilaya: wilaya,
+            customer_address: commune,
+            delivery_type: delivery_type || 'home',
+            items: items,
+            subtotal: subtotal,
+            shipping_fee: delivery_fee || 0,
+            total: total_amount,
+            status: 'pending'
           }
         ])
         .select()
@@ -94,16 +101,8 @@ export async function POST(req: Request) {
 
       if (!orderError && order) {
         supabaseOrderId = order.id;
-        const orderItems = items.map((item: any) => ({
-          order_id: order.id,
-          product_id: item.productId,
-          product_name: item.title,
-          price: item.price,
-          quantity: item.quantity,
-          selected_size: item.selectedSize || null,
-          selected_color: item.selectedColor || null,
-        }));
-        await supabaseAdmin.from('order_items').insert(orderItems);
+      } else if (orderError) {
+        console.error('Supabase Error:', orderError);
       }
     } catch (e) {
       console.warn("Supabase backup failed, but Sanity succeeded.");

@@ -6,7 +6,7 @@ import { ALGERIA_WILAYAS } from '@/lib/config/wilayas';
 export async function GET() {
   try {
     const { data: settings, error } = await supabaseAdmin
-      .from('delivery_fees')
+      .from('shipping_rates')
       .select('*');
 
     if (error || !settings || settings.length === 0) {
@@ -27,7 +27,7 @@ export async function GET() {
         code: w.code,
         name: w.name,
         homeDelivery: dbData?.home_fee ?? w.homeDelivery,
-        deskDelivery: dbData?.post_fee ?? w.deskDelivery,
+        deskDelivery: dbData?.desk_fee ?? w.deskDelivery,
       };
     });
 
@@ -49,11 +49,11 @@ export async function POST(req: NextRequest) {
     const upsertData = wilayas.map(w => ({
       wilaya: w.name,
       home_fee: w.homeDelivery,
-      post_fee: w.deskDelivery,
+      desk_fee: w.deskDelivery,
     }));
 
     const { error } = await supabaseAdmin
-      .from('delivery_fees')
+      .from('shipping_rates')
       .upsert(upsertData, { onConflict: 'wilaya' });
 
     if (error) {

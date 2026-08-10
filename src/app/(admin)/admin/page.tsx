@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import { jwtVerify } from 'jose';
 import Link from 'next/link';
 import { client } from '@/lib/sanity/client';
-import { Package, ShoppingBag, Tag, Settings, LogOut, BarChart3, Clock } from 'lucide-react';
+import { Package, ShoppingBag, Tag, Settings, LogOut, BarChart3, Clock, Truck } from 'lucide-react';
 
 async function verifyAdmin() {
   const cookieStore = await cookies();
@@ -93,6 +93,38 @@ export default async function AdminDashboard() {
           <div className="bg-white rounded-2xl border border-zinc-100 shadow-sm p-6">
             <h2 className="text-sm font-black uppercase tracking-widest text-zinc-900 mb-4">Quick Actions</h2>
             <div className="flex flex-col gap-2">
+              <Link
+                href="/admin/orders"
+                className="flex items-center justify-between p-4 rounded-xl border border-zinc-100 hover:border-zinc-300 hover:bg-zinc-50 transition-all group"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 bg-emerald-50 rounded-xl flex items-center justify-center">
+                    <Package className="w-4 h-4 text-emerald-600" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-black text-zinc-900">Manage Orders</p>
+                    <p className="text-[10px] text-zinc-500">View and update customer orders</p>
+                  </div>
+                </div>
+                <span className="text-zinc-300 group-hover:text-zinc-600 transition-colors">→</span>
+              </Link>
+
+              <Link
+                href="/admin/settings"
+                className="flex items-center justify-between p-4 rounded-xl border border-zinc-100 hover:border-zinc-300 hover:bg-zinc-50 transition-all group"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 bg-orange-50 rounded-xl flex items-center justify-center">
+                    <Truck className="w-4 h-4 text-orange-600" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-black text-zinc-900">Shipping Rates</p>
+                    <p className="text-[10px] text-zinc-500">Manage delivery fees per wilaya</p>
+                  </div>
+                </div>
+                <span className="text-zinc-300 group-hover:text-zinc-600 transition-colors">→</span>
+              </Link>
+
               <a
                 href={`${process.env.NEXT_PUBLIC_SANITY_STUDIO_URL || 'https://amigo-moda.sanity.studio'}/structure/product`}
                 target="_blank"
