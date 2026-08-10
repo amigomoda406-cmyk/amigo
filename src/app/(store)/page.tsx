@@ -78,7 +78,7 @@ export default async function HomePage() {
       
       <FeaturesSection />
 
-      <CategoriesSection categories={home?.featuredCategories || []} />
+      <CategoriesSection />
 
       <Suspense fallback={<div className="h-[200px] bg-zinc-100 animate-pulse" />}>
         <NewArrivalsSection products={newArrivals} />

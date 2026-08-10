@@ -1,9 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import { Flame, Sparkles, ShoppingBag } from 'lucide-react';
 
-const quickLinks = [
+interface QuickLink {
+  label: string;
+  href: string;
+  highlight?: boolean;
+}
+
+const quickLinks: QuickLink[] = [
   { label: '✨ وصل حديثاً', href: '/#new-arrivals', highlight: true },
   { label: '🔥 الأكثر رواجاً', href: '/#trending' },
   { label: 'ملابس', href: '/clothes' },
@@ -16,7 +21,7 @@ interface CategoryPillsProps {
 }
 
 export default function CategoryQuickPills({ categories = [] }: CategoryPillsProps) {
-  const allLinks = [
+  const allLinks: QuickLink[] = [
     ...quickLinks,
     ...categories.map(cat => ({
       label: cat.title,

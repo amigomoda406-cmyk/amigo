@@ -35,10 +35,10 @@ export default function LookbookSection({ lookbooks }: LookbookProps) {
 
   const handleQuickAdd = (product: any) => {
     addItem({
-      _id: product._id,
+      productId: product._id,
       title: product.title,
       price: product.price,
-      image: product.images?.[0] ? urlFor(product.images[0]).url() : '',
+      imageUrl: product.images?.[0] ? urlFor(product.images[0]).url() : '',
       quantity: 1,
       slug: product.slug?.current,
     });
