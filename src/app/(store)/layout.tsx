@@ -14,7 +14,7 @@ export default function StoreLayout({
         <AnnouncementBar />
         <Header />
         
-        <main className="flex-1 flex flex-col">
+        <main className="flex-1 flex flex-col pb-[80px] lg:pb-0">
           {children}
         </main>
         
