@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Toaster } from 'react-hot-toast';
 import { Outfit, Cairo } from 'next/font/google';
+import { AuthProvider } from '@/lib/supabase/auth-context';
 import '@/styles/globals.css';
 import '@/styles/animations.css';
 
@@ -41,26 +42,28 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
       </head>
       <body>
-        {children}
-        <Toaster 
-          position="top-center"
-          toastOptions={{
-            duration: 3000,
-            style: {
-              background: 'var(--color-bg-elevated)',
-              color: 'var(--color-text-primary)',
-              border: '1px solid var(--color-border)',
-              borderRadius: 'var(--radius-md)',
-              fontSize: 'var(--fs-sm)',
-            },
-            success: {
-              iconTheme: {
-                primary: 'var(--color-success)',
-                secondary: 'white',
+        <AuthProvider>
+          {children}
+          <Toaster 
+            position="top-center"
+            toastOptions={{
+              duration: 3000,
+              style: {
+                background: 'var(--color-bg-elevated)',
+                color: 'var(--color-text-primary)',
+                border: '1px solid var(--color-border)',
+                borderRadius: 'var(--radius-md)',
+                fontSize: 'var(--fs-sm)',
               },
-            },
-          }}
-        />
+              success: {
+                iconTheme: {
+                  primary: 'var(--color-success)',
+                  secondary: 'white',
+                },
+              },
+            }}
+          />
+        </AuthProvider>
       </body>
     </html>
   );

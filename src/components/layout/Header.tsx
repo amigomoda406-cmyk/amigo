@@ -1,9 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { ShoppingCart, Search } from 'lucide-react';
+import { ShoppingCart, Search, ShoppingBag, UserCircle2 } from 'lucide-react';
 import { useCartStore, useCartTotalItems } from '@/contexts/cart.store';
 import { useLangStore } from '@/contexts/lang.store';
+import { useAuth } from '@/lib/supabase/auth-context';
 import FloatingCart from '@/components/cart/FloatingCart';
 import SidebarNav from './SidebarNav';
 import SearchModal from '@/components/ui/SearchModal';
@@ -15,6 +16,7 @@ export default function Header() {
   const prevTotal = useRef(totalItems);
   const [bounce, setBounce] = useState(false);
   const { lang } = useLangStore();
+  const { user, isLoading } = useAuth();
   const [searchOpen, setSearchOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const lastScrollY = useRef(0);
@@ -88,27 +90,38 @@ export default function Header() {
             <div className="w-0 h-[2px] bg-zinc-900 mt-1 group-hover:w-full transition-all duration-500 ease-out" />
           </Link>
 
-          {/* Right/Left: Search + Cart */}
-          <div className="flex-1 flex items-center justify-end gap-1">
-            <button
-              onClick={() => setSearchOpen(true)}
-              className="p-2 text-zinc-900 hover:text-zinc-600 transition-colors"
-              aria-label="بحث"
-            >
-              <Search className="w-5 h-5" strokeWidth={1.5} />
-            </button>
-            <button
-              onClick={openCart}
-              className={`relative p-2 -mx-2 text-zinc-900 hover:text-zinc-600 transition-colors ${bounce ? 'cart-bounce' : ''}`}
-            >
-              <ShoppingCart className="w-6 h-6 stroke-[1.5]" />
-              {totalItems > 0 && (
-                <span key={totalItems} className="badge-pop absolute top-0 right-0 bg-zinc-900 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold translate-x-1 -translate-y-1 shadow-sm">
-                  {totalItems}
-                </span>
-              )}
-            </button>
-          </div>
+            {/* Right: User Account & Cart & Language */}
+            <div className="flex-1 flex items-center justify-end gap-1.5 md:gap-3">
+              <button 
+                onClick={() => setSearchOpen(true)}
+                className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-zinc-100 transition-colors"
+                aria-label="Recherche"
+              >
+                <Search className="w-5 h-5 text-zinc-900" />
+              </button>
+
+              <Link 
+                href={user ? "/account" : "/login"}
+                className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-zinc-100 transition-colors relative"
+                aria-label="Mon compte"
+              >
+                <UserCircle2 className={`w-5 h-5 ${user ? 'text-blue-600' : 'text-zinc-900'}`} />
+                {user && <span className="absolute top-2 right-2 w-2 h-2 bg-emerald-500 rounded-full border border-white"></span>}
+              </Link>
+
+              <button 
+                onClick={openCart}
+                className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-zinc-100 transition-colors relative group"
+                aria-label="Panier"
+              >
+                <ShoppingBag className="w-5 h-5 text-zinc-900 group-hover:scale-110 transition-transform" />
+                {totalItems > 0 && (
+                  <span className={`absolute top-1.5 right-1.5 w-4 h-4 bg-zinc-900 text-white text-[9px] font-black rounded-full flex items-center justify-center border-2 border-white shadow-sm ${bounce ? 'cart-bounce' : ''}`}>
+                    {totalItems}
+                  </span>
+                )}
+              </button>
+            </div>
         </div>
       </header>
       
