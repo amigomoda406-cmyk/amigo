@@ -32,5 +32,22 @@ export const category = defineType({
       type: 'image',
       options: { hotspot: true },
     }),
+    defineField({
+      name: 'heroBanners',
+      title: 'Bannières Hero / صور الهيرو سكشن للقسم',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'image', title: 'Image (Desktop)', type: 'image', options: { hotspot: true } },
+            { name: 'mobileImage', title: 'Image (Mobile - Optionnel)', type: 'image', options: { hotspot: true } },
+            { name: 'title', title: 'Titre', type: 'string' },
+            { name: 'subtitle', title: 'Sous-titre', type: 'string' },
+          ],
+        },
+      ],
+      description: 'صور الهيرو التي تظهر في أعلى صفحة القسم.',
+    }),
   ],
 });

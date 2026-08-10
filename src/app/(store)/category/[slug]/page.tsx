@@ -59,18 +59,26 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
 
       {/* Hero Banner */}
       <div className="relative h-[30vh] min-h-[250px] w-full overflow-hidden">
-        {category.imageUrl && (
+        {(category.heroBanners?.[0]?.imageUrl || category.imageUrl) && (
           <div 
             className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url('${category.imageUrl}')` }}
+            style={{ backgroundImage: `url('${category.heroBanners?.[0]?.imageUrl || category.imageUrl}')` }}
           />
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/90 via-zinc-900/40 to-transparent" />
         <div className="absolute bottom-6 left-6">
-          <h2 className="text-4xl md:text-5xl font-black text-white uppercase tracking-tighter mb-2">{category.title}</h2>
-          <span className="text-[10px] font-bold text-white/90 uppercase tracking-widest px-3 py-1 bg-white/10 rounded-full backdrop-blur-md border border-white/20">
-            {subcategories.length} Collections
-          </span>
+          <h2 className="text-4xl md:text-5xl font-black text-white uppercase tracking-tighter mb-2">
+            {category.heroBanners?.[0]?.title || category.title}
+          </h2>
+          {category.heroBanners?.[0]?.subtitle ? (
+            <span className="text-[10px] font-bold text-white/90 uppercase tracking-widest px-3 py-1 bg-white/10 rounded-full backdrop-blur-md border border-white/20">
+              {category.heroBanners[0].subtitle}
+            </span>
+          ) : (
+            <span className="text-[10px] font-bold text-white/90 uppercase tracking-widest px-3 py-1 bg-white/10 rounded-full backdrop-blur-md border border-white/20">
+              {subcategories.length} Collections
+            </span>
+          )}
         </div>
       </div>
 

@@ -21,6 +21,16 @@ export default defineConfig({
         S.list()
           .title('المحتوى')
           .items([
+            // الصفحة الرئيسية
+            S.listItem()
+              .title('الصفحة الرئيسية')
+              .icon(() => '🏠')
+              .child(
+                S.document()
+                  .schemaType('homePage')
+                  .documentId('homePage')
+              ),
+            S.divider(),
             // الأقسام الأساسية مع ترتيب مخصص
             orderableDocumentListDeskItem({
               type: 'category',
