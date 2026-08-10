@@ -7,6 +7,7 @@ import NewArrivalsSection from '@/components/home/NewArrivalsSection';
 import FeaturesSection from '@/components/home/FeaturesSection';
 import StoreFooter from '@/components/layout/StoreFooter';
 import CategoryQuickPills from '@/components/home/CategoryQuickPills';
+import LookbookSection from '@/components/home/LookbookSection';
 import { client } from '@/lib/sanity/client';
 
 export const revalidate = 60;
@@ -46,6 +47,13 @@ async function getHomeData() {
       },
       "categories": *[_type == "category"][0...8] {
         _id, title, slug
+      },
+      "lookbooks": *[_type == "lookbook"][0...3] {
+        _id, title, image, 
+        products[] {
+          _key, x, y, 
+          product-> { _id, title, slug, price, images }
+        }
       }
     }
   `;
@@ -53,7 +61,7 @@ async function getHomeData() {
 }
 
 export default async function HomePage() {
-  const { home, trending, newArrivals, categories } = await getHomeData();
+  const { home, trending, newArrivals, categories, lookbooks } = await getHomeData();
 
   return (
     <>
@@ -66,9 +74,11 @@ export default async function HomePage() {
         <TrendingSection products={trending} />
       </Suspense>
 
-      <FeaturesSection />
+      {lookbooks && lookbooks.length > 0 && <LookbookSection lookbooks={lookbooks} />}
       
-      <CategoriesSection />
+      <FeaturesSection />
+
+      <CategoriesSection categories={home?.featuredCategories || []} />
 
       <Suspense fallback={<div className="h-[200px] bg-zinc-100 animate-pulse" />}>
         <NewArrivalsSection products={newArrivals} />
