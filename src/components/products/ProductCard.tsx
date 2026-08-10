@@ -68,22 +68,24 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
       {/* صورة المنتج */}
       <div className={`aspect-[3/4] relative overflow-hidden rounded-xl bg-zinc-100 mb-2 transition-shadow duration-500 ${hovered ? 'shadow-[0_12px_35px_rgba(201,169,110,0.22)]' : 'shadow-sm'}`}>
         
-        {/* البادجات */}
-        {discountPercent && (
-          <span className="absolute top-2 left-2 z-10 bg-red-500 text-white text-[9px] font-black px-2 py-0.5 rounded-full animate-pulse">
-            -{discountPercent}%
-          </span>
-        )}
-        {product.isNew && !discountPercent && (
-          <span className="badge-new-shimmer absolute top-2 left-2 z-10 text-white text-[9px] font-black px-2 py-0.5 rounded-full">
-            ✦ جديد
-          </span>
-        )}
-        {product.isTrending && (
-          <span className="absolute top-2 right-10 z-10 bg-orange-500 text-white text-[9px] font-black px-2 py-0.5 rounded-full">
-            🔥
-          </span>
-        )}
+        {/* البادجات المخصصة */}
+        <div className="absolute top-2 left-2 z-10 flex flex-col gap-1">
+          {discountPercent && (
+            <span className="bg-red-600/90 backdrop-blur-md text-white text-[9px] font-black px-2.5 py-1 rounded-md shadow-sm border border-red-500/30 animate-pulse">
+              -{discountPercent}%
+            </span>
+          )}
+          {product.isNew && !discountPercent && (
+            <span className="badge-new-shimmer text-white text-[9px] font-black px-2.5 py-1 rounded-md shadow-sm border border-zinc-700/50">
+              NOUVEAU
+            </span>
+          )}
+          {product.isTrending && (
+            <span className="bg-orange-500/90 backdrop-blur-md text-white text-[9px] font-black px-2.5 py-1 rounded-md shadow-sm border border-orange-400/30 flex items-center gap-1">
+              <Flame className="w-3 h-3" /> HOT
+            </span>
+          )}
+        </div>
 
         {/* زر المفضلة */}
         <button

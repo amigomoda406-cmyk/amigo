@@ -81,15 +81,24 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
         </div>
 
         {products.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {products.map((product: any) => (
-              <ProductCard key={product._id} product={product} />
-            ))}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 auto-rows-max">
+            {products.map((product: any, i: number) => {
+              // Bento Grid: Make the first item larger (Editorial style)
+              const isFeatured = i === 0;
+              return (
+                <div 
+                  key={product._id} 
+                  className={`${isFeatured ? 'col-span-2 row-span-2' : 'col-span-1'} transition-all`}
+                >
+                  <ProductCard product={product} index={i} />
+                </div>
+              );
+            })}
           </div>
         ) : (
-          <div className="py-12 flex flex-col items-center justify-center bg-white rounded-xl border border-zinc-100 text-center px-4">
+          <div className="py-12 flex flex-col items-center justify-center bg-white rounded-xl border border-zinc-100 text-center px-4" style={{ borderColor: config.accentColor + '33' }}>
             <span className="text-3xl mb-3">🛒</span>
-            <h3 className="text-xs font-black uppercase tracking-widest text-zinc-900 mb-1">Aucun produit</h3>
+            <h3 className="text-xs font-black uppercase tracking-widest text-zinc-900 mb-1" style={{ color: config.accentColor }}>Aucun produit</h3>
             <p className="text-[10px] text-zinc-500 font-bold max-w-[200px]">Nous ajoutons de nouveaux produits bientôt.</p>
           </div>
         )}

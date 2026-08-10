@@ -27,10 +27,18 @@
   --text-heading: clamp(1.5rem, 3vw, 2rem);
   --text-body: 1rem;
   --text-caption: 0.75rem;
-  /* UI Colors */
+  /* UI Colors - Light Mode */
   --color-bg-elevated: #ffffff;
   --color-text-primary: #18181b;
   --color-border: #f4f4f5;
+  --color-bg-body: #fafafa;
+}
+
+.dark {
+  --color-bg-elevated: #18181b;
+  --color-text-primary: #ffffff;
+  --color-border: #27272a;
+  --color-bg-body: #09090b;
 }
 
 html[lang="ar"], html[dir="rtl"] {
@@ -39,7 +47,9 @@ html[lang="ar"], html[dir="rtl"] {
 
 body {
   font-family: var(--font-primary), ui-sans-serif, system-ui, sans-serif;
-  background-color: #fafafa;
+  background-color: var(--color-bg-body);
+  color: var(--color-text-primary);
+  transition: background-color 0.3s, color 0.3s;
 }
 
 /* ===================== */

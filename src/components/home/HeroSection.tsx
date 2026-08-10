@@ -9,9 +9,17 @@ export default function HeroSection({ homeData }: { homeData?: any }) {
   const banner = homeData?.heroBanners?.[0];
   const bgImage = banner?.imageUrl || 'https://res.cloudinary.com/doxg77zqk/image/upload/v1785160624/Remove_basket_increase_quality_2K_202607271454.jpg';
   const mobileImage = banner?.mobileImageUrl || bgImage;
+  const seasonColor = banner?.seasonColor || '#C9A96E';
 
   return (
     <section className="relative w-full h-[70vh] min-h-[500px] md:h-[85vh] bg-zinc-900 overflow-hidden flex flex-col md:flex-row">
+      
+      {/* Seasonal Background Glow */}
+      <div 
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vh] h-[80vh] rounded-full blur-[120px] opacity-20 z-0 pointer-events-none"
+        style={{ backgroundColor: seasonColor }}
+      />
+
       {/* الصورة (خلفية في الموبايل، نصف الشاشة في الديسكتوب) */}
       <div className="absolute inset-0 md:relative md:w-1/2 h-full z-0">
         <Image
@@ -49,8 +57,11 @@ export default function HeroSection({ homeData }: { homeData?: any }) {
             <img src="/brand-seal.svg" alt="Authentic" className="w-full h-full animate-spin-slow" />
           </div>
 
-          <div className="h-px w-8 md:w-12 bg-white md:bg-[#C9A96E]" />
-          <span className="text-xs md:text-sm font-black tracking-[0.2em] uppercase text-white md:text-[#C9A96E]">
+          <div className="h-px w-8 md:w-12" style={{ backgroundColor: seasonColor }} />
+          <span 
+            className="text-xs md:text-sm font-black tracking-[0.2em] uppercase text-white" 
+            style={{ color: seasonColor }}
+          >
             {banner?.subtitle || 'NEW COLLECTION'}
           </span>
         </motion.div>
