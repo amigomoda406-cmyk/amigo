@@ -1,7 +1,6 @@
 import { notFound } from 'next/navigation';
 import { ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
-import { CATEGORY_CONFIG } from '@/lib/config/categories';
 import SubCategoryCard from '@/components/categories/SubCategoryCard';
 import CategoryFilters from '@/components/categories/CategoryFilters';
 import { client } from '@/lib/sanity/client';

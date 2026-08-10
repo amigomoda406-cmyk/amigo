@@ -130,12 +130,11 @@ export default function Header() {
                     <Link href="#" className="block text-xs font-bold text-zinc-900 hover:text-[#C9A96E] transition-colors">Bijoux</Link>
                     <Link href="#" className="block text-xs font-bold text-zinc-900 hover:text-[#C9A96E] transition-colors">Chaussures</Link>
                   </div>
-                  <div className="flex-1 bg-zinc-50 rounded-2xl p-4 flex flex-col justify-end relative overflow-hidden group/card border border-zinc-100">
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10" />
-                    <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=200&auto=format&fit=crop" className="absolute inset-0 w-full h-full object-cover group-hover/card:scale-110 transition-transform duration-700" alt="Nouvelle Collection" />
+                  <div className="flex-1 bg-zinc-900 rounded-2xl p-4 flex flex-col justify-end relative overflow-hidden group/card border border-zinc-800">
+                    <div className="absolute inset-0 bg-gradient-to-br from-zinc-800 to-zinc-900 z-0" />
                     <div className="relative z-20">
-                      <span className="text-[8px] font-black uppercase tracking-widest text-white/80 bg-white/20 backdrop-blur-md px-2 py-1 rounded-md mb-2 inline-block">Nouveau</span>
-                      <h5 className="text-white text-sm font-black uppercase tracking-widest">Collection Printemps</h5>
+                      <span className="text-[8px] font-black uppercase tracking-widest text-white/80 bg-white/20 backdrop-blur-md px-2 py-1 rounded-md mb-2 inline-block">New</span>
+                      <h5 className="text-white text-sm font-black uppercase tracking-widest">Spring Collection</h5>
                     </div>
                   </div>
                 </div>
@@ -160,9 +159,9 @@ export default function Header() {
                     <Link href="#" className="block text-xs font-bold text-zinc-900 hover:text-[#C9A96E] transition-colors">Classique</Link>
                   </div>
                   <div className="flex-1 bg-zinc-900 rounded-2xl p-4 flex flex-col justify-end relative overflow-hidden group/card">
-                     <img src="https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=200&auto=format&fit=crop" className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover/card:scale-110 transition-transform duration-700" alt="Costumes" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-zinc-700 to-zinc-900 z-0" />
                     <div className="relative z-20">
-                      <h5 className="text-white text-sm font-black uppercase tracking-widest">Costumes Sur-Mesure</h5>
+                      <h5 className="text-white text-sm font-black uppercase tracking-widest">Custom Suits</h5>
                     </div>
                   </div>
                 </div>
