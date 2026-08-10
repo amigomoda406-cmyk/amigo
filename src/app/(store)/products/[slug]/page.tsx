@@ -163,6 +163,47 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         <TrustBadges />
       </div>
 
+      {/* Frequently Bought Together (Idea 88) */}
+      {relatedProducts.length >= 2 && (
+        <div className="mt-8 pt-8 border-t border-zinc-100 max-w-5xl mx-auto px-4 md:px-8">
+          <h2 className="text-sm font-black uppercase tracking-widest text-zinc-900 mb-6">Souvent achetés ensemble</h2>
+          <div className="bg-white rounded-2xl p-4 md:p-6 shadow-sm border border-zinc-100 flex flex-col md:flex-row items-center gap-6">
+            <div className="flex items-center gap-4 flex-1">
+              {/* Current Product */}
+              <div className="flex flex-col items-center gap-2 w-1/3">
+                <img src={urlFor(product.images[0]).width(200).height(200).url()} alt={product.title} className="w-24 h-24 object-cover rounded-xl bg-zinc-50" />
+                <span className="text-[10px] font-bold text-zinc-900 text-center line-clamp-1">{product.title}</span>
+                <span className="text-[10px] font-black text-[#C9A96E]">{product.price} DA</span>
+              </div>
+              <span className="text-xl font-black text-zinc-300">+</span>
+              {/* Related Product 1 */}
+              <div className="flex flex-col items-center gap-2 w-1/3">
+                <img src={urlFor(relatedProducts[0].images[0]).width(200).height(200).url()} alt={relatedProducts[0].title} className="w-24 h-24 object-cover rounded-xl bg-zinc-50" />
+                <span className="text-[10px] font-bold text-zinc-900 text-center line-clamp-1">{relatedProducts[0].title}</span>
+                <span className="text-[10px] font-black text-[#C9A96E]">{relatedProducts[0].price} DA</span>
+              </div>
+              <span className="text-xl font-black text-zinc-300">+</span>
+              {/* Related Product 2 */}
+              <div className="flex flex-col items-center gap-2 w-1/3">
+                <img src={urlFor(relatedProducts[1].images[0]).width(200).height(200).url()} alt={relatedProducts[1].title} className="w-24 h-24 object-cover rounded-xl bg-zinc-50" />
+                <span className="text-[10px] font-bold text-zinc-900 text-center line-clamp-1">{relatedProducts[1].title}</span>
+                <span className="text-[10px] font-black text-[#C9A96E]">{relatedProducts[1].price} DA</span>
+              </div>
+            </div>
+            
+            <div className="flex flex-col items-center md:items-start gap-3 md:pl-8 md:border-l md:border-zinc-100">
+              <p className="text-[11px] font-bold text-zinc-500 uppercase tracking-widest">Prix Total du Pack</p>
+              <p className="text-2xl font-black text-red-600">
+                {(product.price + relatedProducts[0].price + relatedProducts[1].price).toLocaleString('fr-DZ')} DA
+              </p>
+              <button className="bg-zinc-900 text-white w-full px-6 py-3 rounded-full text-xs font-black uppercase tracking-widest hover:bg-[#C9A96E] transition-colors">
+                Ajouter les 3 au Panier
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Reviews */}
       <ProductReviews productId={product._id} />
 

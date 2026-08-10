@@ -139,20 +139,30 @@ export default function ProductInfo({ product }: { product: any }) {
       </div>
 
       {/* Pricing */}
-      <div className="flex items-end gap-3 mb-6">
-        <span className="text-3xl font-black text-zinc-900 leading-none">
-          {product.price.toLocaleString('fr-DZ')} DA
-        </span>
-        {product.comparePrice && (
-          <div className="flex items-center gap-2 pb-1">
-            <span className="text-sm font-bold text-zinc-400 line-through">
-              {product.comparePrice.toLocaleString('fr-DZ')} DA
-            </span>
-            <span className="text-[10px] font-black text-white bg-red-600 px-1.5 py-0.5 rounded animate-pulse">
-              -{discountPercent}%
-            </span>
-          </div>
-        )}
+      <div className="flex flex-col gap-2 mb-6">
+        <div className="flex items-end gap-3">
+          <span className="text-3xl font-black text-zinc-900 leading-none">
+            {product.price.toLocaleString('fr-DZ')} DA
+          </span>
+          {product.comparePrice && (
+            <div className="flex items-center gap-2 pb-1">
+              <span className="text-sm font-bold text-zinc-400 line-through decoration-zinc-300">
+                {product.comparePrice.toLocaleString('fr-DZ')} DA
+              </span>
+              <span className="text-[10px] font-black text-white bg-red-600 px-1.5 py-0.5 rounded animate-pulse">
+                -{discountPercent}%
+              </span>
+            </div>
+          )}
+        </div>
+        
+        {/* Payment Installments (Idea 90) */}
+        <div className="flex items-center gap-2 bg-zinc-50 border border-zinc-100 rounded-lg p-2 w-fit">
+          <svg className="w-4 h-4 text-[#C9A96E]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/></svg>
+          <p className="text-[10px] font-bold text-zinc-600">
+            Ou payez en <span className="font-black text-zinc-900">3x de {(product.price / 3).toLocaleString('fr-DZ', {maximumFractionDigits: 0})} DA</span> sans frais
+          </p>
+        </div>
       </div>
 
       {/* Scarcity Triggers */}
@@ -274,11 +284,11 @@ export default function ProductInfo({ product }: { product: any }) {
         disabled={!product.inStock || isAdding}
         onClick={handleAddToCart}
         className={`
-          w-full py-4 rounded-full flex items-center justify-center gap-2 text-[11px] font-black tracking-widest uppercase transition-all
+          w-full py-4 rounded-full flex items-center justify-center gap-2 text-[11px] font-black tracking-widest uppercase transition-all shadow-lg
           ${!product.inStock ? 'bg-zinc-200 text-zinc-400 cursor-not-allowed' : ''}
-          ${product.inStock && !isAdding && !justAdded ? 'bg-zinc-900 text-white hover:bg-zinc-800' : ''}
+          ${product.inStock && !isAdding && !justAdded ? 'bg-black text-white hover:bg-[#C9A96E]' : ''}
           ${isAdding ? 'bg-zinc-800 text-white' : ''}
-          ${justAdded ? 'bg-emerald-600 text-white' : ''}
+          ${justAdded ? 'bg-emerald-500 text-white' : ''}
         `}
       >
         {isAdding ? (
@@ -290,16 +300,83 @@ export default function ProductInfo({ product }: { product: any }) {
         )}
       </button>
 
-      {/* Description */}
-      {product.description && (
-        <div className="mt-10 pt-8 border-t border-zinc-100">
-          <h3 className="text-xs font-black tracking-widest uppercase text-zinc-900 mb-4">Description</h3>
-          <div className="text-sm text-zinc-500 leading-relaxed font-medium">
-            {/* If using portable text, you'd parse it here. For simplicity, we just render strings if it's simple text */}
-            {typeof product.description === 'string' ? product.description : "Description détaillée du produit."}
+      {/* Delivery Time Estimator (Idea 87) */}
+      <div className="mt-4 flex items-center justify-center gap-2 text-zinc-500">
+        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <p className="text-[10px] font-bold tracking-wide">
+          Commandez dans les <span className="text-zinc-900">2 prochaines heures</span> pour une livraison estimée le <span className="text-zinc-900 font-black">
+            {new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}
+          </span>
+        </p>
+      </div>
+
+      {/* Description & Details Accordions (Ideas 91, 93) */}
+      <div className="mt-8 pt-6 border-t border-zinc-100 flex flex-col gap-4">
+        {product.description && (
+          <details className="group cursor-pointer">
+            <summary className="flex items-center justify-between text-xs font-black tracking-widest uppercase text-zinc-900 select-none outline-none">
+              Description
+              <Plus className="w-4 h-4 transition-transform group-open:rotate-45" />
+            </summary>
+            <div className="mt-3 text-[11px] md:text-sm text-zinc-500 leading-relaxed font-medium pb-2">
+              {typeof product.description === 'string' ? product.description : "Description détaillée du produit."}
+            </div>
+          </details>
+        )}
+        
+        {/* Material & Care Instructions (Idea 93) */}
+        <details className="group cursor-pointer">
+          <summary className="flex items-center justify-between text-xs font-black tracking-widest uppercase text-zinc-900 select-none outline-none">
+            Matière & Entretien
+            <Plus className="w-4 h-4 transition-transform group-open:rotate-45" />
+          </summary>
+          <div className="mt-3 text-[11px] md:text-sm text-zinc-500 leading-relaxed font-medium pb-2 flex flex-col gap-2">
+            <p>100% Coton Premium. Fabriqué avec soin.</p>
+            <div className="flex items-center gap-3 mt-2">
+              <span className="p-2 bg-zinc-50 rounded-full text-xs" title="Lavage en machine à 30°C">🌊</span>
+              <span className="p-2 bg-zinc-50 rounded-full text-xs" title="Ne pas repasser sur l'impression">🚫🌡️</span>
+              <span className="p-2 bg-zinc-50 rounded-full text-xs" title="Séchage à plat">👕</span>
+            </div>
           </div>
+        </details>
+
+        {/* Product FAQs (Idea 91) */}
+        <details className="group cursor-pointer">
+          <summary className="flex items-center justify-between text-xs font-black tracking-widest uppercase text-zinc-900 select-none outline-none">
+            Livraison & Retours
+            <Plus className="w-4 h-4 transition-transform group-open:rotate-45" />
+          </summary>
+          <div className="mt-3 text-[11px] md:text-sm text-zinc-500 leading-relaxed font-medium pb-2 flex flex-col gap-2">
+            <p><strong>Livraison:</strong> 2 à 4 jours ouvrables vers les 58 wilayas.</p>
+            <p><strong>Retours:</strong> Vous disposez de 7 jours pour effectuer un retour si le produit ne vous convient pas.</p>
+          </div>
+        </details>
+      </div>
+
+      {/* Ask a Question & Social Share (Ideas 92, 94) */}
+      <div className="mt-6 flex items-center justify-between">
+        <a 
+          href={`https://wa.me/213671815533?text=Je suis intéressé par le produit: ${product.title}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-emerald-600 hover:text-emerald-700 transition-colors"
+        >
+          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a5.8 5.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.82 9.82 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+          Poser une question
+        </a>
+        
+        <div className="flex items-center gap-2">
+          <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mr-2">Partager</span>
+          <button className="w-8 h-8 rounded-full border border-zinc-200 flex items-center justify-center hover:bg-zinc-100 transition-colors">
+            <svg className="w-3.5 h-3.5 text-zinc-600" fill="currentColor" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg>
+          </button>
+          <button className="w-8 h-8 rounded-full border border-zinc-200 flex items-center justify-center hover:bg-zinc-100 transition-colors">
+            <svg className="w-3.5 h-3.5 text-zinc-600" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+          </button>
         </div>
-      )}
+      </div>
       {/* Delivery info mini */}
       <div className="mt-4 pt-4 border-t border-zinc-50 flex flex-col gap-1.5">
         {[{icon: Truck, text: 'توصيل لجميع الولايات الـ 58'}, {icon: Package, text: 'تغليف محكم ومضمون'}, {icon: RotateCcw, text: 'إرجاع مجاني خلال 7 أيام'}].map(({icon: Icon, text}) => (
