@@ -3,6 +3,7 @@ import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
+import RotatingText from '@/components/ui/RotatingText';
 
 export default function HeroSection({ homeData }: { homeData?: any }) {
   const banner = homeData?.heroBanners?.[0];
@@ -38,8 +39,8 @@ export default function HeroSection({ homeData }: { homeData?: any }) {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="flex items-center gap-3 mb-4"
         >
-          <div className="h-px w-8 md:w-12 bg-white md:bg-zinc-900" />
-          <span className="text-xs md:text-sm font-black tracking-[0.2em] uppercase">
+          <div className="h-px w-8 md:w-12 bg-white md:bg-[#C9A96E]" />
+          <span className="text-xs md:text-sm font-black tracking-[0.2em] uppercase text-white md:text-[#C9A96E]">
             {banner?.subtitle || 'NEW COLLECTION'}
           </span>
         </motion.div>
@@ -49,10 +50,11 @@ export default function HeroSection({ homeData }: { homeData?: any }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <h2 
-            className="text-5xl md:text-[5.5rem] font-black tracking-tighter uppercase leading-[0.9] mb-8"
-            dangerouslySetInnerHTML={{ __html: banner?.title || 'SUMMER<br/><span class="text-blue-500">VIBES</span>' }}
-          />
+          <h2 className="text-5xl md:text-[5.5rem] font-black tracking-tighter uppercase leading-[0.9] mb-3">
+            {banner?.title || 'STYLE'}
+            <br />
+            <RotatingText />
+          </h2>
         </motion.div>
 
         <motion.div

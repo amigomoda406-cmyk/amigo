@@ -3,8 +3,9 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
-import { Plus, Heart } from 'lucide-react';
+import { Plus, Heart, Flame } from 'lucide-react';
 import { useCartStore } from '@/contexts/cart.store';
+import { useWishlistStore } from '@/contexts/wishlist.store';
 import { urlFor } from '@/lib/sanity/client';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -15,9 +16,11 @@ interface ProductCardProps {
 
 export default function ProductCard({ product, index = 0 }: ProductCardProps) {
   const addItem = useCartStore(state => state.addItem);
+  const { toggle: toggleWishlist, isWished } = useWishlistStore();
+  const wished = isWished(product._id);
   const [showSizes, setShowSizes] = useState(false);
-  const [wished, setWished] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
+  const [hovered, setHovered] = useState(false);
 
   const imageUrl = product.images?.[0]?.asset?.url
     ? urlFor(product.images[0]).width(400).height(533).auto('format').quality(85).url()
@@ -59,34 +62,36 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
     <Link
       href={`/products/${product.slug?.current || '#'}`}
       className="flex flex-col group relative"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
       {/* صورة المنتج */}
-      <div className="aspect-[3/4] relative overflow-hidden rounded-xl bg-zinc-100 mb-2">
+      <div className={`aspect-[3/4] relative overflow-hidden rounded-xl bg-zinc-100 mb-2 transition-shadow duration-500 ${hovered ? 'shadow-[0_12px_35px_rgba(201,169,110,0.22)]' : 'shadow-sm'}`}>
         
         {/* البادجات */}
         {discountPercent && (
-          <span className="absolute top-2 left-2 z-10 bg-red-500 text-white text-[9px] font-black px-2 py-0.5 rounded-full">
+          <span className="absolute top-2 left-2 z-10 bg-red-500 text-white text-[9px] font-black px-2 py-0.5 rounded-full animate-pulse">
             -{discountPercent}%
           </span>
         )}
         {product.isNew && !discountPercent && (
-          <span className="absolute top-2 left-2 z-10 bg-zinc-900 text-white text-[9px] font-black px-2 py-0.5 rounded-full">
+          <span className="badge-new-shimmer absolute top-2 left-2 z-10 text-white text-[9px] font-black px-2 py-0.5 rounded-full">
             ✦ جديد
           </span>
         )}
         {product.isTrending && (
-          <span className="absolute top-2 right-2 z-10 bg-orange-500 text-white text-[9px] font-black px-2 py-0.5 rounded-full">
+          <span className="absolute top-2 right-10 z-10 bg-orange-500 text-white text-[9px] font-black px-2 py-0.5 rounded-full">
             🔥
           </span>
         )}
 
         {/* زر المفضلة */}
         <button
-          onClick={e => { e.preventDefault(); setWished(w => !w); }}
+          onClick={e => { e.preventDefault(); toggleWishlist(product._id); }}
           className="absolute top-2 right-2 z-10 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all"
         >
           <Heart
-            className={`w-3.5 h-3.5 transition-all ${wished ? 'fill-red-500 text-red-500' : 'text-zinc-600'}`}
+            className={`w-3.5 h-3.5 transition-all ${wished ? 'fill-red-500 text-red-500 scale-110' : 'text-zinc-600'}`}
             strokeWidth={wished ? 0 : 1.5}
           />
         </button>
