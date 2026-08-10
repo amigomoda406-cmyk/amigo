@@ -15,7 +15,7 @@ async function getProduct(slug: string) {
   const query = `
     *[_type == "product" && slug.current == $slug][0] {
       _id, title, slug, price, comparePrice, inStock, isNew, isTrending, images, description,
-      colors, sizes,
+      colors, sizes, stockQuantity,
       parentCategory->, subCategory->
     }
   `;

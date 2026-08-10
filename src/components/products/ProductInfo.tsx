@@ -12,7 +12,7 @@ export default function ProductInfo({ product }: { product: any }) {
   
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState<string | null>(
-    product.colors && product.colors.length > 0 ? product.colors[0].name : null
+    product.colors && product.colors.length > 0 ? product.colors[0] : null
   );
   const [quantity, setQuantity] = useState(1);
   
@@ -21,9 +21,28 @@ export default function ProductInfo({ product }: { product: any }) {
   const [justAdded, setJustAdded] = useState(false);
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
   const [showSticky, setShowSticky] = useState(false);
+  const [viewers, setViewers] = useState(12);
+  const [timeLeft, setTimeLeft] = useState({ h: 11, m: 45, s: 30 });
   const addToCartRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
+    // Simulated live viewers
+    setViewers(Math.floor(Math.random() * 15) + 5);
+    const viewerInterval = setInterval(() => {
+      setViewers(prev => prev + (Math.random() > 0.5 ? 1 : -1));
+    }, 15000);
+
+    // Simulated countdown timer for sale
+    const timerInterval = setInterval(() => {
+      setTimeLeft(prev => {
+        let { h, m, s } = prev;
+        if (s > 0) s--;
+        else if (m > 0) { m--; s = 59; }
+        else if (h > 0) { h--; m = 59; s = 59; }
+        return { h, m, s };
+      });
+    }, 1000);
+
     // Add to recently viewed
     useRecentlyViewedStore.getState().add({
       _id: product._id,
@@ -120,7 +139,7 @@ export default function ProductInfo({ product }: { product: any }) {
       </div>
 
       {/* Pricing */}
-      <div className="flex items-end gap-3 mb-8">
+      <div className="flex items-end gap-3 mb-6">
         <span className="text-3xl font-black text-zinc-900 leading-none">
           {product.price.toLocaleString('fr-DZ')} DA
         </span>
@@ -129,8 +148,37 @@ export default function ProductInfo({ product }: { product: any }) {
             <span className="text-sm font-bold text-zinc-400 line-through">
               {product.comparePrice.toLocaleString('fr-DZ')} DA
             </span>
-            <span className="text-[10px] font-black text-white bg-blue-600 px-1.5 py-0.5 rounded">
+            <span className="text-[10px] font-black text-white bg-red-600 px-1.5 py-0.5 rounded animate-pulse">
               -{discountPercent}%
+            </span>
+          </div>
+        )}
+      </div>
+
+      {/* Scarcity Triggers */}
+      <div className="flex flex-col gap-2 mb-6">
+        {/* Viewers */}
+        <div className="flex items-center gap-2 text-[10px] font-bold text-zinc-600 bg-zinc-50 py-2 px-3 rounded-xl border border-zinc-100 w-fit">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
+          {viewers} أشخاص ينظرون إلى هذا المنتج الآن
+        </div>
+
+        {/* Low Stock Warning */}
+        {product.stockQuantity > 0 && product.stockQuantity < 5 && (
+          <div className="flex items-center gap-2 text-[10px] font-bold text-orange-600 bg-orange-50 py-2 px-3 rounded-xl border border-orange-100 w-fit">
+            🔥 أسرع! متبقي {product.stockQuantity} قطع فقط في المخزون
+          </div>
+        )}
+
+        {/* Flash Sale Timer (If discounted) */}
+        {product.comparePrice && (
+          <div className="flex items-center gap-2 text-[10px] font-bold text-red-600 bg-red-50 py-2 px-3 rounded-xl border border-red-100 w-fit">
+            ⏳ ينتهي العرض خلال: 
+            <span className="font-black tracking-widest text-red-700 bg-white px-1.5 py-0.5 rounded border border-red-200">
+              {String(timeLeft.h).padStart(2, '0')}:{String(timeLeft.m).padStart(2, '0')}:{String(timeLeft.s).padStart(2, '0')}
             </span>
           </div>
         )}
