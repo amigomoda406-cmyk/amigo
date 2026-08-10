@@ -91,40 +91,48 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
             className="fixed top-0 left-0 right-0 z-50 bg-white shadow-2xl rounded-b-3xl max-h-[85vh] flex flex-col overflow-hidden"
           >
             {/* Search Input */}
-            <div className="flex items-center gap-3 px-4 py-3 border-b border-zinc-100">
-              <Search className="w-5 h-5 text-zinc-400 flex-shrink-0" strokeWidth={1.5} />
+            <div className="flex items-center gap-3 px-4 py-4 border-b border-zinc-100 bg-zinc-50/50">
+              <Search className="w-5 h-5 text-zinc-400 flex-shrink-0" strokeWidth={2} />
               <input
                 ref={inputRef}
                 type="search"
                 value={query}
                 onChange={e => setQuery(e.target.value)}
-                placeholder="ابحث عن منتج..."
-                className="flex-1 bg-transparent text-sm font-medium text-zinc-900 placeholder-zinc-400 outline-none"
-                dir="rtl"
+                placeholder="Que recherchez-vous ?"
+                className="flex-1 bg-transparent text-sm font-black text-zinc-900 placeholder-zinc-400 outline-none"
               />
               {query && (
-                <button onClick={() => setQuery('')} className="text-zinc-400 hover:text-zinc-700">
-                  <X className="w-4 h-4" />
+                <button onClick={() => setQuery('')} className="text-zinc-400 hover:text-zinc-900 transition-colors">
+                  <X className="w-5 h-5" />
                 </button>
               )}
-              <button onClick={onClose} className="text-[10px] font-bold text-zinc-500 border border-zinc-200 px-2 py-1 rounded-md">
-                إغلاق
+              {/* Voice Search Mock (Idea 132) */}
+              {!query && (
+                <button className="text-zinc-400 hover:text-[#C9A96E] transition-colors p-1" title="Recherche vocale">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
+                </button>
+              )}
+              <button onClick={onClose} className="text-[10px] font-black tracking-widest uppercase text-zinc-500 hover:text-zinc-900 transition-colors ml-2">
+                Fermer
               </button>
             </div>
 
             {/* Content */}
-            <div className="overflow-y-auto flex-1 px-4 py-4">
+            <div className="overflow-y-auto flex-1 px-4 py-6">
               {!query && (
                 <div>
-                  <p className="text-[9px] font-black uppercase tracking-widest text-zinc-400 mb-3">
-                    البحث الشائع
-                  </p>
+                  <div className="flex items-center gap-2 mb-4">
+                    <svg className="w-4 h-4 text-orange-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-zinc-900">
+                      Recherches Tendances
+                    </p>
+                  </div>
                   <div className="flex flex-wrap gap-2">
                     {POPULAR_SEARCHES.map(term => (
                       <button
                         key={term}
                         onClick={() => setQuery(term)}
-                        className="bg-zinc-100 text-zinc-700 px-4 py-2 rounded-full text-[11px] font-bold hover:bg-zinc-200 transition-colors"
+                        className="bg-white border border-zinc-200 text-zinc-700 px-4 py-2 rounded-full text-[11px] font-bold hover:border-zinc-900 hover:bg-zinc-900 hover:text-white transition-all shadow-sm"
                       >
                         {term}
                       </button>
@@ -134,11 +142,11 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
               )}
 
               {loading && (
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-4">
                   {[1, 2, 3].map(i => (
-                    <div key={i} className="flex gap-3 animate-pulse">
-                      <div className="w-14 h-16 bg-zinc-100 rounded-xl flex-shrink-0" />
-                      <div className="flex-1 space-y-2 py-1">
+                    <div key={i} className="flex gap-4 animate-pulse items-center">
+                      <div className="w-16 h-20 bg-zinc-100 rounded-xl flex-shrink-0" />
+                      <div className="flex-1 space-y-3 py-2">
                         <div className="h-3 bg-zinc-100 rounded-full w-3/4" />
                         <div className="h-3 bg-zinc-100 rounded-full w-1/3" />
                       </div>
@@ -149,31 +157,33 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
 
               {!loading && results.length > 0 && (
                 <div>
-                  <p className="text-[9px] font-black uppercase tracking-widest text-zinc-400 mb-3">
-                    النتائج ({results.length})
+                  <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-4">
+                    Produits ({results.length})
                   </p>
-                  <div className="flex flex-col divide-y divide-zinc-50">
+                  <div className="flex flex-col gap-3">
                     {results.map(product => {
                       const imgUrl = product.images?.[0]
-                        ? urlFor(product.images[0]).width(120).height(160).url()
+                        ? urlFor(product.images[0]).width(160).height(200).url()
                         : null;
                       return (
                         <Link
                           key={product._id}
                           href={`/products/${product.slug.current}`}
                           onClick={onClose}
-                          className="flex items-center gap-3 py-3 hover:bg-zinc-50 -mx-1 px-1 rounded-xl transition-colors"
+                          className="group flex items-center gap-4 p-2 hover:bg-zinc-50 rounded-2xl transition-colors border border-transparent hover:border-zinc-100"
                         >
-                          <div className="w-14 h-16 rounded-xl overflow-hidden bg-zinc-100 flex-shrink-0 relative">
-                            {imgUrl && <Image src={imgUrl} fill className="object-cover" alt={product.title} />}
+                          <div className="w-16 h-20 rounded-xl overflow-hidden bg-zinc-100 flex-shrink-0 relative shadow-sm group-hover:shadow-md transition-shadow">
+                            {imgUrl && <Image src={imgUrl} fill className="object-cover group-hover:scale-105 transition-transform duration-500" alt={product.title} sizes="64px" />}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <p className="text-[11px] font-black text-zinc-900 truncate">{product.title}</p>
-                            <p className="text-[11px] font-bold text-zinc-500 mt-0.5">
+                            <p className="text-[12px] font-black text-zinc-900 truncate uppercase tracking-tight">{product.title}</p>
+                            <p className="text-[11px] font-bold text-[#C9A96E] mt-1">
                               {product.price?.toLocaleString('fr-DZ')} DA
                             </p>
                           </div>
-                          <ArrowRight className="w-4 h-4 text-zinc-300 flex-shrink-0" />
+                          <div className="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center text-zinc-400 group-hover:text-zinc-900 group-hover:bg-zinc-100 transition-colors mr-2">
+                            <ArrowRight className="w-4 h-4" />
+                          </div>
                         </Link>
                       );
                     })}
@@ -182,9 +192,28 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
               )}
 
               {!loading && query.length >= 2 && results.length === 0 && (
-                <div className="text-center py-10">
-                  <p className="text-zinc-400 text-sm font-medium">لا توجد نتائج لـ "{query}"</p>
-                  <p className="text-zinc-300 text-xs mt-1">جرّب كلمة أخرى</p>
+                <div className="text-center py-12 flex flex-col items-center">
+                  <div className="w-16 h-16 rounded-full bg-zinc-50 flex items-center justify-center mb-4 border border-zinc-100">
+                    <Search className="w-6 h-6 text-zinc-300" />
+                  </div>
+                  <h3 className="text-sm font-black uppercase tracking-widest text-zinc-900 mb-2">Aucun résultat</h3>
+                  <p className="text-[11px] font-medium text-zinc-500 mb-6 max-w-[250px]">
+                    Nous n'avons rien trouvé pour "{query}". Essayez avec d'autres mots-clés.
+                  </p>
+                  
+                  {/* No Results Suggestions (Idea 131) */}
+                  <div className="w-full pt-6 border-t border-zinc-100">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-4 text-left">
+                      Découvrez nos collections
+                    </p>
+                    <div className="grid grid-cols-2 gap-3">
+                      {['Nouveautés', 'Promotions', 'Robes', 'Accessoires'].map(cat => (
+                        <button key={cat} onClick={() => { setQuery(cat); }} className="bg-zinc-50 p-4 rounded-xl text-left hover:bg-zinc-100 transition-colors">
+                          <span className="text-[11px] font-bold text-zinc-900">{cat}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               )}
             </div>

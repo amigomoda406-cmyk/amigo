@@ -3,6 +3,7 @@ import { ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 import { CATEGORY_CONFIG } from '@/lib/config/categories';
 import SubCategoryCard from '@/components/categories/SubCategoryCard';
+import CategoryFilters from '@/components/categories/CategoryFilters';
 import { client } from '@/lib/sanity/client';
 import ProductCard from '@/components/products/ProductCard';
 
@@ -79,6 +80,8 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
           <h3 className="text-[11px] font-black uppercase text-zinc-900 tracking-widest">Tous les produits</h3>
           <p className="text-[10px] text-zinc-500 font-medium mt-0.5">Dernières nouveautés</p>
         </div>
+
+        <CategoryFilters />
 
         {products.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 auto-rows-max">
