@@ -3,12 +3,15 @@ import { SignJWT } from 'jose';
 
 export async function POST(req: Request) {
   try {
-    const { password } = await req.json();
+    const { username, password } = await req.json();
 
-    if (password === process.env.ADMIN_SECRET) {
+    const validUsername = process.env.ADMIN_USERNAME || 'admin';
+    const validPassword = process.env.ADMIN_PASSWORD || process.env.ADMIN_SECRET;
+
+    if (username === validUsername && password === validPassword) {
       // Create JWT
-      const secret = new TextEncoder().encode(process.env.ADMIN_SECRET);
-      const token = await new SignJWT({ role: 'admin' })
+      const secret = new TextEncoder().encode(validPassword);
+      const token = await new SignJWT({ role: 'admin', username })
         .setProtectedHeader({ alg: 'HS256' })
         .setIssuedAt()
         .setExpirationTime('7d')
@@ -29,7 +32,7 @@ export async function POST(req: Request) {
       return response;
     }
 
-    return NextResponse.json({ success: false, error: 'Invalid password' }, { status: 401 });
+    return NextResponse.json({ success: false, error: 'Invalid credentials' }, { status: 401 });
   } catch (error) {
     return NextResponse.json({ success: false, error: 'Server error' }, { status: 500 });
   }

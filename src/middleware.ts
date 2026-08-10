@@ -15,7 +15,7 @@ export async function middleware(request: NextRequest) {
     }
 
     try {
-      const secret = new TextEncoder().encode(process.env.ADMIN_SECRET);
+      const secret = new TextEncoder().encode(process.env.ADMIN_PASSWORD || process.env.ADMIN_SECRET);
       await jwtVerify(adminToken, secret);
     } catch (err) {
       // Invalid token

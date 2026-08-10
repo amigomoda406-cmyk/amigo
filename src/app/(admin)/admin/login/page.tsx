@@ -6,6 +6,7 @@ import { Loader2, Lock } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function AdminLogin() {
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -20,7 +21,7 @@ export default function AdminLogin() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ password }),
+        body: JSON.stringify({ username, password }),
       });
 
       const data = await res.json();
@@ -30,7 +31,7 @@ export default function AdminLogin() {
         router.push('/admin');
         router.refresh(); // Important to refresh layout state
       } else {
-        toast.error('Mot de passe incorrect');
+        toast.error('Identifiants incorrects');
       }
     } catch (error) {
       toast.error('Erreur de connexion');
@@ -47,10 +48,20 @@ export default function AdminLogin() {
             <Lock className="w-6 h-6 text-zinc-900" />
           </div>
           <h1 className="text-2xl font-black uppercase tracking-widest text-zinc-900">Accès Admin</h1>
-          <p className="text-sm text-zinc-500 font-bold mt-2">Veuillez entrer le mot de passe</p>
+          <p className="text-sm text-zinc-500 font-bold mt-2">Veuillez vous identifier</p>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-4">
+          <div>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Nom d'utilisateur"
+              className="w-full px-4 py-3 bg-zinc-50 border-2 border-zinc-200 rounded-xl text-sm font-bold outline-none transition-all focus:border-zinc-900 focus:bg-white"
+              required
+            />
+          </div>
           <div>
             <input
               type="password"
