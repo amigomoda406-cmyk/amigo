@@ -7,11 +7,13 @@ import RotatingText from '@/components/ui/RotatingText';
 export default function HeroSection({ homeData }: { homeData?: any }) {
   const banner = homeData?.heroBanners?.[0];
   const seasonColor = banner?.seasonColor || '#C9A96E';
+  // Use Sanity image if available, otherwise fall back to local static
+  const heroImage = banner?.imageUrl || '/hero-custom.jpeg';
 
   return (
     <section
       className="relative w-full h-[190px] md:h-[70vh] md:min-h-[600px] bg-cover bg-center bg-no-repeat overflow-hidden"
-      style={{ backgroundImage: "url('/hero-custom.jpeg')" }}
+      style={{ backgroundImage: `url('${heroImage}')` }}
     >
       {/* Dark overlay on desktop only to help text readability on left */}
       <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-transparent hidden md:block" />

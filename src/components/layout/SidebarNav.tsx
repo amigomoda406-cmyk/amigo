@@ -25,10 +25,9 @@ export default function SidebarNav() {
   ];
 
   const categoryLinks = [
-    { href: '/category/femme', label: 'Women' },
-    { href: '/category/homme', label: 'Men' },
-    { href: '/category/enfants', label: 'Kids' },
-    { href: '/category/accessories', label: 'Accessories' },
+    { href: '/category/clothes', label: 'Vêtements' },
+    { href: '/category/shoes', label: 'Chaussures' },
+    { href: '/category/accessories', label: 'Accessoires' },
   ];
 
   return (

@@ -62,6 +62,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.12",
     "jsdom": "^30.0.0",
+    "node-fetch": "^3.3.2",
     "typescript": "^5",
     "vitest": "^4.1.10"
   },

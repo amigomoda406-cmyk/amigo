@@ -46,7 +46,7 @@ async function getHomeData() {
         _id, title, slug, price, comparePrice, inStock, isNew, isTrending, images, colors, sizes
       },
       "categories": *[_type == "category"][0...8] {
-        _id, title, slug
+        _id, title, slug, "imageUrl": image.asset->url
       },
       "lookbooks": *[_type == "lookbook"][0...3] {
         _id, title, image, 
@@ -78,7 +78,7 @@ export default async function HomePage() {
       
       <FeaturesSection />
 
-      <CategoriesSection />
+      <CategoriesSection categories={categories} />
 
       <Suspense fallback={<div className="h-[200px] bg-zinc-100 animate-pulse" />}>
         <NewArrivalsSection products={newArrivals} />

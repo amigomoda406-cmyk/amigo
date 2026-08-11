@@ -1,6 +1,5 @@
 import { notFound } from 'next/navigation';
 import { client } from '@/lib/sanity/client';
-import { CATEGORY_CONFIG } from '@/lib/config/categories';
 import ProductListingPage from '@/components/products/ProductListingPage';
 
 // Optional: you could make this dynamic, but statically generating speeds up performance
@@ -16,23 +15,28 @@ async function getProductsBySubCategory(parentSlug: string, subSlug: string) {
   return await client.fetch(query, { parentSlug, subSlug });
 }
 
+async function getSubCategoryDetails(parentSlug: string, subSlug: string) {
+  const query = `
+    *[_type == "subcategory" && parentCategory->slug.current == $parentSlug && slug.current == $subSlug][0] {
+      title
+    }
+  `;
+  return await client.fetch(query, { parentSlug, subSlug });
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string, sub: string }> }) {
   const resolvedParams = await params;
-  const config = CATEGORY_CONFIG[resolvedParams.slug as keyof typeof CATEGORY_CONFIG];
-  if (!config) return { title: 'Not Found' };
+  const subCat = await getSubCategoryDetails(resolvedParams.slug, resolvedParams.sub);
   
-  const subCat = config.subCategories.find(s => s.id === resolvedParams.sub);
   if (!subCat) return { title: 'Not Found' };
 
-  return { title: `${subCat.name} | Amigo Moda` };
+  return { title: `${subCat.title} | Amigo Moda` };
 }
 
 export default async function SubCategoryPage({ params }: { params: Promise<{ slug: string, sub: string }> }) {
   const resolvedParams = await params;
-  const config = CATEGORY_CONFIG[resolvedParams.slug as keyof typeof CATEGORY_CONFIG];
-  if (!config) notFound();
-
-  const subCat = config.subCategories.find(s => s.id === resolvedParams.sub);
+  
+  const subCat = await getSubCategoryDetails(resolvedParams.slug, resolvedParams.sub);
   if (!subCat) notFound();
 
   // Fetch products from Sanity matching this subcategory
@@ -41,7 +45,7 @@ export default async function SubCategoryPage({ params }: { params: Promise<{ sl
   return (
     <ProductListingPage 
       parentCategory={resolvedParams.slug}
-      subCategoryName={subCat.name}
+      subCategoryName={subCat.title}
       products={products}
     />
   );
