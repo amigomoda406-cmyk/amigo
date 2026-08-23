@@ -3,39 +3,27 @@ import { ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 import SubCategoryCard from '@/components/categories/SubCategoryCard';
 import CategoryFilters from '@/components/categories/CategoryFilters';
-import { client } from '@/lib/sanity/client';
+import { getCategoryData, getCategoryTitle } from '@/lib/sanity/queries';
 import ProductCard from '@/components/products/ProductCard';
+
+// ✅ ISR: 2 ساعة — الأقسام ثابتة نادراً ما تتغير
+export const revalidate = 7200;
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params;
-  const query = `*[_type == "category" && slug.current == $slug][0]{title}`;
-  const category = await client.fetch(query, { slug: resolvedParams.slug });
+  const category = await getCategoryTitle(resolvedParams.slug);
   if (!category) return { title: 'Not Found' };
   return { title: `${category.title} | Amigo Moda` };
 }
 
-async function getCategoryData(slug: string) {
-  const query = `
-    {
-      "category": *[_type == "category" && slug.current == $slug][0] {
-        title, "imageUrl": image.asset->url
-      },
-      "subcategories": *[_type == "subcategory" && parentCategory->slug.current == $slug] {
-        _id, title, "slug": slug.current, "imageUrl": image.asset->url
-      },
-      "products": *[_type == "product" && parentCategory->slug.current == $slug] {
-        _id, title, slug, price, comparePrice, inStock, isNew, isTrending, images,
-        parentCategory->, subCategory->
-      }
-    }
-  `;
-  return await client.fetch(query, { slug });
+async function fetchCategoryData(slug: string) {
+  return getCategoryData(slug);
 }
 
 export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params;
   
-  const data = await getCategoryData(resolvedParams.slug);
+  const data = await fetchCategoryData(resolvedParams.slug);
   
   if (!data.category) {
     notFound();

@@ -1,9 +1,6 @@
-// src/app/studio/[[...index]]/page.tsx
-'use client';
+// الرابط القديم /studio محظور الآن — يُعيد 404
+import { notFound } from 'next/navigation';
 
-import { NextStudio } from 'next-sanity/studio';
-import config from '../../../../sanity.config';
-
-export default function StudioPage() {
-  return <NextStudio config={config} />;
+export default function StudioRedirect() {
+  notFound();
 }

@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
-import { client, urlFor } from '@/lib/sanity/client';
+import { urlFor } from '@/lib/sanity/client';
+import { getProduct, getRelatedProducts } from '@/lib/sanity/queries';
 import ProductImageGallery from '@/components/products/ProductImageGallery';
 import ProductInfo from '@/components/products/ProductInfo';
 import RelatedProducts from '@/components/products/RelatedProducts';
@@ -9,28 +10,11 @@ import StoreFooter from '@/components/layout/StoreFooter';
 import Breadcrumb from '@/components/ui/Breadcrumb';
 import TrustBadges from '@/components/ui/TrustBadges';
 
-// Revalidate every 60 seconds
-export const revalidate = 60;
+// ✅ ISR: 1 ساعة — Redis + Cloudflare سيغطيان الباقي
+export const revalidate = 3600;
 
-async function getProduct(slug: string) {
-  const query = `
-    *[_type == "product" && slug.current == $slug][0] {
-      _id, title, slug, price, comparePrice, inStock, isNew, isTrending, images, description,
-      colors, sizes, stockQuantity,
-      parentCategory->, subCategory->
-    }
-  `;
-  return await client.fetch(query, { slug });
-}
-
-async function getRelatedProducts(productId: string, categoryId: string) {
-  const query = `
-    *[_type == "product" && _id != $productId && parentCategory._ref == $categoryId] | order(_createdAt desc) [0...8] {
-      _id, title, slug, price, comparePrice, isNew, isTrending, inStock, images, colors, sizes
-    }
-  `;
-  return await client.fetch(query, { productId, categoryId });
-}
+// ✅ Queries مُركزية في lib/sanity/queries.ts (مع Redis Cache)
+// لا نكتب fetch مباشرة هنا
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params;
