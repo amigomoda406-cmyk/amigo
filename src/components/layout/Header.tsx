@@ -102,75 +102,14 @@ export default function Header() {
               transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.1 }}
               className="flex flex-col items-center lg:items-start"
             >
-              <h1 className="text-xl md:text-2xl font-black tracking-[0.2em] text-zinc-900 group-hover:text-[#C9A96E] transition-colors duration-500 uppercase leading-none whitespace-nowrap" style={{ fontFamily: 'var(--font-outfit)' }}>
+              <h1 className="text-3xl md:text-4xl text-zinc-900 group-hover:text-[#C9A96E] transition-colors duration-500 leading-none whitespace-nowrap" style={{ fontFamily: 'var(--font-grand-hotel)' }}>
                 Amigo Moda
               </h1>
               <div className="w-0 h-[2px] bg-[#C9A96E] mt-1 group-hover:w-full transition-all duration-500 ease-out hidden lg:block" />
             </motion.div>
           </Link>
 
-          {/* Center: Desktop Mega Menu (Hidden on mobile) */}
-          <nav className="hidden lg:flex flex-1 items-center justify-center gap-10">
-            {/* Mega Menu Item: Femme */}
-            <div className="group/nav relative h-full flex items-center">
-              <Link href="/category/femme" className="text-[11px] font-black uppercase tracking-widest text-zinc-900 hover:text-[#C9A96E] transition-colors py-4">Femme</Link>
-              <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 opacity-0 pointer-events-none group-hover/nav:opacity-100 group-hover/nav:pointer-events-auto transition-all duration-300 translate-y-2 group-hover/nav:translate-y-0 z-50">
-                <div className="bg-white rounded-3xl shadow-2xl shadow-black/5 border border-zinc-100 p-8 w-[600px] flex gap-8 relative overflow-hidden">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-[#C9A96E]/5 rounded-bl-full -z-10" />
-                  <div className="flex-1 space-y-3">
-                    <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-4">Vêtements</h4>
-                    <Link href="#" className="block text-xs font-bold text-zinc-900 hover:text-[#C9A96E] transition-colors">Robes de Soirée</Link>
-                    <Link href="#" className="block text-xs font-bold text-zinc-900 hover:text-[#C9A96E] transition-colors">Vestes & Manteaux</Link>
-                    <Link href="#" className="block text-xs font-bold text-zinc-900 hover:text-[#C9A96E] transition-colors">Pulls & Gilets</Link>
-                    <Link href="#" className="block text-xs font-bold text-zinc-900 hover:text-[#C9A96E] transition-colors">Ensembles</Link>
-                  </div>
-                  <div className="flex-1 space-y-3">
-                    <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-4">Accessoires</h4>
-                    <Link href="#" className="block text-xs font-bold text-zinc-900 hover:text-[#C9A96E] transition-colors">Sacs à main</Link>
-                    <Link href="#" className="block text-xs font-bold text-zinc-900 hover:text-[#C9A96E] transition-colors">Bijoux</Link>
-                    <Link href="#" className="block text-xs font-bold text-zinc-900 hover:text-[#C9A96E] transition-colors">Chaussures</Link>
-                  </div>
-                  <div className="flex-1 bg-zinc-900 rounded-2xl p-4 flex flex-col justify-end relative overflow-hidden group/card border border-zinc-800">
-                    <div className="absolute inset-0 bg-gradient-to-br from-zinc-800 to-zinc-900 z-0" />
-                    <div className="relative z-20">
-                      <span className="text-[8px] font-black uppercase tracking-widest text-white/80 bg-white/20 backdrop-blur-md px-2 py-1 rounded-md mb-2 inline-block">New</span>
-                      <h5 className="text-white text-sm font-black uppercase tracking-widest">Spring Collection</h5>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
 
-            {/* Mega Menu Item: Homme */}
-            <div className="group/nav relative h-full flex items-center">
-              <Link href="/category/homme" className="text-[11px] font-black uppercase tracking-widest text-zinc-900 hover:text-[#C9A96E] transition-colors py-4">Homme</Link>
-              <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 opacity-0 pointer-events-none group-hover/nav:opacity-100 group-hover/nav:pointer-events-auto transition-all duration-300 translate-y-2 group-hover/nav:translate-y-0 z-50">
-                <div className="bg-white rounded-3xl shadow-2xl shadow-black/5 border border-zinc-100 p-8 w-[600px] flex gap-8">
-                   <div className="flex-1 space-y-3">
-                    <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-4">Vêtements</h4>
-                    <Link href="#" className="block text-xs font-bold text-zinc-900 hover:text-[#C9A96E] transition-colors">T-shirts & Polos</Link>
-                    <Link href="#" className="block text-xs font-bold text-zinc-900 hover:text-[#C9A96E] transition-colors">Chemises</Link>
-                    <Link href="#" className="block text-xs font-bold text-zinc-900 hover:text-[#C9A96E] transition-colors">Pantalons & Jeans</Link>
-                  </div>
-                  <div className="flex-1 space-y-3">
-                    <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-4">Chaussures</h4>
-                    <Link href="#" className="block text-xs font-bold text-zinc-900 hover:text-[#C9A96E] transition-colors">Sneakers</Link>
-                    <Link href="#" className="block text-xs font-bold text-zinc-900 hover:text-[#C9A96E] transition-colors">Mocassins</Link>
-                    <Link href="#" className="block text-xs font-bold text-zinc-900 hover:text-[#C9A96E] transition-colors">Classique</Link>
-                  </div>
-                  <div className="flex-1 bg-zinc-900 rounded-2xl p-4 flex flex-col justify-end relative overflow-hidden group/card">
-                    <div className="absolute inset-0 bg-gradient-to-br from-zinc-700 to-zinc-900 z-0" />
-                    <div className="relative z-20">
-                      <h5 className="text-white text-sm font-black uppercase tracking-widest">Custom Suits</h5>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <Link href="/category/enfants" className="text-[11px] font-black uppercase tracking-widest text-zinc-900 hover:text-[#C9A96E] transition-colors py-4">Enfants</Link>
-            <Link href="/promotions" className="text-[11px] font-black uppercase tracking-widest text-red-600 hover:text-red-700 transition-colors py-4">Promotions</Link>
-          </nav>
 
           {/* Right: Cart */}
           <div className="flex-1 flex items-center justify-end gap-1 sm:gap-2">

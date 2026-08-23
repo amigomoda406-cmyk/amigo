@@ -52,8 +52,8 @@ export default function SidebarNav() {
       >
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-zinc-100 shrink-0">
-          <h2 className="text-lg font-black tracking-widest text-zinc-900 uppercase">
-            AMIGO MODA
+          <h2 className="text-3xl text-zinc-900" style={{ fontFamily: 'var(--font-grand-hotel)' }}>
+            Amigo Moda
           </h2>
           <button
             onClick={close}

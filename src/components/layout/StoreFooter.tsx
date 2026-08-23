@@ -33,8 +33,8 @@ export default function StoreFooter() {
           <Link href="/" className="flex flex-col items-center gap-3 group w-fit">
             <img src="/am-monogram.svg" alt="AM" className="w-10 h-10 opacity-90 group-hover:opacity-100 transition-opacity" />
             <div>
-              <h2 className="text-xl font-black tracking-[0.15em] uppercase text-white group-hover:text-[#C9A96E] transition-colors">AMIGO MODA</h2>
-              <div className="h-[2px] w-0 group-hover:w-full bg-[#C9A96E] transition-all duration-500 mx-auto" />
+              <h2 className="text-3xl text-white group-hover:text-[#C9A96E] transition-colors" style={{ fontFamily: 'var(--font-grand-hotel)' }}>Amigo Moda</h2>
+              <div className="h-[2px] w-0 group-hover:w-full bg-[#C9A96E] transition-all duration-500 mx-auto mt-1" />
             </div>
           </Link>
           <p className="text-zinc-500 text-[11px] leading-relaxed font-medium max-w-sm">

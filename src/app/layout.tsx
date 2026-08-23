@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Toaster } from 'react-hot-toast';
-import { Outfit, Cairo } from 'next/font/google';
+import { Outfit, Cairo, Grand_Hotel } from 'next/font/google';
 import { AuthProvider } from '@/lib/supabase/auth-context';
 import ThemeProvider from '@/components/providers/ThemeProvider';
 import PageLoader from '@/components/ui/PageLoader';
@@ -10,6 +10,7 @@ import '@/styles/animations.css';
 
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit', display: 'swap' });
 const cairo = Cairo({ subsets: ['arabic', 'latin'], variable: '--font-cairo', display: 'swap', weight: ['200','300','400','500','600','700','800','900'] });
+const grandHotel = Grand_Hotel({ subsets: ['latin'], weight: '400', variable: '--font-grand-hotel', display: 'swap' });
 
 export const metadata: Metadata = {
   title: {
@@ -40,7 +41,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" dir="rtl" className={`scroll-smooth ${outfit.variable} ${cairo.variable}`} suppressHydrationWarning>
+    <html lang="ar" dir="rtl" className={`scroll-smooth ${outfit.variable} ${cairo.variable} ${grandHotel.variable}`} suppressHydrationWarning>
       <head>
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="google" content="notranslate" />

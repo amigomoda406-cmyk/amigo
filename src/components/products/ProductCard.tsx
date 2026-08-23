@@ -77,10 +77,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
           </div>
         )}
 
-        {/* Brand Logo Overlay (Idea 60 - Mocked if not present) */}
-        <div className="absolute top-2 right-2 z-10 opacity-30 mix-blend-multiply pointer-events-none">
-           <div className="w-6 h-6 flex items-center justify-center border border-zinc-400 rounded-full text-[8px] font-bold text-zinc-600">AM</div>
-        </div>
+
 
         {/* البادجات المخصصة */}
         <div className="absolute top-2 left-2 z-10 flex flex-col gap-1">

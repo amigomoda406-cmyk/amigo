@@ -17,7 +17,7 @@ export default function PageLoader() {
     <div className="fixed inset-0 bg-white z-[9999] flex items-center justify-center pointer-events-none transition-opacity duration-500 ease-out">
       <div className="flex flex-col items-center gap-4 animate-pulse">
         <img src="/am-monogram.svg" alt="Amigo Moda" className="w-16 h-16 text-[#C9A96E]" />
-        <span className="text-[10px] tracking-[0.3em] font-black text-zinc-400 uppercase">
+        <span className="text-2xl text-zinc-900" style={{ fontFamily: 'var(--font-grand-hotel)' }}>
           Amigo Moda
         </span>
       </div>
