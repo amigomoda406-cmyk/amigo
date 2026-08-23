@@ -12,7 +12,7 @@ export default function ProductInfo({ product }: { product: any }) {
   
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState<string | null>(
-    product.colors && product.colors.length > 0 ? product.colors[0] : null
+    product.colorVariants && product.colorVariants.length > 0 ? product.colorVariants[0] : null
   );
   const [quantity, setQuantity] = useState(1);
   
@@ -195,21 +195,21 @@ export default function ProductInfo({ product }: { product: any }) {
       </div>
 
       {/* Colors */}
-      {product.colors && product.colors.length > 0 && (
+      {product.colorVariants && product.colorVariants.length > 0 && (
         <div className="mb-6">
           <div className="flex items-center justify-between mb-3">
             <span className="text-[10px] font-black tracking-widest uppercase text-zinc-900">Couleur</span>
             <span className="text-[10px] font-bold text-zinc-500">{selectedColor}</span>
           </div>
           <div className="flex flex-wrap gap-3">
-            {product.colors.map((color: any) => (
+            {product.colorVariants.map((color: any) => (
               <button
-                key={color.name}
-                onClick={() => setSelectedColor(color.name)}
+                key={color.color}
+                onClick={() => setSelectedColor(color.color)}
                 className={`w-8 h-8 rounded-full border-2 transition-all ${
-                  selectedColor === color.name ? 'border-zinc-900 scale-110' : 'border-transparent'
+                  selectedColor === color.color ? 'border-zinc-900 scale-110' : 'border-transparent'
                 }`}
-                style={{ backgroundColor: color.hex }}
+                style={{ backgroundColor: color.color }}
               />
             ))}
           </div>

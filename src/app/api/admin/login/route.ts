@@ -5,8 +5,12 @@ export async function POST(req: Request) {
   try {
     const { username, password } = await req.json();
 
-    const validUsername = process.env.ADMIN_USERNAME || 'admin';
-    const validPassword = process.env.ADMIN_PASSWORD || process.env.ADMIN_SECRET;
+    const validUsername = process.env.ADMIN_USERNAME;
+    const validPassword = process.env.ADMIN_PASSWORD;
+
+    if (!validUsername || !validPassword) {
+      return NextResponse.json({ success: false, error: 'Admin credentials not configured' }, { status: 500 });
+    }
 
     if (username === validUsername && password === validPassword) {
       // Create JWT

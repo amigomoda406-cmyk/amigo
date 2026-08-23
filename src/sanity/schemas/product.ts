@@ -167,16 +167,47 @@ export const product = defineType({
       description: 'اختر المقاسات المتوفرة',
     }),
 
-    // ===== الألوان الـ 32 =====
+    // ===== الألوان والصور المخصصة لكل لون =====
     defineField({
-      name: 'colors',
-      title: 'الألوان المتوفرة',
+      name: 'colorVariants',
+      title: 'الألوان وصورها المخصصة (اختياري)',
+      description: 'أضف الألوان المتوفرة، ويمكنك إرفاق صور خاصة بكل لون لتتغير تلقائياً عند اختيار العميل للون.',
       type: 'array',
-      of: [{ type: 'string' }],
-      options: {
-        list: PRESET_COLORS,
-      },
-      description: 'اختر الألوان المتوفرة لهذا المنتج',
+      of: [
+        {
+          type: 'object',
+          title: 'لون مخصص',
+          fields: [
+            defineField({
+              name: 'color',
+              title: 'اللون',
+              type: 'string',
+              options: { list: PRESET_COLORS },
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: 'images',
+              title: 'صور هذا اللون (اختياري)',
+              type: 'array',
+              of: [{ type: 'image', options: { hotspot: true } }],
+              description: 'إذا لم تضف صوراً هنا، سيتم عرض صور المنتج الرئيسية.',
+            }),
+          ],
+          preview: {
+            select: {
+              title: 'color',
+              media: 'images.0'
+            },
+            prepare({ title, media }) {
+              const colorObj = PRESET_COLORS.find(c => c.value === title);
+              return {
+                title: colorObj ? colorObj.title : title,
+                media
+              };
+            }
+          }
+        }
+      ],
     }),
 
     // ===== حقول جديدة للتسويق =====

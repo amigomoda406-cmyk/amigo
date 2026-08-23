@@ -221,17 +221,17 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
         </div>
 
         {/* Color Swatches */}
-        {product.colors && product.colors.length > 0 ? (
+        {product.colorVariants && product.colorVariants.length > 0 ? (
           <div className="flex items-center gap-1.5">
-            {product.colors.slice(0, 5).map((color: any, idx: number) => (
+            {product.colorVariants.slice(0, 5).map((color: any, idx: number) => (
               <div
                 key={idx}
                 className="w-3.5 h-3.5 rounded-full border border-zinc-200 shadow-sm"
-                style={{ backgroundColor: color.hex || color }}
-                title={color.name || color}
+                style={{ backgroundColor: color?.color || color }}
+                title={color?.color || color}
               />
             ))}
-            {product.colors.length > 5 && <span className="text-[9px] text-zinc-400 font-bold">+{product.colors.length - 5}</span>}
+            {product.colorVariants.length > 5 && <span className="text-[9px] text-zinc-400 font-bold">+{product.colorVariants.length - 5}</span>}
           </div>
         ) : (
           <div className="flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">

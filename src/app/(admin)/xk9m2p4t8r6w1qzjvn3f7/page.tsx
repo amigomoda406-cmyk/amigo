@@ -10,7 +10,7 @@ async function verifyAdmin() {
   const token = cookieStore.get('admin_token')?.value;
   if (!token) redirect('/xk9m2p4t8r6w1qzjvn3f7/login');
   try {
-    const secret = new TextEncoder().encode(process.env.ADMIN_PASSWORD || process.env.ADMIN_SECRET);
+    const secret = new TextEncoder().encode(process.env.ADMIN_PASSWORD || 'UNSET_SECRET');
     await jwtVerify(token, secret);
   } catch {
     redirect('/xk9m2p4t8r6w1qzjvn3f7/login');

@@ -30,7 +30,7 @@ export async function proxy(request: NextRequest) {
 
     try {
       const secret = new TextEncoder().encode(
-        process.env.ADMIN_PASSWORD || process.env.ADMIN_SECRET
+        process.env.ADMIN_PASSWORD || 'UNSET_SECRET'
       );
       await jwtVerify(adminToken, secret);
     } catch {
