@@ -98,15 +98,15 @@ export default async function AdminDashboard() {
                 className="flex items-center justify-between p-4 rounded-xl border border-zinc-100 hover:border-zinc-300 hover:bg-zinc-50 transition-all group"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 bg-emerald-50 rounded-xl flex items-center justify-center">
-                    <Package className="w-4 h-4 text-emerald-600" />
+                  <div className="w-10 h-10 rounded-lg bg-green-50 flex items-center justify-center text-green-600 group-hover:scale-110 transition-transform">
+                    <Package className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="text-sm font-black text-zinc-900">Manage Orders</p>
-                    <p className="text-[10px] text-zinc-500">View and update customer orders</p>
+                    <h3 className="font-bold text-zinc-900 text-sm">Manage Orders</h3>
+                    <p className="text-xs text-zinc-500 font-medium">View and update customer orders</p>
                   </div>
                 </div>
-                <span className="text-zinc-300 group-hover:text-zinc-600 transition-colors">→</span>
+                <ArrowRight className="w-4 h-4 text-zinc-300 group-hover:text-zinc-600 group-hover:translate-x-1 transition-all" />
               </Link>
 
               <Link
@@ -114,70 +114,32 @@ export default async function AdminDashboard() {
                 className="flex items-center justify-between p-4 rounded-xl border border-zinc-100 hover:border-zinc-300 hover:bg-zinc-50 transition-all group"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 bg-orange-50 rounded-xl flex items-center justify-center">
-                    <Truck className="w-4 h-4 text-orange-600" />
+                  <div className="w-10 h-10 rounded-lg bg-orange-50 flex items-center justify-center text-orange-600 group-hover:scale-110 transition-transform">
+                    <Truck className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="text-sm font-black text-zinc-900">Shipping Rates</p>
-                    <p className="text-[10px] text-zinc-500">Manage delivery fees per wilaya</p>
+                    <h3 className="font-bold text-zinc-900 text-sm">Shipping Rates</h3>
+                    <p className="text-xs text-zinc-500 font-medium">Manage delivery fees per wilaya</p>
                   </div>
                 </div>
-                <span className="text-zinc-300 group-hover:text-zinc-600 transition-colors">→</span>
+                <ArrowRight className="w-4 h-4 text-zinc-300 group-hover:text-zinc-600 group-hover:translate-x-1 transition-all" />
               </Link>
 
-              <a
-                href={`${process.env.NEXT_PUBLIC_SANITY_STUDIO_URL || 'https://amigo-moda.sanity.studio'}/structure/product`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-between p-4 rounded-xl border border-zinc-100 hover:border-zinc-300 hover:bg-zinc-50 transition-all group"
+              <Link
+                href="/dfghokdfgkkvdfkkfdkovkodfvkko05-dgfb226bd-bdbdb/studio"
+                className="flex items-center justify-between p-4 rounded-xl border-2 border-zinc-900 bg-zinc-900/5 hover:bg-zinc-900/10 transition-all group"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 bg-blue-50 rounded-xl flex items-center justify-center">
-                    <ShoppingBag className="w-4 h-4 text-blue-600" />
+                  <div className="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center text-purple-600 group-hover:scale-110 transition-transform">
+                    <Settings className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="text-sm font-black text-zinc-900">Manage Products</p>
-                    <p className="text-[10px] text-zinc-500">Add, edit or remove products</p>
+                    <h3 className="font-bold text-zinc-900 text-sm">إدارة المحتوى</h3>
+                    <p className="text-xs text-zinc-600 font-medium">إضافة وتعديل المنتجات والأقسام</p>
                   </div>
                 </div>
-                <span className="text-zinc-300 group-hover:text-zinc-600 transition-colors">→</span>
-              </a>
-
-              <a
-                href={`${process.env.NEXT_PUBLIC_SANITY_STUDIO_URL || 'https://amigo-moda.sanity.studio'}/structure/category`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-between p-4 rounded-xl border border-zinc-100 hover:border-zinc-300 hover:bg-zinc-50 transition-all group"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 bg-amber-50 rounded-xl flex items-center justify-center">
-                    <Tag className="w-4 h-4 text-amber-600" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-black text-zinc-900">Manage Categories</p>
-                    <p className="text-[10px] text-zinc-500">Main & subcategories</p>
-                  </div>
-                </div>
-                <span className="text-zinc-300 group-hover:text-zinc-600 transition-colors">→</span>
-              </a>
-
-              <a
-                href={`${process.env.NEXT_PUBLIC_SANITY_STUDIO_URL || 'https://amigo-moda.sanity.studio'}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-between p-4 rounded-xl border border-zinc-100 hover:border-zinc-300 hover:bg-zinc-50 transition-all group"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 bg-purple-50 rounded-xl flex items-center justify-center">
-                    <Settings className="w-4 h-4 text-purple-600" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-black text-zinc-900">Open Sanity Studio</p>
-                    <p className="text-[10px] text-zinc-500">Full content management</p>
-                  </div>
-                </div>
-                <span className="text-zinc-300 group-hover:text-zinc-600 transition-colors">→</span>
-              </a>
+                <ArrowRight className="w-4 h-4 text-zinc-400 group-hover:text-zinc-900 group-hover:translate-x-1 transition-all" />
+              </Link>
             </div>
           </div>
 

@@ -109,7 +109,7 @@ export default function Header() {
               transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.1 }}
               className="flex flex-col items-center lg:items-start"
             >
-              <h1 className="text-3xl md:text-4xl text-zinc-900 group-hover:text-[#C9A96E] transition-colors duration-500 leading-none whitespace-nowrap" style={{ fontFamily: 'var(--font-grand-hotel)' }}>
+              <h1 className="text-3xl md:text-4xl text-zinc-900 group-hover:text-[#C9A96E] transition-colors duration-500 leading-none whitespace-nowrap" style={{ fontFamily: 'var(--font-heading)' }}>
                 Amigo Moda
               </h1>
               <div className="w-0 h-[2px] bg-[#C9A96E] mt-1 group-hover:w-full transition-all duration-500 ease-out hidden lg:block" />

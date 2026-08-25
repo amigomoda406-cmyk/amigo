@@ -4,13 +4,23 @@ import { useState, useEffect, useRef } from 'react';
 import { Menu, X, Home, Sparkles, TrendingUp, LayoutGrid, Store, Tag } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { createPortal } from 'react-dom';
 
 export default function SidebarNav() {
   const [isOpen, setIsOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    document.body.style.overflow = isOpen ? 'hidden' : '';
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
     return () => { document.body.style.overflow = ''; };
   }, [isOpen]);
 
@@ -30,16 +40,8 @@ export default function SidebarNav() {
     { href: '/category/accessories', label: 'Accessoires' },
   ];
 
-  return (
+  const sidebarContent = (
     <>
-      <button
-        onClick={() => setIsOpen(true)}
-        className="p-2 -mx-2 text-zinc-900"
-        aria-label="Open menu"
-      >
-        <Menu className="w-6 h-6 stroke-[1.5]" />
-      </button>
-
       {/* Overlay */}
       <div
         onClick={close}
@@ -52,7 +54,7 @@ export default function SidebarNav() {
       >
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-zinc-100 shrink-0">
-          <h2 className="text-3xl text-zinc-900" style={{ fontFamily: 'var(--font-grand-hotel)' }}>
+          <h2 className="text-3xl text-zinc-900" style={{ fontFamily: 'var(--font-heading)' }}>
             Amigo Moda
           </h2>
           <button
@@ -106,6 +108,20 @@ export default function SidebarNav() {
           <p className="text-[10px] text-zinc-400 text-center font-medium">© 2026 Amigo Moda</p>
         </div>
       </div>
+    </>
+  );
+
+  return (
+    <>
+      <button
+        onClick={() => setIsOpen(true)}
+        className="p-2 -mx-2 text-zinc-900"
+        aria-label="Open menu"
+      >
+        <Menu className="w-6 h-6 stroke-[1.5]" />
+      </button>
+
+      {mounted && createPortal(sidebarContent, document.body)}
     </>
   );
 }
