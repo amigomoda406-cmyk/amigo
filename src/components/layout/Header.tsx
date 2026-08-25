@@ -29,16 +29,23 @@ export default function Header() {
   }, [lang]);
 
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      setScrolled(currentScrollY > 50);
-      
-      if (currentScrollY > 100) {
-        setIsVisible(currentScrollY < lastScrollY.current);
-      } else {
-        setIsVisible(true);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
+          setScrolled(currentScrollY > 50);
+          
+          if (currentScrollY > 100) {
+            setIsVisible(currentScrollY < lastScrollY.current);
+          } else {
+            setIsVisible(true);
+          }
+          lastScrollY.current = currentScrollY;
+          ticking = false;
+        });
+        ticking = true;
       }
-      lastScrollY.current = currentScrollY;
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -81,8 +88,8 @@ export default function Header() {
       >
         <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between h-[52px] md:h-[60px]">
           
-          {/* Left: Mobile Menu (Hidden on large screens) */}
-          <div className="lg:hidden flex-1 flex items-center justify-start">
+          {/* Left: Hamburger Menu */}
+          <div className="flex-1 flex items-center justify-start">
             <SidebarNav />
           </div>
 

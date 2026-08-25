@@ -5,7 +5,7 @@ export default function NewArrivalsSection({ products }: { products: any[] }) {
   if (!products || products.length === 0) return null;
 
   return (
-    <section id="new" className="p-4 border-b border-zinc-200 bg-white scroll-mt-[50px]">
+    <section id="new-arrivals" className="p-4 border-b border-zinc-200 bg-white scroll-mt-[50px]">
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-sm md:text-xl font-black tracking-widest uppercase text-zinc-900">New Arrivals</h3>
       </div>

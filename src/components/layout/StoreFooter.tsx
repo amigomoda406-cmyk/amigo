@@ -15,7 +15,7 @@ export default function StoreFooter() {
   };
 
   return (
-    <footer className="mt-auto relative bg-[#080808] text-white pt-20 pb-8 border-t border-zinc-900 overflow-hidden">
+    <footer className="mt-auto relative bg-[#080808] text-white pt-20 pb-24 border-t border-zinc-900 overflow-hidden">
       {/* Subtle grid pattern */}
       <div 
         className="absolute inset-0 opacity-[0.025] pointer-events-none"
@@ -38,7 +38,7 @@ export default function StoreFooter() {
             </div>
           </Link>
           <p className="text-zinc-500 text-[11px] leading-relaxed font-medium max-w-sm">
-            The ultimate fashion destination in Algeria. Elegance, quality and authenticity since 2024.
+            The ultimate fashion destination in Algeria. Elegance, quality and authenticity since 2026.
           </p>
           {/* Social Links */}
           <div className="flex items-center justify-center gap-4 mt-2">

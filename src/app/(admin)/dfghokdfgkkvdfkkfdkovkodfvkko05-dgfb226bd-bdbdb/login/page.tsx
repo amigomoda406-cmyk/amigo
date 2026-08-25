@@ -28,7 +28,7 @@ export default function AdminLogin() {
 
       if (data.success) {
         toast.success('Connexion réussie');
-        router.push('/xk9m2p4t8r6w1qzjvn3f7');
+        router.push('/dfghokdfgkkvdfkkfdkovkodfvkko05-dgfb226bd-bdbdb');
         router.refresh(); // Important to refresh layout state
       } else {
         toast.error('Identifiants incorrects');

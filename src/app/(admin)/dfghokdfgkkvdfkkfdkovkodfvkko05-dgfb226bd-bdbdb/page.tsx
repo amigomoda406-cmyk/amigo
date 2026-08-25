@@ -8,12 +8,12 @@ import { Package, ShoppingBag, Tag, Settings, LogOut, BarChart3, Clock, Truck } 
 async function verifyAdmin() {
   const cookieStore = await cookies();
   const token = cookieStore.get('admin_token')?.value;
-  if (!token) redirect('/xk9m2p4t8r6w1qzjvn3f7/login');
+  if (!token) redirect('/dfghokdfgkkvdfkkfdkovkodfvkko05-dgfb226bd-bdbdb/login');
   try {
     const secret = new TextEncoder().encode(process.env.ADMIN_PASSWORD || 'UNSET_SECRET');
     await jwtVerify(token, secret);
   } catch {
-    redirect('/xk9m2p4t8r6w1qzjvn3f7/login');
+    redirect('/dfghokdfgkkvdfkkfdkovkodfvkko05-dgfb226bd-bdbdb/login');
   }
 }
 
@@ -94,7 +94,7 @@ export default async function AdminDashboard() {
             <h2 className="text-sm font-black uppercase tracking-widest text-zinc-900 mb-4">Quick Actions</h2>
             <div className="flex flex-col gap-2">
               <Link
-                href="/xk9m2p4t8r6w1qzjvn3f7/orders"
+                href="/dfghokdfgkkvdfkkfdkovkodfvkko05-dgfb226bd-bdbdb/orders"
                 className="flex items-center justify-between p-4 rounded-xl border border-zinc-100 hover:border-zinc-300 hover:bg-zinc-50 transition-all group"
               >
                 <div className="flex items-center gap-3">
@@ -110,7 +110,7 @@ export default async function AdminDashboard() {
               </Link>
 
               <Link
-                href="/xk9m2p4t8r6w1qzjvn3f7/settings"
+                href="/dfghokdfgkkvdfkkfdkovkodfvkko05-dgfb226bd-bdbdb/settings"
                 className="flex items-center justify-between p-4 rounded-xl border border-zinc-100 hover:border-zinc-300 hover:bg-zinc-50 transition-all group"
               >
                 <div className="flex items-center gap-3">

@@ -9,7 +9,7 @@ const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'li03k134';
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || 'production';
 
 export default defineConfig({
-  basePath: '/studio',
+  basePath: '/dfghokdfgkkvdfkkfdkovkodfvkko05-dgfb226bd-bdbdb/studio',
   projectId,
   dataset,
   name: 'AmigoModa_Studio',

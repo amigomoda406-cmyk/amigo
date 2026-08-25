@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { jwtVerify } from 'jose';
 
-const ADMIN_ROUTE = 'xk9m2p4t8r6w1qzjvn3f7';
+const ADMIN_ROUTE = 'dfghokdfgkkvdfkkfdkovkodfvkko05-dgfb226bd-bdbdb';
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -45,8 +45,8 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/xk9m2p4t8r6w1qzjvn3f7',
-    '/xk9m2p4t8r6w1qzjvn3f7/:path*',
+    '/dfghokdfgkkvdfkkfdkovkodfvkko05-dgfb226bd-bdbdb',
+    '/dfghokdfgkkvdfkkfdkovkodfvkko05-dgfb226bd-bdbdb/:path*',
     '/admin',
     '/admin/:path*',
     '/studio',
