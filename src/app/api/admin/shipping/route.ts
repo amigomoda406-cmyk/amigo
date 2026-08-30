@@ -1,6 +1,7 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase/client';
 import { ALGERIA_WILAYAS } from '@/lib/config/wilayas';
+import { verifyAdminAuth } from '@/lib/auth/verifyAdmin';
 
 // GET: fetch shipping settings from Supabase (fallback to hardcoded)
 export async function GET() {
@@ -40,6 +41,10 @@ export async function GET() {
 // POST: save/update all shipping settings to Supabase
 export async function POST(req: NextRequest) {
   try {
+    // ─── Auth Guard ──────────────────────────────────────────────────────────
+    const authResult = await verifyAdminAuth(req);
+    if (authResult instanceof NextResponse) return authResult;
+
     const { wilayas } = await req.json();
     if (!wilayas || !Array.isArray(wilayas)) {
       return NextResponse.json({ error: 'Invalid data' }, { status: 400 });

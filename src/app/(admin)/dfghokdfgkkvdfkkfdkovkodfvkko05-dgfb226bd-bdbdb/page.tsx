@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import { jwtVerify } from 'jose';
 import Link from 'next/link';
 import { client } from '@/lib/sanity/client';
-import { Package, ShoppingBag, Tag, Settings, LogOut, BarChart3, Clock, Truck } from 'lucide-react';
+import { Package, ShoppingBag, Tag, Settings, LogOut, BarChart3, Clock, Truck, ArrowRight } from 'lucide-react';
 
 async function verifyAdmin() {
   const cookieStore = await cookies();
