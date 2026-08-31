@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase/client';
-import { sendTelegramNotification } from '@/lib/telegram';
 import { clientWithToken } from '@/lib/sanity/client';
 import { z } from 'zod';
 
@@ -19,7 +18,9 @@ const CheckoutSchema = z.object({
   customer_name: safeString(2, 100),
   customer_phone: z.string().regex(/^(05|06|07)\d{8}$/, 'رقم الهاتف الجزائري غير صحيح'),
   wilaya: safeString(1, 100),
+  wilaya_code: z.string().optional(),
   commune: safeString(1, 100),
+  address: safeString(1, 200),
   delivery_type: z.enum(['home', 'bureau']).default('home'),
   delivery_fee: z.number().min(0).max(2000),
   total_amount: z.number().min(1).max(500000),
@@ -78,13 +79,54 @@ export async function POST(req: Request) {
     }
 
     const {
-      customer_name, customer_phone, wilaya, commune,
+      customer_name, customer_phone, wilaya, wilaya_code, commune, address,
       delivery_type, delivery_fee, total_amount, items
     } = parsed.data;
 
     // ─── 3. توليد رقم طلب فريد (لا تكرار) ────────────────────────────────
     // timestamp + UUID جزئي = مستحيل التكرار
     const orderNumber = `AMIGO-${Date.now()}-${crypto.randomUUID().slice(0, 6).toUpperCase()}`;
+
+    // ─── 3.5. إرسال الطلب إلى ECOTRACK ──────────────────────────────────
+    let trackingNumber = '';
+    try {
+      const ecoTrackUrl = process.env.ECOTRACK_API_URL;
+      const ecoTrackToken = process.env.ECOTRACK_API_TOKEN;
+      if (ecoTrackUrl && ecoTrackToken) {
+        const productNames = items.map((i: any) => `${i.quantity}x ${i.title}`).join(', ').substring(0, 255);
+        const ecoPayload = {
+          nom_client: customer_name,
+          telephone: customer_phone,
+          adresse: address,
+          code_wilaya: wilaya_code || wilaya,
+          commune: commune,
+          montant: total_amount,
+          produit: productNames,
+          reference: orderNumber,
+          type: 1, // 1 for normal delivery
+          stop_desk: delivery_type === 'bureau' ? 1 : 0,
+          poids: 2 // Fixed 2kg weight
+        };
+
+        const ecoRes = await fetch(`${ecoTrackUrl}/create/order`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${ecoTrackToken}`
+          },
+          body: JSON.stringify(ecoPayload)
+        });
+        
+        if (ecoRes.ok) {
+          const ecoData = await ecoRes.json();
+          trackingNumber = ecoData.tracking || '';
+        } else {
+          console.error('[Checkout] Ecotrack error status:', ecoRes.status);
+        }
+      }
+    } catch (ecoError) {
+      console.error('[Checkout] Failed to send order to Ecotrack:', ecoError);
+    }
 
     // ─── 4. حفظ الطلب في Sanity (المصدر الرئيسي) ─────────────────────────
     const sanityOrder = {
@@ -94,6 +136,7 @@ export async function POST(req: Request) {
       customerPhone: customer_phone,
       wilaya,
       commune,
+      address,
       totalAmount: total_amount,
       deliveryFee: delivery_fee,
       deliveryType: delivery_type,
@@ -125,7 +168,7 @@ export async function POST(req: Request) {
           customer_name,
           customer_phone,
           customer_wilaya: wilaya,
-          customer_address: commune,
+          customer_address: `${commune}, ${address}`,
           delivery_type,
           items,
           subtotal,
@@ -146,28 +189,7 @@ export async function POST(req: Request) {
       const msg = e instanceof Error ? e.message : 'Unknown Supabase error';
       console.warn('[Checkout] Supabase backup failed:', msg);
     }
-
-    // ─── 6. إشعار Telegram ───────────────────────────────────────────────
-    const itemsText = items.map((i) =>
-      `- ${i.quantity}x ${i.title} (${i.price.toLocaleString()} DA)${i.selectedSize ? ` [${i.selectedSize}]` : ''}`
-    ).join('\n');
-
-    const tgMessage = `
-🛒 <b>طلب جديد! (${orderNumber})</b>
-
-👤 <b>الاسم:</b> ${customer_name}
-📞 <b>الهاتف:</b> ${customer_phone}
-📍 <b>العنوان:</b> ${wilaya} - ${commune}
-🚚 <b>التوصيل:</b> ${delivery_type === 'home' ? 'للمنزل' : 'لمكتب البريد'} (${delivery_fee} DA)
-💰 <b>المجموع:</b> ${total_amount.toLocaleString()} DA
-
-📦 <b>المنتجات:</b>
-${itemsText}
-
-🔖 <b>رقم Supabase:</b> ${supabaseOrderId ?? 'غير متوفر'}
-    `.trim();
-
-    await sendTelegramNotification(tgMessage);
+    // ─── 6. (تم إزالة تليجرام) ───────────────────────────────────────────────
 
     return NextResponse.json({
       success: true,

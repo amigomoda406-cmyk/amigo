@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import { Loader2, Check, User, Phone, MapPin, Truck, ShoppingBag, ShieldCheck } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { ALGERIA_WILAYAS } from '@/lib/config/wilayas';
+import { COMMUNES_BY_WILAYA } from '@/lib/config/communes';
 import Image from 'next/image';
 
 type WilayaData = { code: string; name: string; homeDelivery: number; deskDelivery: number; };
@@ -17,7 +18,8 @@ const checkoutSchema = z.object({
   fullName: z.string().min(3, 'Le nom est trop court').max(60, 'Le nom est trop long'),
   phone: z.string().regex(/^(0)(5|6|7)[0-9]{8}$/, 'Numéro invalide (ex: 0671234567)'),
   wilaya: z.string().min(1, 'Veuillez sélectionner une wilaya'),
-  commune: z.string().min(2, 'La commune est requise'),
+  commune: z.string().min(2, 'La commune (البلدية) est requise'),
+  address: z.string().min(5, 'L\'adresse exacte est requise'),
   deliveryType: z.enum(['home', 'desk']),
 });
 
@@ -53,6 +55,9 @@ export default function CheckoutClient() {
   const selectedWilaya = watch('wilaya');
   const deliveryType = watch('deliveryType');
 
+  const selectedWilayaCode = wilayasData.find(w => w.name === selectedWilaya)?.code || '';
+  const communesForWilaya = selectedWilayaCode ? COMMUNES_BY_WILAYA[selectedWilayaCode] || [] : [];
+
   useEffect(() => {
     if (selectedWilaya) {
       const wilayaData = wilayasData.find(w => w.name === selectedWilaya);
@@ -69,11 +74,14 @@ export default function CheckoutClient() {
   const onSubmit = async (data: CheckoutFormData) => {
     setIsSubmitting(true);
     try {
+      const wilayaCode = wilayasData.find(w => w.name === data.wilaya)?.code || '';
       const orderData = {
         customer_name: data.fullName,
         customer_phone: data.phone,
         wilaya: data.wilaya,
+        wilaya_code: wilayaCode,
         commune: data.commune,
+        address: data.address,
         delivery_type: data.deliveryType,
         delivery_fee: deliveryFee,
         total_amount: finalTotal,
@@ -185,7 +193,7 @@ export default function CheckoutClient() {
                 <h2 className="text-lg font-black uppercase tracking-widest text-zinc-900">Livraison</h2>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
                 <div>
                   <label className="block text-[10px] font-black uppercase tracking-widest text-zinc-900 mb-2.5">Wilaya</label>
                   <div className="relative">
@@ -206,23 +214,39 @@ export default function CheckoutClient() {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-black uppercase tracking-widest text-zinc-900 mb-2.5">Commune / Adresse exacte</label>
-                  {/* Address Autocomplete Mock (Idea 152) */}
+                  <label className="block text-[10px] font-black uppercase tracking-widest text-zinc-900 mb-2.5">البلدية (Commune)</label>
                   <div className="relative">
                     <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
-                    <input 
+                    <select 
                       {...register('commune')}
-                      placeholder="Ex: Rouiba, Cité 200..."
-                      className={`w-full pl-11 pr-24 py-4 bg-zinc-50 border-2 rounded-2xl text-sm font-bold outline-none transition-all text-zinc-900 ${
+                      disabled={!selectedWilaya}
+                      className={`w-full pl-11 pr-4 py-4 bg-zinc-50 border-2 rounded-2xl text-sm font-bold outline-none transition-all appearance-none text-zinc-900 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${
                         errors.commune ? 'border-red-500 bg-red-50/50' : 'border-transparent focus:border-black focus:bg-white'
                       }`}
-                    />
-                    <div className="absolute right-3 top-1/2 -translate-y-1/2 hidden sm:block">
-                      <span className="text-[8px] font-black uppercase tracking-widest text-emerald-600 bg-emerald-100 px-2 py-1 rounded-md">📍 Auto</span>
-                    </div>
+                    >
+                      <option value="">Sélectionner une commune</option>
+                      {communesForWilaya.map(c => (
+                        <option key={c} value={c}>{c}</option>
+                      ))}
+                    </select>
                   </div>
                   {errors.commune && <p className="text-[10px] text-red-500 font-bold mt-2 flex items-center gap-1"><span className="w-1 h-1 rounded-full bg-red-500"/>{errors.commune.message}</p>}
                 </div>
+              </div>
+
+              <div className="mb-8">
+                <label className="block text-[10px] font-black uppercase tracking-widest text-zinc-900 mb-2.5">العنوان بالتفصيل (Adresse Exacte)</label>
+                <div className="relative">
+                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
+                  <input 
+                    {...register('address')}
+                    placeholder="Ex: Cité 200 logts, Bâtiment A..."
+                    className={`w-full pl-11 pr-4 py-4 bg-zinc-50 border-2 rounded-2xl text-sm font-bold outline-none transition-all text-zinc-900 ${
+                      errors.address ? 'border-red-500 bg-red-50/50' : 'border-transparent focus:border-black focus:bg-white'
+                    }`}
+                  />
+                </div>
+                {errors.address && <p className="text-[10px] text-red-500 font-bold mt-2 flex items-center gap-1"><span className="w-1 h-1 rounded-full bg-red-500"/>{errors.address.message}</p>}
               </div>
 
               <div>
