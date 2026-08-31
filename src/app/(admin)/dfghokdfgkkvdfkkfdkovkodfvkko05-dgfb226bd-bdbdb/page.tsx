@@ -10,8 +10,8 @@ async function verifyAdmin() {
   const token = cookieStore.get('admin_token')?.value;
   if (!token) redirect('/dfghokdfgkkvdfkkfdkovkodfvkko05-dgfb226bd-bdbdb/login');
   try {
-    const secret = new TextEncoder().encode(process.env.ADMIN_PASSWORD || 'UNSET_SECRET');
-    await jwtVerify(token, secret);
+    const secret = new TextEncoder().encode(process.env.ADMIN_JWT_SECRET || process.env.ADMIN_PASSWORD || 'UNSET_SECRET');
+    await jwtVerify(token, secret, { algorithms: ['HS256'] });
   } catch {
     redirect('/dfghokdfgkkvdfkkfdkovkodfvkko05-dgfb226bd-bdbdb/login');
   }

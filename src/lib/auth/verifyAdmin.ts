@@ -22,7 +22,7 @@ export async function verifyAdminAuth(request: Request): Promise<
 
   try {
     const secret = new TextEncoder().encode(
-      process.env.ADMIN_PASSWORD || 'UNSET_SECRET'
+      process.env.ADMIN_JWT_SECRET || process.env.ADMIN_PASSWORD || 'UNSET_SECRET'
     );
     await jwtVerify(token, secret, {
       algorithms: ['HS256'], // ← رفض alg:none و alg:RS256 etc
