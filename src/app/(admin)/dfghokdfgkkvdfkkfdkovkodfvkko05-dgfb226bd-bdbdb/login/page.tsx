@@ -9,7 +9,6 @@ export default function AdminLogin() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,14 +27,13 @@ export default function AdminLogin() {
 
       if (data.success) {
         toast.success('Connexion réussie');
-        router.push('/dfghokdfgkkvdfkkfdkovkodfvkko05-dgfb226bd-bdbdb');
-        router.refresh(); // Important to refresh layout state
+        window.location.href = '/dfghokdfgkkvdfkkfdkovkodfvkko05-dgfb226bd-bdbdb';
       } else {
         toast.error('Identifiants incorrects');
+        setIsLoading(false);
       }
     } catch (error) {
       toast.error('Erreur de connexion');
-    } finally {
       setIsLoading(false);
     }
   };
@@ -58,7 +56,7 @@ export default function AdminLogin() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Nom d'utilisateur"
-              className="w-full px-4 py-3 bg-zinc-50 border-2 border-zinc-200 rounded-xl text-sm font-bold outline-none transition-all focus:border-zinc-900 focus:bg-white"
+              className="w-full px-4 py-3 bg-zinc-50 border-2 border-zinc-200 rounded-xl text-sm font-bold text-zinc-900 placeholder-zinc-400 outline-none transition-all focus:border-zinc-900 focus:bg-white"
               required
             />
           </div>
@@ -68,7 +66,7 @@ export default function AdminLogin() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Mot de passe"
-              className="w-full px-4 py-3 bg-zinc-50 border-2 border-zinc-200 rounded-xl text-sm font-bold outline-none transition-all focus:border-zinc-900 focus:bg-white"
+              className="w-full px-4 py-3 bg-zinc-50 border-2 border-zinc-200 rounded-xl text-sm font-bold text-zinc-900 placeholder-zinc-400 outline-none transition-all focus:border-zinc-900 focus:bg-white"
               required
             />
           </div>
