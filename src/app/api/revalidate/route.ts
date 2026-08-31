@@ -7,8 +7,9 @@ import { revalidateTag, revalidatePath } from 'next/cache';
 import { invalidateProduct, invalidateCategory, invalidateAll } from '@/lib/sanity/queries';
 
 export async function POST(req: Request) {
-  // ── 1. التحقق من أن الطلب قادم من Sanity (وليس هجوم) ─────────────────────
-  const secret = req.headers.get('x-webhook-secret');
+  // ── 1. التحقق من أن الطلب قادم من Sanity عبر query param ────────────────
+  const { searchParams } = new URL(req.url);
+  const secret = searchParams.get('secret');
   const expectedSecret = process.env.SANITY_WEBHOOK_SECRET;
 
   if (!expectedSecret || secret !== expectedSecret) {
