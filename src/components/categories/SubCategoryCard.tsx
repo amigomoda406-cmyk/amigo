@@ -10,15 +10,16 @@ interface SubCategoryCardProps {
     slug: string;
     imageUrl?: string;
   };
+  parentSlug: string;
   accentColor: string;
 }
 
-export default function SubCategoryCard({ sub, accentColor }: SubCategoryCardProps) {
+export default function SubCategoryCard({ sub, parentSlug, accentColor }: SubCategoryCardProps) {
   const [isPressed, setIsPressed] = useState(false);
 
   return (
     <Link
-      href={`/category/${sub.slug}`}
+      href={`/category/${parentSlug}/${sub.slug}`}
       className={`relative flex items-center gap-3 p-3 bg-white border border-zinc-100 rounded-[16px] overflow-hidden transition-all duration-300 shadow-sm ${isPressed ? 'scale-[0.98]' : 'hover:shadow-md hover:border-zinc-200'}`}
       onTouchStart={() => setIsPressed(true)}
       onTouchEnd={() => setIsPressed(false)}

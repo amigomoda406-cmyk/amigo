@@ -155,23 +155,29 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
             <div className="flex items-center gap-4 flex-1">
               {/* Current Product */}
               <div className="flex flex-col items-center gap-2 w-1/3">
-                <img src={urlFor(product.images[0]).width(200).height(200).url()} alt={product.title} className="w-24 h-24 object-cover rounded-xl bg-zinc-50" />
+                <div className="w-24 h-24 rounded-xl bg-zinc-50 overflow-hidden shrink-0">
+                  {product.images?.[0] && <img src={urlFor(product.images[0]).width(200).height(200).url()} alt={product.title} className="w-full h-full object-cover" />}
+                </div>
                 <span className="text-[10px] font-bold text-zinc-900 text-center line-clamp-1">{product.title}</span>
                 <span className="text-[10px] font-black text-[#C9A96E]">{product.price} DA</span>
               </div>
               <span className="text-xl font-black text-zinc-300">+</span>
               {/* Related Product 1 */}
               <div className="flex flex-col items-center gap-2 w-1/3">
-                <img src={urlFor(relatedProducts[0].images[0]).width(200).height(200).url()} alt={relatedProducts[0].title} className="w-24 h-24 object-cover rounded-xl bg-zinc-50" />
-                <span className="text-[10px] font-bold text-zinc-900 text-center line-clamp-1">{relatedProducts[0].title}</span>
-                <span className="text-[10px] font-black text-[#C9A96E]">{relatedProducts[0].price} DA</span>
+                <div className="w-24 h-24 rounded-xl bg-zinc-50 overflow-hidden shrink-0">
+                  {relatedProducts[0]?.images?.[0] && <img src={urlFor(relatedProducts[0].images[0]).width(200).height(200).url()} alt={relatedProducts[0].title} className="w-full h-full object-cover" />}
+                </div>
+                <span className="text-[10px] font-bold text-zinc-900 text-center line-clamp-1">{relatedProducts[0]?.title}</span>
+                <span className="text-[10px] font-black text-[#C9A96E]">{relatedProducts[0]?.price} DA</span>
               </div>
               <span className="text-xl font-black text-zinc-300">+</span>
               {/* Related Product 2 */}
               <div className="flex flex-col items-center gap-2 w-1/3">
-                <img src={urlFor(relatedProducts[1].images[0]).width(200).height(200).url()} alt={relatedProducts[1].title} className="w-24 h-24 object-cover rounded-xl bg-zinc-50" />
-                <span className="text-[10px] font-bold text-zinc-900 text-center line-clamp-1">{relatedProducts[1].title}</span>
-                <span className="text-[10px] font-black text-[#C9A96E]">{relatedProducts[1].price} DA</span>
+                <div className="w-24 h-24 rounded-xl bg-zinc-50 overflow-hidden shrink-0">
+                  {relatedProducts[1]?.images?.[0] && <img src={urlFor(relatedProducts[1].images[0]).width(200).height(200).url()} alt={relatedProducts[1].title} className="w-full h-full object-cover" />}
+                </div>
+                <span className="text-[10px] font-bold text-zinc-900 text-center line-clamp-1">{relatedProducts[1]?.title}</span>
+                <span className="text-[10px] font-black text-[#C9A96E]">{relatedProducts[1]?.price} DA</span>
               </div>
             </div>
             

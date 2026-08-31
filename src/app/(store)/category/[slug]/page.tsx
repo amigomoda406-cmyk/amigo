@@ -79,7 +79,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
         
         <div className="flex flex-col gap-2.5 mb-8">
           {subcategories.map((sub: any) => (
-            <SubCategoryCard key={sub._id} sub={sub} accentColor={accentColor} />
+            <SubCategoryCard key={sub._id} sub={sub} parentSlug={resolvedParams.slug} accentColor={accentColor} />
           ))}
         </div>
 
