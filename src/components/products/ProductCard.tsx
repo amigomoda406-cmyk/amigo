@@ -22,11 +22,11 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
   const [justAdded, setJustAdded] = useState(false);
   const [hovered, setHovered] = useState(false);
 
-  const imageUrl = product.images?.[0]?.asset?.url
+  const imageUrl = product.images?.[0]?.asset
     ? urlFor(product.images[0]).width(400).height(533).auto('format').quality(85).url()
     : null;
 
-  const secondImageUrl = product.images?.[1]?.asset?.url
+  const secondImageUrl = product.images?.[1]?.asset
     ? urlFor(product.images[1]).width(400).height(533).auto('format').quality(85).url()
     : null;
 
