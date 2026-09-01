@@ -1,3 +1,5 @@
+'use client';
+
 import { Truck, RotateCcw, Shield, Copy, MessageCircle } from 'lucide-react';
 
 const trustBadges = [
