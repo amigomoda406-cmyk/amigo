@@ -12,7 +12,7 @@ export default function ProductInfo({ product }: { product: any }) {
   
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState<string | null>(
-    product.colorVariants && product.colorVariants.length > 0 ? product.colorVariants[0] : null
+    product.colorVariants && product.colorVariants.length > 0 ? (product.colorVariants[0].color || product.colorVariants[0]) : null
   );
   const [quantity, setQuantity] = useState(1);
   

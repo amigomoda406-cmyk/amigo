@@ -82,18 +82,18 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
         {/* البادجات المخصصة */}
         <div className="absolute top-2 left-2 z-10 flex flex-col gap-1">
           {discountPercent && (
-            <span className="bg-red-600/90 backdrop-blur-md text-white text-[9px] font-black px-2.5 py-1 rounded-md shadow-sm border border-red-500/30 animate-pulse">
+            <span className="bg-red-600/90 backdrop-blur-md text-white md:text-[9px] text-[7.5px] font-black md:px-2.5 px-1.5 md:py-1 py-0.5 rounded-md shadow-sm border border-red-500/30 animate-pulse">
               -{discountPercent}%
             </span>
           )}
           {product.isNew && !discountPercent && (
-            <span className="badge-new-shimmer text-white text-[9px] font-black px-2.5 py-1 rounded-md shadow-sm border border-zinc-700/50">
+            <span className="badge-new-shimmer text-white md:text-[9px] text-[7.5px] font-black md:px-2.5 px-1.5 md:py-1 py-0.5 rounded-md shadow-sm border border-zinc-700/50">
               NOUVEAU
             </span>
           )}
           {product.isTrending && (
-            <span className="bg-orange-500/90 backdrop-blur-md text-white text-[9px] font-black px-2.5 py-1 rounded-md shadow-sm border border-orange-400/30 flex items-center gap-1">
-              <Flame className="w-3 h-3" /> HOT
+            <span className="bg-orange-500/90 backdrop-blur-md text-white md:text-[9px] text-[7.5px] font-black md:px-2.5 px-1.5 md:py-1 py-0.5 rounded-md shadow-sm border border-orange-400/30 flex items-center gap-1">
+              <Flame className="w-2.5 h-2.5 md:w-3 md:h-3" /> HOT
             </span>
           )}
           {/* Stock Urgency (Idea 55) */}
