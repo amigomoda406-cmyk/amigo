@@ -6,6 +6,7 @@ import { useRecentlyViewedStore } from '@/contexts/recently-viewed.store';
 import { urlFor } from '@/lib/sanity/client';
 import SizeGuideModal from '@/components/ui/SizeGuideModal';
 import { motion, AnimatePresence } from 'framer-motion';
+import { fbEvent } from '@/components/analytics/FacebookPixel';
 
 export default function ProductInfo({ product }: { product: any }) {
   const { addItem } = useCartStore();
@@ -26,6 +27,16 @@ export default function ProductInfo({ product }: { product: any }) {
   const addToCartRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
+    // Fire ViewContent event for Facebook Pixel
+    fbEvent('ViewContent', {
+      content_name: product.title,
+      content_category: product.parentCategory?.title || 'Apparel',
+      content_ids: [product._id],
+      content_type: 'product',
+      value: product.price,
+      currency: 'DZD'
+    });
+
     // Simulated live viewers
     setViewers(Math.floor(Math.random() * 15) + 5);
     const viewerInterval = setInterval(() => {
@@ -97,6 +108,14 @@ export default function ProductInfo({ product }: { product: any }) {
         selectedSize: selectedSize || undefined,
         selectedColor: selectedColor || undefined,
         quantity: quantity
+      });
+      
+      fbEvent('AddToCart', {
+        content_name: product.title,
+        content_type: 'product',
+        content_ids: [product._id],
+        value: product.price * quantity,
+        currency: 'DZD'
       });
       
       setIsAdding(false);

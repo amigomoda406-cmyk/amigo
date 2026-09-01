@@ -1,10 +1,12 @@
 import type { Metadata, Viewport } from 'next';
 import { Toaster } from 'react-hot-toast';
 import { Outfit, Cairo, Playfair_Display } from 'next/font/google';
+import { Suspense } from 'react';
 import { AuthProvider } from '@/lib/supabase/auth-context';
 import ThemeProvider from '@/components/providers/ThemeProvider';
 import PageLoader from '@/components/ui/PageLoader';
 import BackToTop from '@/components/ui/BackToTop';
+import FacebookPixel from '@/components/analytics/FacebookPixel';
 import '@/styles/globals.css';
 import '@/styles/animations.css';
 
@@ -50,6 +52,9 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <PageLoader />
         <AuthProvider>
+          <Suspense fallback={null}>
+            <FacebookPixel />
+          </Suspense>
           {children}
           <Toaster 
             position="top-center"
