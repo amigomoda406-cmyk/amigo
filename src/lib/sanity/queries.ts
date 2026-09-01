@@ -32,10 +32,14 @@ export async function getHomeData() {
           }
         },
         "trending": *[_type == "product" && isTrending == true][0...8] {
-          _id, title, slug, price, comparePrice, inStock, isNew, isTrending, images, colorVariants, sizes
+          _id, title, slug, price, comparePrice, inStock, isNew, isTrending, images,
+          "colorVariants": colorVariants[]{ color, "images": images[]{asset->} },
+          sizeType, shoeSizes, clothingSizes
         },
         "newArrivals": *[_type == "product" && isNew == true][0...8] {
-          _id, title, slug, price, comparePrice, inStock, isNew, isTrending, images, colorVariants, sizes
+          _id, title, slug, price, comparePrice, inStock, isNew, isTrending, images,
+          "colorVariants": colorVariants[]{ color, "images": images[]{asset->} },
+          sizeType, shoeSizes, clothingSizes
         },
         "categories": *[_type == "category"][0...8] {
           _id, title, slug, "imageUrl": image.asset->url
@@ -69,7 +73,8 @@ export async function getProduct(slug: string) {
     () => client.fetch(
       `*[_type == "product" && slug.current == $slug][0] {
         _id, title, slug, price, comparePrice, inStock, isNew, isTrending, images, description,
-        colorVariants, sizes, stockQuantity,
+        "colorVariants": colorVariants[]{ color, "images": images[]{asset->} },
+        sizeType, shoeSizes, clothingSizes, stockQuantity,
         parentCategory->, subCategory->
       }`,
       { slug },
@@ -93,7 +98,9 @@ export async function getRelatedProducts(productId: string, categoryId: string) 
     () => client.fetch(
       `*[_type == "product" && _id != $productId && parentCategory._ref == $categoryId] 
        | order(_createdAt desc) [0...8] {
-        _id, title, slug, price, comparePrice, isNew, isTrending, inStock, images, colorVariants, sizes
+        _id, title, slug, price, comparePrice, isNew, isTrending, inStock, images,
+        "colorVariants": colorVariants[]{ color, "images": images[]{asset->} },
+        sizeType, shoeSizes, clothingSizes
       }`,
       { productId, categoryId },
       {
